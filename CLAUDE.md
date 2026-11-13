@@ -88,7 +88,7 @@ claude-seo/
     seo-flow.md                  # FLOW framework integration
   hooks/                           # Quality gate hooks
     hooks.json                   # PostToolUse schema validation
-  scripts/                         # 63 Python execution scripts
+  scripts/                         # 64 Python execution scripts
     google_auth.py               # Credential management (OAuth, SA, API key, 4-tier detection)
     google_properties.py         # Picks the GSC/GA4 property for the audited domain, fails closed on a mismatch
     backlinks_auth.py            # Backlink API credential management (Moz, Bing)
@@ -152,6 +152,7 @@ claude-seo/
     verify_release.py            # Verify checkout integrity against a release manifest
     sitemap_discovery.py         # Sitemap discovery (robots.txt, common paths)
     runtime.py                   # Managed runtime behind the claude-seo launcher
+    install_targets.py           # Cross-harness installer (Codex, Gemini CLI, Cursor, OpenCode, Copilot, Antigravity, Windsurf)
   schema/                          # Schema.org JSON-LD templates
   extensions/                      # Optional add-on install helpers
     dataforseo/                  # DataForSEO MCP install scripts

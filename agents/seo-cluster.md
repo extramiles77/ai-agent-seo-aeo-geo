@@ -1,9 +1,6 @@
 ---
 name: seo-cluster
-description: >
-  Semantic topic clustering analysis using SERP overlap methodology. Expands seed
-  keywords, performs pairwise SERP comparison, classifies intent, designs
-  hub-and-spoke content architecture, and generates internal link matrices.
+description: "Semantic topic clustering analysis using SERP overlap methodology. Expands seed keywords, performs pairwise SERP comparison, classifies intent, designs hub-and-spoke content architecture, and generates internal link matrices."
 model: opus
 maxTurns: 40
 tools: WebSearch, WebFetch, Read, Write, Glob, Grep

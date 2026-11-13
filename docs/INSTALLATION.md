@@ -49,6 +49,37 @@ The installer copies files to:
 | Runtime launcher | `~/.claude/skills/seo/scripts/claude-seo` |
 | Isolated Python | `~/.claude/skills/seo/.venv/` |
 
+## Other AI Agents (Codex, Gemini CLI, Cursor, OpenCode, Copilot, Antigravity, Windsurf)
+
+Pass a target to the same installer. It copies the skills to the folder that
+harness scans, writes absolute launcher paths into every `SKILL.md`, places the
+specialist agents in `seo/subagents/` for harnesses without a subagent tool,
+and builds the runtime once.
+
+```bash
+bash install.sh --list                      # detected harnesses
+bash install.sh --target agents             # ~/.agents/skills (Codex, Gemini CLI, Cursor, OpenCode, Copilot)
+bash install.sh --target antigravity        # ~/.gemini/config/skills
+bash install.sh --target windsurf           # ~/.codeium/windsurf/skills
+bash install.sh --target all                # all detected, one shared runtime
+bash install.sh --project /path/to/repo --target agents   # <repo>/.agents/skills
+bash install.sh --dest /path/to/skills      # any other harness
+bash install.sh --target agents --dry-run   # preview only
+```
+
+Windows PowerShell: `.\install.ps1 -Target agents` (or `-List`). In
+PowerShell-based harnesses the skills call `scripts\claude-seo.cmd`.
+
+Notes:
+
+- OpenAI Codex runs commands in a sandbox without network by default. The SEO
+  scripts fetch live pages, so allow network access
+  (`[sandbox_workspace_write] network_access = true` in `~/.codex/config.toml`)
+  or approve the commands when asked.
+- OpenCode, Cursor and Copilot also read `~/.claude/skills`. Installing both
+  `claude` and `agents` is fine; both copies are identical.
+- Uninstall: `./scripts/claude-seo uninstall --target agents`.
+
 ## Verify Installation
 
 1. Start Claude Code:

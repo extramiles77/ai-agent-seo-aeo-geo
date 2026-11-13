@@ -425,7 +425,11 @@ def command_run(args: argparse.Namespace) -> int:
         return 2
     status = _status(root)
     if not status["ready"]:
-        print("Ai Agent SEO runtime is not ready. Run `/seo setup` and retry.", file=sys.stderr)
+        print(
+            "Ai Agent SEO runtime is not ready. Run `/seo setup` (or `claude-seo setup` "
+            "from a terminal) and retry.",
+            file=sys.stderr,
+        )
         return 3
     result = subprocess.run(
         [str(status["python_path"]), str(script), *args.script_args],
@@ -459,6 +463,29 @@ def command_doctor(args: argparse.Namespace) -> int:
     return 0 if status["ready"] else 3
 
 
+def _install_module() -> Any:
+    """Load the sibling standard-library installer without touching sys.path."""
+    import importlib.util
+
+    path = Path(__file__).resolve().parent / "install_targets.py"
+    spec = importlib.util.spec_from_file_location("claude_seo_install_targets", path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError("install_targets.py is missing next to runtime.py")
+    module = importlib.util.module_from_spec(spec)
+    # dataclasses resolve annotations through sys.modules, so register first.
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+INSTALL_COMMANDS = ("install", "uninstall")
+
+
+def command_install(command: str, argv: list[str]) -> int:
+    extra = ["--uninstall"] if command == "uninstall" else []
+    return int(_install_module().main(extra + argv, prog=f"claude-seo {command}"))
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="claude-seo", description="Ai Agent SEO managed Python runtime")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -473,12 +500,23 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("script")
     run.add_argument("script_args", nargs=argparse.REMAINDER)
     run.set_defaults(func=command_run)
+    # Listed for --help only; main() dispatches these before argparse so every
+    # option (including --help) reaches install_targets.py unchanged.
+    sub.add_parser("install", help="install the skills into Codex, Gemini CLI, Cursor, OpenCode, Copilot, Antigravity, Windsurf or Claude Code")
+    sub.add_parser("uninstall", help="remove skills installed with `install`")
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     _configure_utf8()
-    args = build_parser().parse_args(argv)
+    raw = list(sys.argv[1:] if argv is None else argv)
+    if raw and raw[0] in INSTALL_COMMANDS:
+        try:
+            return command_install(raw[0], raw[1:])
+        except (OSError, RuntimeError) as exc:
+            print(f"Ai Agent SEO install failed: {_redact(str(exc))}", file=sys.stderr)
+            return 2
+    args = build_parser().parse_args(raw)
     try:
         return int(args.func(args))
     except (OSError, RuntimeError, ValueError) as exc:

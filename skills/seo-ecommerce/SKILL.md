@@ -1,9 +1,6 @@
 ---
 name: seo-ecommerce
-description: >
-  Analyze ecommerce SEO across product pages, product schema, Shopping
-  visibility, marketplace signals, and keyword gaps. Use only for stores,
-  catalogs, or product listings.
+description: "Analyze ecommerce SEO across product pages, product schema, Shopping visibility, marketplace signals, and keyword gaps. Use only for stores, catalogs, or product listings."
 user-invocable: true
 argument-hint: "<url or keyword>"
 license: MIT

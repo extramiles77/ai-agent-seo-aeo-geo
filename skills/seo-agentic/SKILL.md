@@ -1,13 +1,6 @@
 ---
 name: seo-agentic
-description: >
-  Audit and fix agent readiness: the Lighthouse Agentic Browsing fraction,
-  accessibility tree for agents, robots.txt and Content-Signal for AI agents,
-  WAF treatment of agent traffic, llms.txt, Markdown delivery, ai-catalog.json,
-  /.well-known discovery files, and WebMCP tools. Use when the user asks
-  whether AI agents can use or browse the site, or about llms.txt or WebMCP.
-  Exclude AI citability and brand signals (seo-geo) and commerce protocol
-  depth (seo-ecommerce).
+description: "Audit and fix agent readiness: the Lighthouse Agentic Browsing fraction, accessibility tree for agents, robots.txt and Content-Signal for AI agents, WAF treatment of agent traffic, llms.txt, Markdown delivery, ai-catalog.json, /.well-known discovery files, and WebMCP tools. Use when the user asks whether AI agents can use or browse the site, or about llms.txt or WebMCP. Exclude AI citability and brand signals (seo-geo) and commerce protocol depth (seo-ecommerce)."
 user-invocable: true
 argument-hint: "[audit|fix|lighthouse|refresh] [url]"
 license: MIT

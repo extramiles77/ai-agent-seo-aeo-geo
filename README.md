@@ -208,6 +208,38 @@ claude                                   # start Claude Code
 /seo local https://example.com           # local SEO and Google Business Profile
 ```
 
+### Use it with any AI agent (Codex, Gemini, Cursor, OpenCode, Copilot, Antigravity, Windsurf)
+
+The skills follow the open Agent Skills format, so they run in every harness
+that reads `SKILL.md` folders, with any model provider behind it (OpenAI,
+Google, Anthropic, DeepSeek, Mistral, local models through OpenCode, ...).
+Pass `--target` to the same installer:
+
+```bash
+bash install.sh --list                 # which harnesses are on this machine
+bash install.sh --target agents        # ~/.agents/skills: Codex CLI, Gemini CLI, Cursor, OpenCode, GitHub Copilot
+bash install.sh --target antigravity   # ~/.gemini/config/skills
+bash install.sh --target windsurf      # ~/.codeium/windsurf/skills
+bash install.sh --target all           # every detected harness, one shared runtime
+bash install.sh --project . --target agents      # this project only (.agents/skills)
+bash install.sh --dest /path/to/skills           # any other harness
+```
+
+```powershell
+.\install.ps1 -Target agents
+```
+
+| Harness | How to run a command |
+|---|---|
+| Claude Code | `/seo audit https://example.com` |
+| OpenAI Codex CLI | `$seo audit https://example.com` (enable network access for the sandbox) |
+| Cursor | `/seo audit https://example.com` |
+| Gemini CLI, GitHub Copilot, Antigravity, OpenCode, Windsurf | "Use the seo skill to audit https://example.com" (the skill also loads automatically) |
+
+Harnesses without a subagent tool run the specialist agents one after another
+from `seo/subagents/`, so a full audit takes longer but covers the same checks.
+Remove an install with `./scripts/claude-seo uninstall --target agents`.
+
 ## FAQ
 
 <details>

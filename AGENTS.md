@@ -9,8 +9,8 @@
 
 ## Cross-platform portability
 
-Every skill in `skills/*/SKILL.md` is authored to a portable subset of the
-Claude Code skill spec. Validate compatibility with your harness via:
+Every skill in `skills/*/SKILL.md` is authored to the portable Agent Skills
+format (single-line `name` and `description` frontmatter). Validate compatibility with your harness via:
 
 ```bash
 ./scripts/claude-seo run portability_check.py
@@ -21,18 +21,40 @@ expects (`name`, `description`, optional `model`, optional `tools`) and warns
 on Claude-Code-specific features (`maxTurns`, multi-line tool list with
 descriptive comments) that other harnesses may ignore but do not reject.
 
-### Per-harness notes
+### Install for your harness
 
-| Harness | How to load claude-seo |
-|---|---|
-| **Cursor** | Symlink or copy `skills/` and `agents/` into `.cursor/rules/`. Commands are invoked as text prompts; the harness reads `SKILL.md` body as system context. |
-| **Cursor Cloud Agents** | Push the repo; Cloud Agents read `AGENTS.md` automatically at session start. |
-| **Google Antigravity** | Point the workspace at this repo root; Antigravity reads `AGENTS.md` first, falls back to `skills/`. |
-| **Gemini CLI** | `gemini init` in this repo loads `AGENTS.md`. Skills are activated via `activate_skill <name>` in conversation. |
-| **Grok Build** | Open this repository in Grok Build. It reads `AGENTS.md` and Claude Code compatible plugins and skills without a separate layout. Use `grok inspect` to verify discovery. See the [official compatibility guide](https://docs.x.ai/build/features/skills-plugins-marketplaces). |
-| **OpenAI Codex CLI** | Reads `AGENTS.md` from project root. Bash tools work as documented; some Claude-specific tool names (Read/Write/Edit) are aliased to Codex equivalents transparently. |
-| **Cline** | Loads `AGENTS.md` from project root. Skills appear as system messages; subagent delegation falls back to in-context expansion. |
-| **Aider** | Reads `AGENTS.md` if present; otherwise falls back to README. Aider does not support sub-agent dispatch; the seo-* skills run inline. |
+All skills follow the open Agent Skills format (one folder per skill with a
+`SKILL.md`). The installer copies them where each harness looks and replaces
+the Claude-only `${CLAUDE_PLUGIN_ROOT}` token with absolute paths, so every
+script command and reference link works in any shell. Run from this checkout:
+
+```bash
+bash install.sh --list                # detected harnesses and install state
+bash install.sh --target agents       # shared ~/.agents/skills
+bash install.sh --target all          # every detected harness, one shared runtime
+```
+
+Windows: `.\install.ps1 -Target agents`. Any harness not listed: `--dest <its skills folder>`.
+Project scope (committed with a repo): `--project <repo> --target agents` writes `<repo>/.agents/skills`.
+
+| Harness | Target | Folder | Invoke |
+|---|---|---|---|
+| **OpenAI Codex CLI / IDE** | `agents` | `~/.agents/skills` | `$seo audit <url>` or `/skills`; enable sandbox network access |
+| **Gemini CLI** | `agents` | `~/.agents/skills` | Automatic (`activate_skill`); `gemini skills list` to verify |
+| **Cursor** | `agents` | `~/.agents/skills` | `/seo audit <url>` or automatic |
+| **OpenCode** (any provider/model) | `agents` | `~/.agents/skills` | Automatic via the `skill` tool |
+| **GitHub Copilot** (CLI, VS Code, JetBrains) | `agents` | `~/.agents/skills` | Automatic, or name the skill (`seo`); `/skills reload` in the CLI |
+| **Google Antigravity** | `antigravity` | `~/.gemini/config/skills` | Automatic |
+| **Windsurf** | `windsurf` | `~/.codeium/windsurf/skills` | Automatic, or name the skill (`seo`) |
+| **Claude Code** | `claude` (default with no options) | `~/.claude/skills` + `~/.claude/agents` | `/seo audit <url>` |
+| **Cline, Aider, Grok Build, others** | `--dest` or project | the harness's skills folder, or read `AGENTS.md` | Plain language |
+
+Harnesses without a subagent tool run each specialist inline: the installer
+puts every agent's instructions in `seo/subagents/<name>.md`, and the skills
+say to read and execute them one at a time. The runtime (scripts plus an
+isolated `.venv`) is built once in the first target's `seo/` folder; other
+targets in the same run point at it. Uninstall with
+`./scripts/claude-seo uninstall --target <name>`.
 
 ### Tool-name compatibility
 
@@ -56,7 +78,7 @@ in case a recipe needs a specific call.
 
 Ai Agent SEO is a Tier 4 SEO analysis skill with 26 sub-skills (22 core + 1 orchestrator +
 1 framework integration + 2 extension mirrors), 19 sub-agents (16 core + 1 framework
-integration + 2 extension mirrors), and 63 Python execution scripts.
+integration + 2 extension mirrors), and 64 Python execution scripts.
 
 ## Quick Reference
 
@@ -129,12 +151,8 @@ DATAFORSEO_USERNAME=user DATAFORSEO_PASSWORD=pass ./scripts/claude-seo run dataf
 
 ## Using with Google Antigravity
 
-Antigravity discovers this project via `.claude-plugin/plugin.json`.
-Place the repo in `~/.gemini/antigravity/plugins/claude-seo/` or install via:
-
-```bash
-bash install.sh
-```
+Run `bash install.sh --target antigravity` (global, `~/.gemini/config/skills`)
+or `bash install.sh --project . --target agents` (workspace, `.agents/skills`).
 
 ## Architecture
 
@@ -167,7 +185,7 @@ skills/                    # 26 sub-skills (auto-discovered)
   seo-dataforseo/         # DataForSEO (extension)
   seo-image-gen/          # AI images (extension)
 agents/                    # 19 subagents
-scripts/                   # 63 Python scripts, including the managed runtime
+scripts/                   # 64 Python scripts, including the managed runtime and installer
 schema/                    # JSON-LD templates
 extensions/                # 9 MCP extensions: DataForSEO, Firecrawl, Banana, Ahrefs, SE Ranking, Profound, Bing Webmaster, Matomo, Unlighthouse
 ```

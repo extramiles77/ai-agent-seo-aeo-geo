@@ -1,8 +1,6 @@
 ---
 name: seo-page
-description: >
-  Analyze one supplied URL across on-page, content, technical metadata, schema,
-  images, and performance. Use only for a single-page review.
+description: "Analyze one supplied URL across on-page, content, technical metadata, schema, images, and performance. Use only for a single-page review."
 user-invocable: true
 argument-hint: "[url]"
 license: MIT

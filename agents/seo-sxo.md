@@ -1,9 +1,6 @@
 ---
 name: seo-sxo
-description: >
-  Search Experience Optimization analyst. Performs SERP backwards analysis to detect
-  page-type mismatches, derives user stories from intent signals, and scores pages
-  from multiple persona perspectives. Identifies why well-optimized content fails to rank.
+description: "Search Experience Optimization analyst. Performs SERP backwards analysis to detect page-type mismatches, derives user stories from intent signals, and scores pages from multiple persona perspectives. Identifies why well-optimized content fails to rank."
 model: opus
 maxTurns: 35
 tools: Read, Bash, WebFetch, WebSearch, Glob, Grep, Write

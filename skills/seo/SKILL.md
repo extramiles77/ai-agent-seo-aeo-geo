@@ -16,13 +16,12 @@ metadata:
 
 **Runtime:** Run bundled Python tools through
 `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run <script.py>`. That is the single
-canonical form used by every skill and agent. Claude Code expands
-`${CLAUDE_PLUGIN_ROOT}` to the installed plugin directory, so the launcher is
-found without any `PATH` entry; the repository ships no top-level `bin/`
-directory because hosted marketplaces reject one. Repository users run
-`./scripts/claude-seo`; manual installers rewrite the canonical form to
-`"$HOME/.claude/skills/seo/scripts/claude-seo"`. Never invoke bundled scripts
-with a bare Python interpreter.
+canonical form used by every skill and agent. In a Claude Code plugin install
+the variable expands to the plugin directory; every other install (manual,
+Codex, Gemini CLI, Cursor, OpenCode, Copilot, Antigravity, Windsurf) has the
+installer write the absolute launcher path into these files instead. Repository
+users run `./scripts/claude-seo`. Never invoke bundled scripts with a bare
+Python interpreter.
 
 Comprehensive SEO analysis across all industries (SaaS, local services,
 e-commerce, publishers, agencies). Orchestrates 25 sub-skills (22 core + 1 framework
@@ -76,6 +75,28 @@ For diagnosis, execute
 intentionally omits absolute paths and environment values. If any
 `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run` command reports that setup is
 required, suggest `/seo setup` and do not improvise a `pip install`.
+
+## Running in Any AI Agent
+
+These skills follow the open Agent Skills format, so any harness and any model
+can run them (Claude, GPT, Gemini, DeepSeek, local models via OpenCode, ...).
+Claude Code names appear in the instructions; map them to your own tools:
+
+| Instruction says | Do this in other harnesses |
+|---|---|
+| `/seo <command> <args>`, `$ARGUMENTS` | The user's request after the skill name (Codex: `$seo audit <url>`; Cursor/Copilot: `/seo ...`; others: plain language) |
+| Read / Write / Edit / Glob / Grep | Your file read, write, edit, find and search tools |
+| Bash | Your shell tool. On Windows PowerShell call the `.cmd` launcher as `& "<path>" run ...` |
+| WebFetch | Your fetch/browse tool, or `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run fetch_page.py <url>` |
+| WebSearch | Your web search tool; if none, say SERP data is unavailable and continue with the evidence you have |
+| Spawn / delegate to agent `<name>` | If you have a subagent tool, give it the instructions in `${CLAUDE_PLUGIN_ROOT}/agents/<name>.md`. If not, read that file and run it yourself, one specialist at a time, saving each result to `findings/` before starting the next |
+| MCP tools (DataForSEO, Firecrawl, ...) | Use them only if configured in your harness; otherwise take the documented free fallback |
+
+The bundled scripts fetch live URLs, so the shell needs network access (in
+Codex, enable `network_access` for the workspace-write sandbox). Claude Code
+validates generated JSON-LD with a hook automatically; elsewhere, re-read
+generated schema and check it against `references/schema-types.md` before
+presenting it.
 
 ## Orchestration Logic
 

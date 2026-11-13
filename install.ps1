@@ -1,5 +1,14 @@
 # Ai Agent SEO Installer for Windows
 # PowerShell installation script
+#
+# No arguments: install for Claude Code (below).
+# -Target agents|claude|antigravity|windsurf|all (or codex, gemini, cursor,
+# opencode, copilot): install for other AI agent harnesses through the
+# cross-harness installer, e.g.  .\install.ps1 -Target agents
+param(
+    [string[]]$Target,
+    [switch]$List
+)
 
 $ErrorActionPreference = "Stop"
 
@@ -126,6 +135,15 @@ try {
 } catch {
     Write-Host "[x] Python is installed but could not be executed." -ForegroundColor Red
     exit 1
+}
+
+if ($Target -or $List) {
+    $installArgs = @()
+    foreach ($name in $Target) { $installArgs += @('--target', $name) }
+    if ($List) { $installArgs += '--list' }
+    $runtimeScript = Join-Path $PSScriptRoot 'scripts\runtime.py'
+    $result = Invoke-External -Exe $python.Exe -Args @($python.Args + @($runtimeScript, 'install') + $installArgs)
+    exit $result.ExitCode
 }
 
 # Set paths. Everything is copied from the checkout this script lives in.
@@ -319,6 +337,7 @@ try {
         $updated = $updated.Replace($pluginDoctor, $manualDoctor)
         # Read-tool paths need the absolute skills directory, not a variable.
         $updated = $updated.Replace('${CLAUDE_PLUGIN_ROOT}/skills/', (($env:USERPROFILE -replace '\\', '/') + '/.claude/skills/'))
+        $updated = $updated.Replace('${CLAUDE_PLUGIN_ROOT}/agents/', (($env:USERPROFILE -replace '\\', '/') + '/.claude/agents/'))
         if ($updated -ne $text) {
             [System.IO.File]::WriteAllText($_.FullName, $updated, $utf8NoBom)
         }

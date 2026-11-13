@@ -6,6 +6,15 @@ set -euo pipefail
 
 main() {
     SOURCE_DIR="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+
+    # Any option selects the cross-harness installer (Codex, Gemini CLI, Cursor,
+    # OpenCode, Copilot, Antigravity, Windsurf, Claude Code, custom folders):
+    #   bash install.sh --target agents     bash install.sh --target all
+    #   bash install.sh --list              bash install.sh --help
+    # With no options this script keeps its Claude Code install below.
+    if [ "$#" -gt 0 ]; then
+        exec "${SOURCE_DIR}/scripts/claude-seo" install "$@"
+    fi
     SKILL_DIR="${HOME}/.claude/skills/seo"
     AGENT_DIR="${HOME}/.claude/agents"
 
@@ -137,10 +146,12 @@ main() {
     # Reference paths are opened with the Read tool, which does not expand
     # variables, so ${CLAUDE_PLUGIN_ROOT}/skills/ becomes the absolute path.
     skills_root_esc=$(printf '%s' "${HOME}/.claude/skills/" | sed 's/[#&\\]/\\&/g')
+    agents_root_esc=$(printf '%s' "${HOME}/.claude/agents/" | sed 's/[#&\\]/\\&/g')
     rewrite_doc() {
         local doc="$1" temp_doc
         temp_doc="${doc}.claude-seo-tmp"
         sed -e "s#\${CLAUDE_PLUGIN_ROOT}/skills/#${skills_root_esc}#g" \
+            -e "s#\${CLAUDE_PLUGIN_ROOT}/agents/#${agents_root_esc}#g" \
             -e 's#"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run#"$HOME/.claude/skills/seo/scripts/claude-seo" run#g' \
             -e 's#"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" setup#"$HOME/.claude/skills/seo/scripts/claude-seo" setup#g' \
             -e 's#"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" doctor#"$HOME/.claude/skills/seo/scripts/claude-seo" doctor#g' \

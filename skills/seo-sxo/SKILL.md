@@ -1,9 +1,6 @@
 ---
 name: seo-sxo
-description: >
-  Diagnose search-experience and intent mismatches using SERP page types, user
-  stories, and persona scoring. Use when ranking problems appear intent- or
-  layout-driven.
+description: "Diagnose search-experience and intent mismatches using SERP page types, user stories, and persona scoring. Use when ranking problems appear intent- or layout-driven."
 user-invocable: true
 argument-hint: "<url> [keyword]"
 license: MIT
