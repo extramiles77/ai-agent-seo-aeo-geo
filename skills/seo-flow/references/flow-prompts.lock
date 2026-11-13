@@ -1,0 +1,47 @@
+# flow-prompts.lock — SHA-256 baseline for synced FLOW prompts
+# Ref: HEAD | format: <sha256hex>  <rel_path> (sha256sum-compatible)
+
+d790798ef7fc2c44ac75080e93d8e9de15796a324290b700445ebcba3d142a3b  skills/seo-flow/references/bibliography.md
+4a01823e29666901f0a05b9b0ce844b53d31c69be338d9545fe0fe90337d4784  skills/seo-flow/references/flow-framework.md
+1c3bd8fc57f91d9d4e4a184ef5d5337f9e219d572136b31403cce9d68d803e1f  skills/seo-flow/references/prompts/README.md
+80b30036a749d0eda611073abfe6e43139e7dc574abf551b01d269e1ed7be616  skills/seo-flow/references/prompts/find/content-planning-for-topical-relevance-prompt.md
+0b3ab5eb38cca2ad3abd50983dae95755338ca0930c2540c35d7ffa99cd5c28a  skills/seo-flow/references/prompts/find/content-prioritization-prompt.md
+afd12fa4ccb1e330155b34f2329764511ca2d0292962c30729e4f0b38f2f1c5b  skills/seo-flow/references/prompts/find/keyword-research-prompt.md
+3946aeb19261928d49d3caf64849a51a6a358572c5b8fc63cec74da59acfc90f  skills/seo-flow/references/prompts/find/keyword-variations-for-topical-relevance-prompt.md
+ca172519d13d6458b7fb16dca8f91fecfaae2aae3093fcd9fcad7f7e6558f2a9  skills/seo-flow/references/prompts/find/prompt-audience-avatar.md
+5e66d3a5431b9a4a6bf6990ce6db78206ab22f3b2e3a2f16b68a134d0368e30d  skills/seo-flow/references/prompts/leverage/backlink-competition-prompt.md
+f3be416922c179c400d7929c49170337b4105075d32b322c9e72411c164487a0  skills/seo-flow/references/prompts/local/ai-homepage-rewrite-prompt.md
+f872c7d39d87943179a380cdabbe260afb7fc19b84f2458efe0b84823621ad5c  skills/seo-flow/references/prompts/local/claude-deep-research-prompt.md
+385d53effbeb1668a5d04cded23f38f76aabb5b617dd7912c6901586f9c92468  skills/seo-flow/references/prompts/local/gbp-categories-prompt.md
+66074001eaecd248d63914f717ccf83c644a3eaf31d1ccec89fcf282c9625a05  skills/seo-flow/references/prompts/local/gbp-description-claude-prompt-1.md
+3bcfbd5fecb1adc74df55bb99dd3379ae54e866d8b08f427c86758f020225842  skills/seo-flow/references/prompts/local/gbp-description-claude-prompt-2.md
+f44a1a7c4726c7968a3a162f3c9bd91a78ebf73f5fefdc015a155c56d88c8d26  skills/seo-flow/references/prompts/local/gbp-description-claude-prompt-3.md
+d74bfb72ab196e8734c89b7535dcd0a7f9928e4e88a5793e8e3931ba916b070a  skills/seo-flow/references/prompts/local/gbp-services-prompt.md
+b26e3c48d0ff834eb8fcd88782fabc7cee71d9bbe106e4148fb671689e8e4de0  skills/seo-flow/references/prompts/local/prompt-generating-a-meta-description.md
+e65e662e3784bc49bdc7661ae91d2074eda2c4b5b4bed2463d18f84d41da63f8  skills/seo-flow/references/prompts/local/prompt-generating-a-title-tag.md
+c07e221bac106ee124b72355b650e3bb7c3bcc1a122dc0da18b844c680a84e29  skills/seo-flow/references/prompts/local/prompt-rewriting-existing-homepage.md
+419b83593049a756447292b424c28b4bfd9e5ab8be44040d83be6609b050d6b4  skills/seo-flow/references/prompts/local/prompt-rewriting-existing-service-page.md
+33274dd7eeafe6065cea4f1a40b598499e2d8d242a0fa14718e3b243fb33c85f  skills/seo-flow/references/prompts/optimize/ai-detector-test-follow-up-prompt.md
+d772c50e635a0e762cfd1bcdeed7ba67c873440c72495bbaa3ff8d06d912c74a  skills/seo-flow/references/prompts/optimize/ai-supporting-pages-rewrite-prompt.md
+16bc2b5678c47c8b1f2ef699d06a37cf1df462d2ba83e3642057ea8fcbe17a61  skills/seo-flow/references/prompts/optimize/basic-prompt.md
+2865c6b5634fef53ad4cd4e3b8d656e14e427a92f80e572aedc6b5ec8046c5cd  skills/seo-flow/references/prompts/optimize/blog-post-outline-prompt.md
+65ae7e400587600e747d98a2ab5f9b3d5a984476b95099f0bd162d090673e714  skills/seo-flow/references/prompts/optimize/blog-post-writing-prompt.md
+b795863f576cf815d9659d1190f9ba52f669c48dc0f5344eacc2204ac28dc3eb  skills/seo-flow/references/prompts/optimize/claude-prompt-1.md
+5bd8ba62da963e674f7017e906ed647c4346fc67acca33eedfcf92fc7bb6221a  skills/seo-flow/references/prompts/optimize/claude-prompt-2.md
+b4dfe9a84f25a191d334509a8b4b5f28a3d3e3409cf7ecc4ed3fd8b8518f8b2c  skills/seo-flow/references/prompts/optimize/ctr-audit-prompt.md
+bb1cea761e5f13320fdfed7bb46424fd6132f424cba9dbc4248ed2ab7141b9b5  skills/seo-flow/references/prompts/optimize/follow-up-prompt-1.md
+f412f524f2d2742e5c912d526bc9627fb6787c19056fc990a2e8888a74c0a46e  skills/seo-flow/references/prompts/optimize/follow-up-prompt-2.md
+577dd99d0a46dd1c3ea4cb06a531e59fd0a0494a2bde5bf1077e220886a9c32a  skills/seo-flow/references/prompts/optimize/follow-up-prompt.md
+fe007f57134c594d62d139b28dc4b263e6d3a952c8375e8cb6072a6d2d8669ae  skills/seo-flow/references/prompts/optimize/paa-question-rewording-prompt.md
+77e024ca34410ee9f8bbac6253bb6a307f59e9e2eaf6c4f7c7787f48c153e15a  skills/seo-flow/references/prompts/optimize/prompt-core-30-content-audit.md
+37dc98dc307b2731353acc673cf75e26ae135e2f5e2c302b0a32bf33b2b7ac48  skills/seo-flow/references/prompts/optimize/property-content-with-authority-audit-prompt.md
+c692c914bb8b6b2dbcbf4631395614f55bbc04f4515acf354a10c9ab07f53274  skills/seo-flow/references/prompts/optimize/reddit-claude-prompt.md
+847ae71344474e64002a683df76db8d771768d36a991eb8caddb17988c047eef  skills/seo-flow/references/prompts/optimize/schema-prompt-1.md
+a283d434d009dc0a2132256d156be1343931908304f80a74618e74c03f2b98f5  skills/seo-flow/references/prompts/optimize/step-1-the-chatgpt-discovery-prompt.md
+31c87ef6560f36cee4e3d1be9e4933bd9627b38fdc5d916d60febe294a0822a8  skills/seo-flow/references/prompts/optimize/step-2-the-follow-up-qualifying-prompt.md
+026a362bf92945b643589d799776727098483bed5ad48a2ca8afacef546e986d  skills/seo-flow/references/prompts/optimize/technical-audit-prompt.md
+e09faf16179a7290cba4171d1069be52d145be07e6767e1cff8a23d79dc34cdc  skills/seo-flow/references/prompts/optimize/visibility-follow-up-prompt.md
+1ffd70c835114e45ab23948d750ce931a1e6790385144b1be211ab50adebee40  skills/seo-flow/references/prompts/optimize/visiblity-prompt.md
+39b52f26849e128aaf5912dc501ab4c2b45612c03d68969202beacf44ad6095e  skills/seo-flow/references/prompts/win/bofu-page-brief-generator.md
+b27f7204bd0b7e266045a52febb7736f67b7bbe4de7127f283ce830cc0698d80  skills/seo-flow/references/prompts/win/conversion-audit-prompt.md
+240f0a957fbfd7a89901b8b4d9bc178edcb141f0f1a85009ef4e8e1b1eb698e5  skills/seo-flow/references/prompts/win/dual-surface-content-scorecard.md
