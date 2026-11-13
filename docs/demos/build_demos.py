@@ -111,6 +111,18 @@ class Renderer:
             draw.rounded_rectangle((cx, self.h - 50, cx + width, self.h - 22), 14, fill=self.t["chip_bg"])
             draw.text((cx + 14, self.h - 45), chip, font=self.chip_font, fill=self.t["chip_text"])
             cx += width + 10
+        models = self.c.get("models")
+        if models:
+            data = json.loads(CONFIG.with_name(models["icons"]).read_text(encoding="utf-8"))
+            mx = cx + 14
+            draw.text((mx, self.h - 46), models["label"], font=self.text_font, fill=self.t["footer"])
+            mx += self.text_font.getlength(models["label"]) + 12
+            for key in data["order"]:
+                draw.rectangle((mx, self.h - 50, mx + 17, self.h - 33), fill=(255, 255, 255))
+                for x, y, w, h, color in data["icons"][key]:
+                    draw.rectangle((mx + 2 + x, self.h - 48 + y, mx + 2 + x + w - 1, self.h - 48 + y + h - 1),
+                                   fill=hex_rgb(color))
+                mx += 21
         footer = self.c.get("footer", "")
         draw.text((self.w - 44 - self.text_font.getlength(footer), self.h - 46), footer,
                   font=self.text_font, fill=self.t["footer"])

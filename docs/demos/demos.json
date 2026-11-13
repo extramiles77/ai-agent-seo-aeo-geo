@@ -166,5 +166,9 @@
         }
       ]
     }
-  ]
+  ],
+  "models": {
+    "label": "works with any LLM",
+    "icons": "llm-icons.json"
+  }
 }

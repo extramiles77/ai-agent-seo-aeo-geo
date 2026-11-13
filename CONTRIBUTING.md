@@ -64,7 +64,7 @@ install chromium`). No additional setup needed for either.
 - Shell: Use `set -euo pipefail` and quote all variables
 - Markdown: Keep lines under 120 characters where practical
 
-## Community Extensions (Pro Hub Challenge)
+## Community Extensions
 
 AI Agent SEO accepts community-built extensions through PRs.
 

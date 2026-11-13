@@ -29,6 +29,7 @@ Everything lives in `demos.json`:
 - `theme`: the purple backdrop, white window bar, terminal and accent colours
 - `line_colors`: regex rules that colour output lines (success, detected, warnings, issues)
 - `chips` and `footer`: the SEO / AEO / GEO badges and the repository link
+- `models`: the "works with any LLM" row; icons come from `llm-icons.json` (14x14 pixel icons for Claude, ChatGPT, Gemini, Google AI Overviews, Perplexity, DeepSeek, Qwen, Grok, Copilot, Meta AI and Mistral, the same set the `assets/readme/v3/*.svg` animations use)
 - `demos[].steps[]`: `show` is the command as a user types it (`ai-agent-seo`
   stands for the installed launcher), `run` is what executes; `{launcher}`,
   `{home}` and `{sandbox}` are filled in at build time
