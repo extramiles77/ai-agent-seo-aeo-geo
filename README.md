@@ -4,7 +4,7 @@
   SEO, AEO (answer engines) and GEO (AI search). 27 sub-skills and 20 specialist agents. MIT licensed.
 -->
 
-<img src="assets/readme/v3/hero.svg" width="1200" height="420" alt="AI Agent SEO, the SEO + AEO + GEO plugin for any AI agent: rank in Google, get cited by AI. Three bots climb from #48 to #1 by fixing crawl, speed, schema, AI access and authority, then Google AI Overviews, ChatGPT, Perplexity, Gemini, Claude, DeepSeek, Qwen, Grok, Copilot, Meta AI and Mistral cite the site (SEO rank #1, AEO answer box, GEO citations)." />
+<img src="assets/readme/v3/hero.svg" width="1200" height="420" alt="AI Agent SEO AEO GEO: rank in Google, get cited by AI (@Irfansangjuara). Three pixel cats climb a mountain trail past five camps (crawl, speed, schema, AEO and GEO), each fixed with a /seo command, until yoursite.com reaches rank #1 at the summit and Google AI Overviews, ChatGPT, Claude, Gemini, Perplexity, DeepSeek, Qwen, Grok, Copilot, Meta AI and Mistral cite it." />
 
 <h1 align="center">AI Agent SEO</h1>
 
@@ -52,7 +52,7 @@ SEO, AEO and GEO checks: the optimization focus, the answer-engine score and the
 
 ## Meet the team
 
-<img src="assets/readme/v3/team.svg" width="1200" height="420" alt="The AI Agent SEO team: 20 specialist agents, including the new answer-engine analyst seo-aeo, on a website whose AI answer panel shows Claude, ChatGPT, Gemini, Google, Perplexity, DeepSeek, Qwen, Grok, Copilot, Meta AI and Mistral; each agent is shown one at a time with its role, model, ability and command." />
+<img src="assets/readme/v3/team.svg" width="1200" height="420" alt="The AI Agent SEO team: 20 specialist cat agents, including the new answer-engine analyst seo-aeo, on a website whose AI answer panel shows Claude, ChatGPT, Gemini, Google, Perplexity, DeepSeek, Qwen, Grok, Copilot, Meta AI and Mistral; each agent is shown one at a time with its role, model, ability and command." />
 
 <details>
 <summary><b>All 20 agents</b></summary>
@@ -91,7 +91,7 @@ SEO, AEO and GEO checks: the optimization focus, the answer-engine score and the
 
 ## Commands
 
-<img src="assets/readme/v3/map.svg" width="1200" height="420" alt="The six groups of SEO commands on a map: audits, technical SEO, content, schema, AEO and GEO, local and commerce, and extensions. The crew walks the path and each of the 32 commands is ticked off; the plugin works with any AI agent and any LLM." />
+<img src="assets/readme/v3/map.svg" width="1200" height="420" alt="The six groups of SEO commands on a map: audits, technical SEO, content, schema, AEO and GEO, local and commerce, and extensions. The cat crew walks the path and each of the 32 commands is ticked off; the plugin works with any AI agent and any LLM." />
 
 32 core and extension commands in six groups. Open one to see what is inside; a few more extension commands are in the [full command reference](docs/COMMANDS.md).
 
@@ -122,7 +122,7 @@ SEO, AEO and GEO checks: the optimization focus, the answer-engine score and the
 
 ## Pricing
 
-<img src="assets/readme/v3/shop.svg" width="1200" height="420" alt="Same items, two shops: an agency charges for an SEO, AEO and GEO audit, reporting, calls and a retainer while AI Agent SEO charges nothing. Over year one the agency total reaches $106,500. Illustrative pricing." />
+<img src="assets/readme/v3/shop.svg" width="1200" height="420" alt="Same items, two shops: an agency charges for an SEO, AEO and GEO audit, reporting, calls and a retainer while AI Agent SEO AEO GEO charges nothing and the cat crew fills its cart. Over year one the agency total reaches $106,500. Illustrative pricing." />
 
 <details>
 <summary><b>The full comparison</b></summary>
