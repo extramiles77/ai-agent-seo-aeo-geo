@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Keywords Everywhere (formerly OpenPageRank) API client for Ai Agent SEO.
+Keywords Everywhere (formerly OpenPageRank) API client for AI Agent SEO.
 
 Queries the Keywords Everywhere Open PageRank API for a domain-level rank
 metric (0-10 scale) plus the referring-domain count. Cheap, single-endpoint
@@ -215,7 +215,7 @@ def get_rank(domains: list, api_key: str) -> dict:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Keywords Everywhere (Open PageRank) API client for Ai Agent SEO"
+        description="Keywords Everywhere (Open PageRank) API client for AI Agent SEO"
     )
     parser.add_argument("command", choices=["rank"], help="API command: rank (0-10 domain rank)")
     parser.add_argument("domains", nargs="+", help="Target domain(s) to look up (max 100)")

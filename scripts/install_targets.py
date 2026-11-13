@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Install Ai Agent SEO into any AI agent harness that reads Agent Skills.
+"""Install AI Agent SEO into any AI agent harness that reads Agent Skills.
 
 Every harness that follows the open Agent Skills standard (a folder per skill
 with a ``SKILL.md``) can load these skills: Claude Code, OpenAI Codex CLI,
@@ -23,12 +23,12 @@ a multi-target install does not create several copies of the environment.
 
 Usage::
 
-    claude-seo install --target agents            # Codex, Gemini, Cursor, OpenCode, Copilot
-    claude-seo install --target all               # every detected harness
-    claude-seo install --project . --target agents
-    claude-seo install --dest /path/to/skills     # any other harness
-    claude-seo install --list                     # show targets and detection
-    claude-seo uninstall --target agents
+    ai-agent-seo install --target agents            # Codex, Gemini, Cursor, OpenCode, Copilot
+    ai-agent-seo install --target all               # every detected harness
+    ai-agent-seo install --project . --target agents
+    ai-agent-seo install --dest /path/to/skills     # any other harness
+    ai-agent-seo install --list                     # show targets and detection
+    ai-agent-seo uninstall --target agents
 
 Standard library only, so it runs before the managed environment exists.
 Prints a JSON summary with ``--json``.
@@ -46,7 +46,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 TOKEN = "${CLAUDE_PLUGIN_ROOT}"
-LAUNCHER_TOKEN = TOKEN + "/scripts/claude-seo"
+LAUNCHER_TOKEN = TOKEN + "/scripts/ai-agent-seo"
 COPY_IGNORE = shutil.ignore_patterns("__pycache__", "*.pyc", ".venv", ".venv.*", ".DS_Store")
 
 # name -> (skills folder relative to home, agent folder or None, harnesses, detection folder)
@@ -105,7 +105,7 @@ def _source_root() -> Path:
 
 
 def _home() -> Path:
-    return Path(os.environ.get("CLAUDE_SEO_INSTALL_HOME") or Path.home()).expanduser()
+    return Path(os.environ.get("AI_AGENT_SEO_INSTALL_HOME") or Path.home()).expanduser()
 
 
 def _skill_sources(src: Path) -> list[Path]:
@@ -193,7 +193,7 @@ def _copy_runtime(src: Path, home_dir: Path) -> None:
     for name in ("requirements.txt", "pyproject.toml", "LICENSE"):
         if (src / name).is_file():
             shutil.copy2(src / name, home_dir / name)
-    for launcher in ("claude-seo", "claude-seo.cmd"):
+    for launcher in ("ai-agent-seo", "ai-agent-seo.cmd"):
         target = home_dir / "scripts" / launcher
         if target.is_file() and os.name != "nt":
             target.chmod(target.stat().st_mode | 0o111)
@@ -203,7 +203,7 @@ def rewrite_text(text: str, plan: Plan, windows: bool | None = None) -> str:
     """Replace the plugin-root token with absolute paths for this target."""
     windows = (os.name == "nt") if windows is None else windows
     runtime = _posix(plan.runtime_home)
-    launcher = runtime + ("/scripts/claude-seo.cmd" if windows else "/scripts/claude-seo")
+    launcher = runtime + ("/scripts/ai-agent-seo.cmd" if windows else "/scripts/ai-agent-seo")
     agents = _posix(plan.agent_dir) if plan.agent_dir else _posix(plan.skills_root / "seo" / "subagents")
     text = text.replace(LAUNCHER_TOKEN + '"', launcher + '"')
     text = text.replace(LAUNCHER_TOKEN, launcher)
@@ -296,10 +296,10 @@ def list_targets(home: Path) -> list[dict[str, object]]:
     return rows
 
 
-def build_parser(prog: str = "claude-seo install") -> argparse.ArgumentParser:
+def build_parser(prog: str = "ai-agent-seo install") -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog=prog,
-        description="Install Ai Agent SEO skills into Claude Code, Codex, Gemini CLI, Cursor, "
+        description="Install AI Agent SEO skills into Claude Code, Codex, Gemini CLI, Cursor, "
         "OpenCode, GitHub Copilot, Antigravity, Windsurf or any Agent Skills folder.",
     )
     parser.add_argument("--target", action="append", metavar="NAME",
@@ -318,13 +318,13 @@ def build_parser(prog: str = "claude-seo install") -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: list[str] | None = None, prog: str = "claude-seo install") -> int:
+def main(argv: list[str] | None = None, prog: str = "ai-agent-seo install") -> int:
     args = build_parser(prog).parse_args(argv)
     home = _home()
     src = _source_root()
     if not args.list and not (src / "skills" / "seo" / "SKILL.md").is_file():
-        print("Ai Agent SEO install: run this from the repository checkout "
-              "(./scripts/claude-seo install ...), not from an installed copy.", file=sys.stderr)
+        print("AI Agent SEO install: run this from the repository checkout "
+              "(./scripts/ai-agent-seo install ...), not from an installed copy.", file=sys.stderr)
         return 2
     if args.list:
         rows = list_targets(home)
@@ -338,7 +338,7 @@ def main(argv: list[str] | None = None, prog: str = "claude-seo install") -> int
     try:
         plans = build_plans(args, home)
     except ValueError as exc:
-        print(f"Ai Agent SEO install: {exc}", file=sys.stderr)
+        print(f"AI Agent SEO install: {exc}", file=sys.stderr)
         return 2
     if args.uninstall:
         results = [uninstall(plan, src, args.dry_run) for plan in plans]
@@ -348,9 +348,15 @@ def main(argv: list[str] | None = None, prog: str = "claude-seo install") -> int
             for item in results:
                 print(f"{item['target']}: removed {len(item['removed'])} item(s) from {item['skills_root']}")
         return 0
-    if args.runtime_home and not (Path(args.runtime_home).expanduser() / "scripts" / "runtime.py").is_file():
-        print("Ai Agent SEO install: --runtime-home must be an installed seo skill folder", file=sys.stderr)
-        return 2
+    if args.runtime_home:
+        scripts_dir = Path(args.runtime_home).expanduser() / "scripts"
+        if not (scripts_dir / "runtime.py").is_file():
+            print("AI Agent SEO install: --runtime-home must be an installed seo skill folder", file=sys.stderr)
+            return 2
+        if not (scripts_dir / "ai-agent-seo").is_file():
+            print("AI Agent SEO install: --runtime-home is an older install without the ai-agent-seo "
+                  "launcher; reinstall it first (bash install.sh) or omit --runtime-home", file=sys.stderr)
+            return 2
     results = [install(plan, src, args.dry_run) for plan in plans]
     setup_status: int | None = None
     owner = next((p for p in plans if p.owns_runtime), None)
@@ -366,7 +372,7 @@ def main(argv: list[str] | None = None, prog: str = "claude-seo install") -> int
                   f"{item['skills_root']}  [{item['harnesses']}; {note}]")
         if setup_status not in (None, 0):
             print("Runtime setup did not finish cleanly (exit "
-                  f"{setup_status}); rerun: claude-seo setup", file=sys.stderr)
+                  f"{setup_status}); rerun: ai-agent-seo setup", file=sys.stderr)
     if setup_status not in (None, 0, 10):
         return 1
     return 0

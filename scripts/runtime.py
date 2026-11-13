@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Cross-platform runtime for Ai Agent SEO's bundled Python scripts.
+"""Cross-platform runtime for AI Agent SEO's bundled Python scripts.
 
 This module deliberately uses only the Python standard library. It is launched
-by the sibling ``scripts/claude-seo`` launcher under a base Python, then
+by the sibling ``scripts/ai-agent-seo`` launcher under a base Python, then
 dispatches work through the managed virtual environment created by ``setup``.
 Skills, agents, and hooks invoke that launcher as
-``"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo"``; the repository keeps no
+``"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo"``; the repository keeps no
 top-level ``bin/`` directory because hosted marketplaces reject one.
 """
 
@@ -24,7 +24,7 @@ from pathlib import Path
 from typing import Any
 
 RUNTIME_SCHEMA = 1
-# Supported interpreter range. scripts/claude-seo and install.ps1 repeat these
+# Supported interpreter range. scripts/ai-agent-seo and install.ps1 repeat these
 # bounds, and tests/test_python_range.py keeps every copy in step. 3.15 waits
 # on google-ads, whose wheels declare Python < 3.15.
 MIN_PYTHON = (3, 11)
@@ -62,6 +62,41 @@ REDACTIONS = (
     (re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b"), "<redacted-email>"),
     (re.compile(r"(?i)(token|password|secret|api[_-]?key)([=:\s]+)[^\s]+"), r"\1\2<redacted>"),
 )
+
+
+# Names used before the AI Agent SEO rename. Old environment variables keep
+# working, and old credential/cache folders are copied to the new name once.
+LEGACY_ENV_PREFIX = "CLAUDE_SEO_"
+ENV_PREFIX = "AI_AGENT_SEO_"
+LEGACY_DIR_NAME = "claude-seo"
+DIR_NAME = "ai-agent-seo"
+
+
+def _apply_legacy_env(env: Any) -> None:
+    """Expose every CLAUDE_SEO_* variable under its AI_AGENT_SEO_* name too."""
+    for key, value in list(env.items()):
+        if key.startswith(LEGACY_ENV_PREFIX):
+            env.setdefault(ENV_PREFIX + key[len(LEGACY_ENV_PREFIX):], value)
+
+
+def _migrate_legacy_user_dirs() -> None:
+    """Copy ~/.config/claude-seo and ~/.cache/claude-seo to the new name once.
+
+    The old folder is left untouched, and nothing happens when the new folder
+    already exists. copytree keeps file modes, so 0600 credentials stay 0600.
+    """
+    try:
+        home = Path.home()
+    except RuntimeError:
+        return
+    for base in (".config", ".cache"):
+        old, new = home / base / LEGACY_DIR_NAME, home / base / DIR_NAME
+        if old.is_dir() and not new.exists():
+            try:
+                shutil.copytree(old, new, symlinks=True)
+                print(f"AI Agent SEO: copied ~/{base}/{LEGACY_DIR_NAME} to ~/{base}/{DIR_NAME}.", file=sys.stderr)
+            except OSError:
+                pass
 
 
 def _configure_utf8() -> None:
@@ -121,7 +156,7 @@ def _configured_data_dir(raw: str) -> Path:
 
 
 def _data_dir(root: Path) -> tuple[Path, str]:
-    override = os.environ.get("CLAUDE_SEO_DATA_DIR")
+    override = os.environ.get("AI_AGENT_SEO_DATA_DIR")
     if override:
         return _configured_data_dir(override), "override"
     plugin_data = os.environ.get("CLAUDE_PLUGIN_DATA")
@@ -134,7 +169,7 @@ def _data_dir(root: Path) -> tuple[Path, str]:
             base = Path.home() / "Library" / "Application Support"
         else:
             base = Path(os.environ.get("XDG_DATA_HOME", Path.home() / ".local" / "share"))
-        return (base / "claude-seo").resolve(), "plugin-fallback"
+        return (base / "ai-agent-seo").resolve(), "plugin-fallback"
     return root, "manual"
 
 
@@ -170,9 +205,9 @@ def _python_supported() -> bool:
 def _python_range_message() -> str:
     found = f"{sys.version_info.major}.{sys.version_info.minor}"
     return (
-        f"Ai Agent SEO needs Python {MIN_PYTHON[0]}.{MIN_PYTHON[1]} to "
+        f"AI Agent SEO needs Python {MIN_PYTHON[0]}.{MIN_PYTHON[1]} to "
         f"{MAX_PYTHON[0]}.{MAX_PYTHON[1]}. Found {found} ({sys.executable}). "
-        "Install a supported Python or set CLAUDE_SEO_PYTHON."
+        "Install a supported Python or set AI_AGENT_SEO_PYTHON."
     )
 
 
@@ -281,7 +316,7 @@ class SetupLock:
             except OSError:
                 age = 0
             if age <= LOCK_STALE_SECONDS:
-                raise RuntimeError("another Ai Agent SEO setup is already running")
+                raise RuntimeError("another AI Agent SEO setup is already running")
             self.path.unlink(missing_ok=True)
             with self.path.open("x", encoding="utf-8") as handle:
                 handle.write(f"{os.getpid()}\n{int(time.time())}\n")
@@ -328,7 +363,7 @@ def command_setup(args: argparse.Namespace) -> int:
     had_previous = final_venv.exists()
     try:
         with SetupLock(data_dir / ".setup.lock"):
-            print("Creating isolated Ai Agent SEO environment...", flush=True)
+            print("Creating isolated AI Agent SEO environment...", flush=True)
             # venv bootstraps pip itself but discards ensurepip's output, so a
             # failing bootstrap would surface only as "ensurepip returned 1".
             # Running it as its own stage keeps pip's diagnostics visible.
@@ -387,10 +422,10 @@ def command_setup(args: argparse.Namespace) -> int:
                 shutil.rmtree(final_venv, ignore_errors=True)
             if previous_moved and had_previous and backup.exists():
                 _replace_with_retry(backup, final_venv)
-        print(f"Ai Agent SEO setup failed: {_redact(str(exc))}", file=sys.stderr)
+        print(f"AI Agent SEO setup failed: {_redact(str(exc))}", file=sys.stderr)
         return 1
     if browser_ready or args.skip_browser:
-        print("Ai Agent SEO runtime is ready.")
+        print("AI Agent SEO runtime is ready.")
         return 0
     print("Core runtime is ready, but Chromium is unavailable. Run setup again to enable rendered-page features.", file=sys.stderr)
     return 10
@@ -421,12 +456,13 @@ def command_run(args: argparse.Namespace) -> int:
     try:
         script = _resolve_script(root, args.script, args.extension)
     except ValueError as exc:
-        print(f"Ai Agent SEO runtime: {exc}", file=sys.stderr)
+        print(f"AI Agent SEO runtime: {exc}", file=sys.stderr)
         return 2
+    _migrate_legacy_user_dirs()
     status = _status(root)
     if not status["ready"]:
         print(
-            "Ai Agent SEO runtime is not ready. Run `/seo setup` (or `claude-seo setup` "
+            "AI Agent SEO runtime is not ready. Run `/seo setup` (or `ai-agent-seo setup` "
             "from a terminal) and retry.",
             file=sys.stderr,
         )
@@ -468,7 +504,7 @@ def _install_module() -> Any:
     import importlib.util
 
     path = Path(__file__).resolve().parent / "install_targets.py"
-    spec = importlib.util.spec_from_file_location("claude_seo_install_targets", path)
+    spec = importlib.util.spec_from_file_location("ai_agent_seo_install_targets", path)
     if spec is None or spec.loader is None:
         raise RuntimeError("install_targets.py is missing next to runtime.py")
     module = importlib.util.module_from_spec(spec)
@@ -483,11 +519,11 @@ INSTALL_COMMANDS = ("install", "uninstall")
 
 def command_install(command: str, argv: list[str]) -> int:
     extra = ["--uninstall"] if command == "uninstall" else []
-    return int(_install_module().main(extra + argv, prog=f"claude-seo {command}"))
+    return int(_install_module().main(extra + argv, prog=f"ai-agent-seo {command}"))
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="claude-seo", description="Ai Agent SEO managed Python runtime")
+    parser = argparse.ArgumentParser(prog="ai-agent-seo", description="AI Agent SEO managed Python runtime")
     sub = parser.add_subparsers(dest="command", required=True)
     setup = sub.add_parser("setup", help="create or refresh the isolated runtime")
     setup.add_argument("--skip-browser", action="store_true")
@@ -509,18 +545,19 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     _configure_utf8()
+    _apply_legacy_env(os.environ)
     raw = list(sys.argv[1:] if argv is None else argv)
     if raw and raw[0] in INSTALL_COMMANDS:
         try:
             return command_install(raw[0], raw[1:])
         except (OSError, RuntimeError) as exc:
-            print(f"Ai Agent SEO install failed: {_redact(str(exc))}", file=sys.stderr)
+            print(f"AI Agent SEO install failed: {_redact(str(exc))}", file=sys.stderr)
             return 2
     args = build_parser().parse_args(raw)
     try:
         return int(args.func(args))
     except (OSError, RuntimeError, ValueError) as exc:
-        print(f"Ai Agent SEO runtime failed: {_redact(str(exc))}", file=sys.stderr)
+        print(f"AI Agent SEO runtime failed: {_redact(str(exc))}", file=sys.stderr)
         return 2
 
 

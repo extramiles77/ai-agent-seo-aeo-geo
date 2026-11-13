@@ -1,9 +1,9 @@
 ---
 name: seo-matomo
-description: Matomo Reporting API extension. Self-hosted or Matomo Cloud analytics as a GA4 alternative or complement. Organic traffic, landing pages, device / country breakdowns, referrers, search keywords. Triggers on "Matomo", "self-hosted analytics", "analytics ohne Google", "GA4 alternative", "Matomo Reporting", "Piwik".
+description: "Matomo Reporting API (self-hosted or Matomo Cloud) as a GA4 alternative: organic traffic, landing pages, devices, countries, referrers and search keywords. Use when the user mentions Matomo, Piwik or self-hosted analytics."
 metadata:
   version: "3.0.0"
-compatibility: "Requires a Matomo instance URL and API token in ~/.config/claude-seo/matomo.json (0600), or MATOMO_URL / MATOMO_API_TOKEN / MATOMO_SITE_ID in the environment. Run extensions/matomo/install.sh to configure."
+compatibility: "Requires a Matomo instance URL and API token in ~/.config/ai-agent-seo/matomo.json (0600), or MATOMO_URL / MATOMO_API_TOKEN / MATOMO_SITE_ID in the environment. Run extensions/matomo/install.sh to configure."
 ---
 
 # seo-matomo
@@ -24,13 +24,13 @@ against Matomo Cloud and self-hosted instances.
 
 | Command | Underlying script |
 |---|---|
-| `/seo matomo check` | `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run matomo_auth.py --check` |
-| `/seo matomo organic [site-id]` | `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run matomo_report.py organic --site-id <id>` |
-| `/seo matomo top-pages` | `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run matomo_report.py top-pages` |
-| `/seo matomo device` | `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run matomo_report.py device` |
-| `/seo matomo country` | `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run matomo_report.py country` |
-| `/seo matomo referrers` | `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run matomo_report.py referrers` |
-| `/seo matomo keywords` | `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run matomo_report.py keywords` |
+| `/seo matomo check` | `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run matomo_auth.py --check` |
+| `/seo matomo organic [site-id]` | `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run matomo_report.py organic --site-id <id>` |
+| `/seo matomo top-pages` | `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run matomo_report.py top-pages` |
+| `/seo matomo device` | `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run matomo_report.py device` |
+| `/seo matomo country` | `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run matomo_report.py country` |
+| `/seo matomo referrers` | `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run matomo_report.py referrers` |
+| `/seo matomo keywords` | `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run matomo_report.py keywords` |
 
 All commands accept `--days` (default 28), `--limit`, `--site-id`, and
 `--json`. The site ID falls back to `MATOMO_SITE_ID` from settings.
@@ -55,21 +55,21 @@ All commands accept `--days` (default 28), `--limit`, `--site-id`, and
 - For AI Overview / GEO citability work, route to `seo-geo`. Matomo
   offers no LLM-specific signals.
 - During `/seo audit`, the orchestrator spawns the `seo-matomo` agent
-  (analogous to `seo-google`) whenever `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run matomo_auth.py
+  (analogous to `seo-google`) whenever `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run matomo_auth.py
   --check` succeeds. Both agents can be active simultaneously when the
   user has both GA4 and Matomo configured.
 
 ## Self-hosted instance on a private address
 
-Every Matomo request goes through claude-seo's SSRF guard: the instance URL
+Every Matomo request goes through ai-agent-seo's SSRF guard: the instance URL
 is validated and DNS-pinned, and a redirect off the instance is refused.
 Private, loopback, and link-local addresses are refused by default. When the
 user's instance lives on one (`http://matomo.internal:8080`,
 `http://192.168.1.20`, `http://localhost:8080`), tell them to name it in the
-`CLAUDE_SEO_LOCAL_TARGETS` allowlist:
+`AI_AGENT_SEO_LOCAL_TARGETS` allowlist:
 
 ```bash
-export CLAUDE_SEO_LOCAL_TARGETS="matomo.internal:8080"
+export AI_AGENT_SEO_LOCAL_TARGETS="matomo.internal:8080"
 ```
 
 Entries are `host` or `host:port`, comma-separated, matched exactly. The
@@ -81,7 +81,7 @@ the allowlist is the supported route. Details in
 
 ## Error Handling
 
-- Refused by the SSRF guard (error names `CLAUDE_SEO_LOCAL_TARGETS`): the
+- Refused by the SSRF guard (error names `AI_AGENT_SEO_LOCAL_TARGETS`): the
   instance is on a private address that has not been allowlisted. Give the
   user the exact export line from the error, which already carries the right
   `host:port`.
@@ -90,7 +90,7 @@ the allowlist is the supported route. Details in
   Ask the user for the URL their instance actually serves the API from.
 - Missing credentials: report which env vars / config keys are unset and
   remind the user to run `extensions/matomo/install.sh` or
-  `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run matomo_auth.py --setup`.
+  `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run matomo_auth.py --setup`.
 - HTTP 401/403 from Matomo: the token lacks view access for the given
   site. Verify the token scope in Matomo Administration -> Personal ->
   Security -> API Tokens. The skill never logs the token.

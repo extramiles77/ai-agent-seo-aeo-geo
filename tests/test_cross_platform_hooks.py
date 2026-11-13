@@ -43,7 +43,7 @@ def test_schema_hook_uses_exec_form_args_and_tool_input_placeholder() -> None:
 
 def test_hook_launcher_documents_python_probe_order() -> None:
     text = HOOK_LAUNCHER.read_text(encoding="utf-8")
-    for marker in ("CLAUDE_SEO_PYTHON", "py", "-3", "python3", "python"):
+    for marker in ("AI_AGENT_SEO_PYTHON", "py", "-3", "python3", "python"):
         assert marker in text
 
 
@@ -60,7 +60,7 @@ def test_hook_launcher_preserves_blocking_exit_code_two(tmp_path: Path) -> None:
         encoding="utf-8",
     )
     env = os.environ.copy()
-    env["CLAUDE_SEO_PYTHON"] = sys.executable
+    env["AI_AGENT_SEO_PYTHON"] = sys.executable
 
     proc = subprocess.run(
         [node, str(HOOK_LAUNCHER), str(script), "payload"],
@@ -83,7 +83,7 @@ def test_hook_launcher_skips_files_that_cannot_hold_schema(tmp_path: Path) -> No
     script = tmp_path / "validate-schema.py"
     script.write_text("import sys\nsys.exit(2)\n", encoding="utf-8")
     env = os.environ.copy()
-    env["CLAUDE_SEO_PYTHON"] = sys.executable
+    env["AI_AGENT_SEO_PYTHON"] = sys.executable
 
     def run(path_arg: str) -> int:
         return subprocess.run(
@@ -110,7 +110,7 @@ def test_hook_launcher_extension_skip_applies_only_to_schema_hook(tmp_path: Path
     script = tmp_path / "other-hook.py"
     script.write_text("import sys\nsys.exit(2)\n", encoding="utf-8")
     env = os.environ.copy()
-    env["CLAUDE_SEO_PYTHON"] = sys.executable
+    env["AI_AGENT_SEO_PYTHON"] = sys.executable
 
     # Any other hook script runs whatever the file argument looks like.
     for path_arg in ("notes.md", "app/main.py", "page.html"):

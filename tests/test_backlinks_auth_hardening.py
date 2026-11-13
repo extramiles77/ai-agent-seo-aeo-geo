@@ -1,7 +1,7 @@
 """Token-file hardening regressions for backlinks_auth.py (issue #290).
 
 backlinks_auth.py previously had no write path and no permission handling
-at all for ~/.config/claude-seo/backlinks-api.json. It now shares
+at all for ~/.config/ai-agent-seo/backlinks-api.json. It now shares
 google_auth._chmod_quiet and mirrors google_auth's os.open + fchmod write
 pattern, plus a best-effort Windows icacls restriction: POSIX chmod/fchmod
 mode bits are a no-op on Windows (NTFS is ACL-based), so without icacls the
@@ -130,7 +130,7 @@ def test_windows_branch_swallows_subprocess_failure_with_warning(monkeypatch, ca
 
     # Must not raise: a failed icacls call degrades to a warning, it never
     # aborts the credential write/load.
-    backlinks_auth._restrict_to_current_user_windows(r"C:\Users\test-user\.claude-seo.json")
+    backlinks_auth._restrict_to_current_user_windows(r"C:\Users\test-user\.ai-agent-seo.json")
 
     captured = capsys.readouterr()
     assert "Warning" in captured.err
@@ -160,6 +160,6 @@ def test_windows_branch_skips_icacls_when_username_is_empty(monkeypatch, capsys)
     monkeypatch.delenv("USERNAME", raising=False)
     called = []
     monkeypatch.setattr(backlinks_auth.subprocess, "run", lambda *a, **k: called.append(a))
-    backlinks_auth._restrict_to_current_user_windows(r"C:\Users\x\.claude-seo.json")
+    backlinks_auth._restrict_to_current_user_windows(r"C:\Users\x\.ai-agent-seo.json")
     assert not called, "icacls must not run with an empty grantee"
     assert "USERNAME is not set" in capsys.readouterr().err

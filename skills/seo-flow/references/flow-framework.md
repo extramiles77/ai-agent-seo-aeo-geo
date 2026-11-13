@@ -7,7 +7,7 @@ tags:
   - framework
 ---
 
-![Ai Agent SEO 10-principle methodology: PERCEIVE, ANALYZE, VALIDATE, ACT](../../../assets/framework.svg)
+![AI Agent SEO 10-principle methodology: PERCEIVE, ANALYZE, VALIDATE, ACT](../../../assets/framework.svg)
 
 # FLOW Framework
 

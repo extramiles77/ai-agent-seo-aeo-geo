@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Backlink report validation for Ai Agent SEO.
+Backlink report validation for AI Agent SEO.
 
 Programmatically validates backlink analysis data before it is presented to
 the user. Catches common false findings, inconsistencies, and misleading

@@ -1,6 +1,6 @@
 ---
 name: seo-maps
-description: "Maps intelligence for local SEO: geo-grid rank tracking, GBP profile auditing via API, review intelligence across Google/Tripadvisor/Trustpilot, cross-platform NAP verification, competitor radius mapping, and LocalBusiness schema generation. Three tiers: free (Overpass + Geoapify), DataForSEO, and DataForSEO + Google. Use when user says \"maps\", \"geo-grid\", \"rank tracking\", \"GBP audit\", \"review velocity\", \"competitor radius\", or \"SoLV\"."
+description: "Maps intelligence for local SEO: geo-grid rank tracking, GBP profile audit, review intelligence, cross-platform NAP checks and competitor radius mapping (free, DataForSEO or Google tiers). Use when the user mentions geo-grid, map rankings, GBP audit, review velocity or SoLV."
 user-invocable: true
 argument-hint: "[command] [url|keyword|location]"
 license: MIT

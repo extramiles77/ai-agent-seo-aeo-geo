@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Bing Webmaster Tools API client for Ai Agent SEO.
+Bing Webmaster Tools API client for AI Agent SEO.
 
 Queries the Bing Webmaster API for inbound link data, referring domain counts,
 and comparison between properties accessible to the same API account.
@@ -550,7 +550,7 @@ def main():
         result = {
             "status": "error",
             "data": None,
-            "error": "No Bing Webmaster API key configured. Run backlinks_auth.py --setup through the claude-seo launcher.",
+            "error": "No Bing Webmaster API key configured. Run backlinks_auth.py --setup through the ai-agent-seo launcher.",
             "metadata": {"source": "bing_webmaster"},
         }
         if args.json:

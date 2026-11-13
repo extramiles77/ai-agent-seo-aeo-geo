@@ -126,7 +126,7 @@ HIDE_OVERLAYS_MAX_MS = 5000  # the one pass that hides overlays, on a large DOM
 
 # Where a page-side step runs and where it leaves its result for the read.
 _ROOT = ":root"
-_RESULT_ATTR = "data-claude-seo-result"
+_RESULT_ATTR = "data-ai-agent-seo-result"
 _RESULT_MAX_CHARS = 1000
 _CALL_IDS = itertools.count(1)
 
@@ -184,7 +184,7 @@ _JS_HIDE_OVERLAYS = """() => {
     const cs = getComputedStyle(el);
     if (cs.position !== 'fixed' && cs.position !== 'sticky') continue;
     if (cs.display === 'none' || cs.visibility === 'hidden') continue;
-    if (el.closest('[data-claude-seo-hidden]')) continue;
+    if (el.closest('[data-ai-agent-seo-hidden]')) continue;
     const r = el.getBoundingClientRect();
     if (r.width < 1 || r.height < 1) continue;
     if (cs.position === 'fixed') {
@@ -196,7 +196,7 @@ _JS_HIDE_OVERLAYS = """() => {
       const offset = parseFloat(cs.bottom);
       if (Number.isNaN(offset) || Math.abs(r.bottom + offset - vh) > 2) continue;
     }
-    el.setAttribute('data-claude-seo-hidden', '');
+    el.setAttribute('data-ai-agent-seo-hidden', '');
     el.style.setProperty('visibility', 'hidden', 'important');
     hidden++;
   }

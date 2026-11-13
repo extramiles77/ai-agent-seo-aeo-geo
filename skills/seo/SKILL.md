@@ -1,6 +1,6 @@
 ---
 name: seo
-description: "Comprehensive SEO analysis for any website or business type. Full site audits, single-page analysis, technical SEO (crawlability, indexability, Core Web Vitals with INP), schema markup, content quality (E-E-A-T), image optimization, sitemap analysis, and GEO for AI Overviews/ChatGPT/Perplexity. Industry detection for SaaS, e-commerce, local, publishers, agencies. Triggers on: SEO, audit, schema, Core Web Vitals, sitemap, E-E-A-T, AI Overviews, GEO, technical SEO, content quality, page speed. Use this hub only when the SEO domain is clear and the requested workflow is not; otherwise use the specific seo-* skill."
+description: "Universal SEO analysis hub: full-site audits, single-page reviews, technical SEO, Core Web Vitals, schema, E-E-A-T content, images, sitemaps and GEO for AI search, with industry detection. Use for /seo commands or when a request is about SEO but no specific seo-* skill clearly fits."
 user-invocable: true
 argument-hint: "[command] [url]"
 license: MIT
@@ -15,12 +15,12 @@ metadata:
 **Invocation:** `/seo $ARGUMENTS`, where the first word is the command and the rest is the URL or argument.
 
 **Runtime:** Run bundled Python tools through
-`"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run <script.py>`. That is the single
+`"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run <script.py>`. That is the single
 canonical form used by every skill and agent. In a Claude Code plugin install
 the variable expands to the plugin directory; every other install (manual,
 Codex, Gemini CLI, Cursor, OpenCode, Copilot, Antigravity, Windsurf) has the
 installer write the absolute launcher path into these files instead. Repository
-users run `./scripts/claude-seo`. Never invoke bundled scripts with a bare
+users run `./scripts/ai-agent-seo`. Never invoke bundled scripts with a bare
 Python interpreter.
 
 Comprehensive SEO analysis across all industries (SaaS, local services,
@@ -68,12 +68,12 @@ extension is also installable (see "Optional Extensions" below).
 
 Run setup only when the user explicitly invokes `/seo setup` or explicitly asks
 to repair dependencies. Execute
-`"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" setup`, report core and Chromium
+`"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" setup`, report core and Chromium
 status separately, and do not fall back to global or user package installation.
 For diagnosis, execute
-`"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" doctor --json`; its output
+`"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" doctor --json`; its output
 intentionally omits absolute paths and environment values. If any
-`"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run` command reports that setup is
+`"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run` command reports that setup is
 required, suggest `/seo setup` and do not improvise a `pip install`.
 
 ## Running in Any AI Agent
@@ -87,7 +87,7 @@ Claude Code names appear in the instructions; map them to your own tools:
 | `/seo <command> <args>`, `$ARGUMENTS` | The user's request after the skill name (Codex: `$seo audit <url>`; Cursor/Copilot: `/seo ...`; others: plain language) |
 | Read / Write / Edit / Glob / Grep | Your file read, write, edit, find and search tools |
 | Bash | Your shell tool. On Windows PowerShell call the `.cmd` launcher as `& "<path>" run ...` |
-| WebFetch | Your fetch/browse tool, or `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run fetch_page.py <url>` |
+| WebFetch | Your fetch/browse tool, or `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run fetch_page.py <url>` |
 | WebSearch | Your web search tool; if none, say SERP data is unavailable and continue with the evidence you have |
 | Spawn / delegate to agent `<name>` | If you have a subagent tool, give it the instructions in `${CLAUDE_PLUGIN_ROOT}/agents/<name>.md`. If not, read that file and run it yourself, one specialist at a time, saving each result to `findings/` before starting the next |
 | MCP tools (DataForSEO, Firecrawl, ...) | Use them only if configured in your harness; otherwise take the documented free fallback |
@@ -103,15 +103,15 @@ presenting it.
 When the user invokes `/seo audit`, delegate to subagents in parallel:
 1. Detect business type (SaaS, local, ecommerce, publisher, agency, other)
 2. Spawn subagents: seo-technical, seo-content, seo-schema, seo-sitemap, seo-performance, seo-visual, seo-geo, seo-agentic
-3. If Google API credentials detected (`"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run google_auth.py --check`), also spawn seo-google agent
-4. If Matomo credentials detected (`"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run matomo_auth.py --check`), also spawn seo-matomo agent (alternative or complement to seo-google's GA4 reports)
+3. If Google API credentials detected (`"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run google_auth.py --check`), also spawn seo-google agent
+4. If Matomo credentials detected (`"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run matomo_auth.py --check`), also spawn seo-matomo agent (alternative or complement to seo-google's GA4 reports)
 5. If local business detected, also spawn seo-local agent
 6. If local business detected AND DataForSEO MCP available, also spawn seo-maps agent
-7. Spawn seo-backlinks agent for Common Crawl domain-level metrics, adding Moz and Bing data when their credentials are detected (`"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run backlinks_auth.py --check`)
+7. Spawn seo-backlinks agent for Common Crawl domain-level metrics, adding Moz and Bing data when their credentials are detected (`"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run backlinks_auth.py --check`)
 8. If Firecrawl MCP available, use `firecrawl_map` to discover all site URLs before analysis
 9. If content strategy signals detected (blog, pillar pages, topic clusters), also spawn seo-cluster agent
 10. If e-commerce detected, also spawn seo-ecommerce agent
-11. If drift baseline exists for this URL (`"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run drift_history.py <url>`), also spawn seo-drift agent
+11. If drift baseline exists for this URL (`"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run drift_history.py <url>`), also spawn seo-drift agent
 12. Always include seo-sxo in full audits (search experience applies to all sites)
 13. Collect results and generate unified report with SEO Health Score (0-100)
 14. **Synthesize via the 10-principle framework** (see "Synthesis Methodology" below), walk PERCEIVE → ANALYZE → VALIDATE → ACT before bucketing findings into Critical / High / Medium / Low
@@ -119,12 +119,12 @@ When the user invokes `/seo audit`, delegate to subagents in parallel:
 16. **Offer PDF report**: "Generate a professional PDF report? Use `/seo google report full`"
 
 For individual commands, load the relevant sub-skill directly.
-After any analysis command completes, offer to generate a PDF report via `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run google_report.py`.
+After any analysis command completes, offer to generate a PDF report via `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run google_report.py`.
 
 **Google update history questions** (core, spam, policy, product changes; "is the
 spam update finished?"): answer from the bundled primary-source ledger, not from
 memory or other copies on disk. Run
-`"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run seo_updates.py --kind spam --json`
+`"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run seo_updates.py --kind spam --json`
 (or `--since <yyyy-mm>`; add `--unverified` for third-party claims that are not
 confirmed). If the output reports the ledger as stale, check
 status.search.google.com before stating that a rollout is complete.
@@ -132,7 +132,7 @@ status.search.google.com before stating that a rollout is complete.
 ## Synthesis Methodology
 
 Audits are not just findings, they are findings synthesized into a coherent
-strategy. claude-seo uses a 10-principle thinking framework grouped into four
+strategy. ai-agent-seo uses a 10-principle thinking framework grouped into four
 phases: **PERCEIVE** (observe-external · observe-internal · listen),
 **ANALYZE** (think · connect-lateral · connect-system), **VALIDATE** (feel ·
 accept), **ACT** (create · grow).

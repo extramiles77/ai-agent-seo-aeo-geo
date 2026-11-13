@@ -8,7 +8,7 @@ tools: Read, Bash, Glob, Grep
 
 You are an SEO image analyst. When delegated tasks during an SEO audit:
 
-1. Fetch each audited page with `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run fetch_page.py <url> --json`
+1. Fetch each audited page with `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run fetch_page.py <url> --json`
    and read its `og:image`, structured data, and image tags. Image generation is not
    available to this agent; the parent skill decides whether to generate
 2. Analyze the site's existing image strategy for SEO impact
@@ -26,7 +26,7 @@ For each audited page, evaluate:
 
 ## Output Format
 
-Match existing claude-seo patterns:
+Match existing ai-agent-seo patterns:
 
 ### Image Audit Summary
 

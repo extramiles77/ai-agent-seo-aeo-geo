@@ -1,4 +1,4 @@
-# Banana Image Generation Extension for Ai Agent SEO
+# Banana Image Generation Extension for AI Agent SEO
 
 Generate production-ready SEO images using AI: OG/social previews, blog heroes,
 product photography, infographics, and more. Powered by Google Gemini via the
@@ -9,7 +9,7 @@ banana Creative Director pipeline.
 > This extension wraps Claude Banana
 > for SEO-specific use cases. Install the standalone skill for general-purpose image generation.
 
-- **Ai Agent SEO** installed (`~/.claude/skills/seo/`)
+- **AI Agent SEO** installed (`~/.claude/skills/seo/`)
 - **Node.js 20+** with npx
 - **Google AI API key** (free at [aistudio.google.com/apikey](https://aistudio.google.com/apikey))
 - **ImageMagick** (optional, for post-processing)
@@ -21,7 +21,7 @@ banana Creative Director pipeline.
 ```
 
 The installer will:
-1. Verify Ai Agent SEO is installed
+1. Verify AI Agent SEO is installed
 2. Prompt for your Google AI API key (if nanobanana-mcp not already configured)
 3. Install the `seo-image-gen` skill and agent
 4. Configure the MCP server in `~/.claude.json`
@@ -39,7 +39,7 @@ The installer will:
 
 CSV batch planning helper:
 ```bash
-"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run --extension banana batch.py --csv requests.csv --model "$NANOBANANA_MODEL"
+"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run --extension banana batch.py --csv requests.csv --model "$NANOBANANA_MODEL"
 ```
 
 ## Use Case Defaults

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# claude-seo manual-install uninstaller (Unix / macOS / Linux)
+# ai-agent-seo manual-install uninstaller (Unix / macOS / Linux)
 #
 # Removes the orchestrator skill (~/.claude/skills/seo), all sub-skills
 # (~/.claude/skills/seo-*), and all sub-agents (~/.claude/agents/seo-*.md).
@@ -20,7 +20,7 @@ SKILL_DIR="${HOME}/.claude/skills"
 AGENT_DIR="${HOME}/.claude/agents"
 
 main() {
-    echo "→ Uninstalling Ai Agent SEO..."
+    echo "→ Uninstalling AI Agent SEO..."
 
     local removed_skills=0
     local removed_agents=0
@@ -56,12 +56,12 @@ main() {
     shopt -u nullglob
 
     if [ "${removed_skills}" -eq 0 ] && [ "${removed_agents}" -eq 0 ]; then
-        echo "  Nothing to remove. Ai Agent SEO does not appear to be installed."
+        echo "  Nothing to remove. AI Agent SEO does not appear to be installed."
         echo "  If you installed via /plugin install, run /plugin uninstall instead."
         return 0
     fi
 
-    echo "✓ Ai Agent SEO uninstalled (${removed_skills} skill dirs, ${removed_agents} agent files)."
+    echo "✓ AI Agent SEO uninstalled (${removed_skills} skill dirs, ${removed_agents} agent files)."
 }
 
 main "$@"

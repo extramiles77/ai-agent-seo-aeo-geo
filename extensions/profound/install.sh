@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Ai Agent SEO: Profound (LLM citation tracker) extension installer.
+# AI Agent SEO: Profound (LLM citation tracker) extension installer.
 #
 # Profound tracks brand citation rates across major LLMs and exposes
 # them as structured time-series. Pairs with seo-seranking (which
@@ -11,11 +11,11 @@ main() {
     SETTINGS_JSON="${HOME}/.claude/settings.json"
 
     echo "════════════════════════════════════════"
-    echo "║   Ai Agent SEO: Profound extension     ║"
+    echo "║   AI Agent SEO: Profound extension     ║"
     echo "════════════════════════════════════════"
 
     command -v python3 >/dev/null 2>&1 || { echo "✗ Python 3 required."; exit 1; }
-    [ ! -d "${SKILL_DIR}/seo" ] && { echo "✗ claude-seo base not installed."; exit 1; }
+    [ ! -d "${SKILL_DIR}/seo" ] && { echo "✗ ai-agent-seo base not installed."; exit 1; }
 
     SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" >/dev/null 2>&1 && pwd)"
 
@@ -26,9 +26,9 @@ main() {
     mkdir -p "${SKILL_DIR}/seo-profound"
     cp "${SOURCE_DIR}/skills/seo-profound/SKILL.md" "${SKILL_DIR}/seo-profound/SKILL.md"
 
-    CLAUDE_SEO_SECRET="${PROFOUND_KEY}" python3 - "${SETTINGS_JSON}" <<'PY'
+    AI_AGENT_SEO_SECRET="${PROFOUND_KEY}" python3 - "${SETTINGS_JSON}" <<'PY'
 import json, os, sys, tempfile
-path, key = sys.argv[1], os.environ["CLAUDE_SEO_SECRET"]
+path, key = sys.argv[1], os.environ["AI_AGENT_SEO_SECRET"]
 data = {}
 if os.path.exists(path):
     try: data = json.load(open(path))

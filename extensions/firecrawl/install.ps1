@@ -1,9 +1,9 @@
-# Firecrawl Extension Installer for Ai Agent SEO (Windows)
+# Firecrawl Extension Installer for AI Agent SEO (Windows)
 $ErrorActionPreference = 'Stop'
 
 Write-Host "====================================" -ForegroundColor Cyan
 Write-Host "  Firecrawl Extension - Installer" -ForegroundColor Cyan
-Write-Host "  For Ai Agent SEO" -ForegroundColor Cyan
+Write-Host "  For AI Agent SEO" -ForegroundColor Cyan
 Write-Host "====================================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -16,11 +16,11 @@ $McpConfigFile = "$env:USERPROFILE\.claude.json"
 
 # Check prerequisites
 if (-not (Test-Path $SeoSkillDir)) {
-    Write-Host "x Ai Agent SEO is not installed." -ForegroundColor Red
+    Write-Host "x AI Agent SEO is not installed." -ForegroundColor Red
     Write-Host "  Install it first: irm  | iex"
     exit 1
 }
-Write-Host "v Ai Agent SEO detected" -ForegroundColor Green
+Write-Host "v AI Agent SEO detected" -ForegroundColor Green
 
 $nodeVersion = (node -v 2>$null) -replace 'v',''
 if (-not $nodeVersion) {

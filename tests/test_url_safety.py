@@ -946,14 +946,14 @@ def test_safe_requests_session_refuses_a_non_public_proxy(monkeypatch) -> None:
 
 
 # ---------------------------------------------------------------------------
-# CLAUDE_SEO_LOCAL_TARGETS: explicit, top-level-only local allowlist
+# AI_AGENT_SEO_LOCAL_TARGETS: explicit, top-level-only local allowlist
 # ---------------------------------------------------------------------------
 
 
 @pytest.fixture(autouse=True)
 def _clear_local_targets(monkeypatch):
     """No test in this module inherits the developer's own allowlist."""
-    monkeypatch.delenv("CLAUDE_SEO_LOCAL_TARGETS", raising=False)
+    monkeypatch.delenv("AI_AGENT_SEO_LOCAL_TARGETS", raising=False)
 
 
 def _loopback_resolver(host_ips: dict):
@@ -967,7 +967,7 @@ def _loopback_resolver(host_ips: dict):
 
 def test_local_targets_unset_leaves_behaviour_unchanged(monkeypatch) -> None:
     """The default policy must be byte-for-byte what it was before the flag."""
-    monkeypatch.delenv("CLAUDE_SEO_LOCAL_TARGETS", raising=False)
+    monkeypatch.delenv("AI_AGENT_SEO_LOCAL_TARGETS", raising=False)
     assert url_safety.validate_url("http://localhost:3000/") is False
     assert url_safety.validate_url("http://127.0.0.1:8080/") is False
     assert url_safety.validate_url("http://192.168.1.10/") is False
@@ -982,12 +982,12 @@ def test_local_targets_unset_leaves_behaviour_unchanged(monkeypatch) -> None:
 
 def test_empty_local_targets_is_the_same_as_unset(monkeypatch) -> None:
     for value in ("", "   ", ",", " , "):
-        monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", value)
+        monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", value)
         assert url_safety.validate_url("http://localhost:3000/") is False
 
 
 def test_allowlisted_hostname_passes_at_top_level(monkeypatch) -> None:
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "localhost:3000,127.0.0.1:8080")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "localhost:3000,127.0.0.1:8080")
     assert url_safety.validate_url("http://localhost:3000/nl") is True
 
     resolver = _loopback_resolver({"localhost": "127.0.0.1"})
@@ -998,7 +998,7 @@ def test_allowlisted_hostname_passes_at_top_level(monkeypatch) -> None:
 
 
 def test_allowlisted_ip_literal_passes_at_top_level(monkeypatch) -> None:
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "127.0.0.1:8080")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "127.0.0.1:8080")
     assert url_safety.validate_url("http://127.0.0.1:8080/") is True
     assert url_safety.validate_url_strict("http://127.0.0.1:8080/") == (
         "http://127.0.0.1:8080/",
@@ -1008,7 +1008,7 @@ def test_allowlisted_ip_literal_passes_at_top_level(monkeypatch) -> None:
 
 def test_bare_host_entry_matches_any_port_and_covers_tailscale(monkeypatch) -> None:
     """RFC 6598 is the Tailscale range; a bare entry names the host only."""
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "100.101.102.103")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "100.101.102.103")
     assert url_safety.validate_url("http://100.101.102.103/") is True
     assert url_safety.validate_url("https://100.101.102.103:8443/staging") is True
     assert url_safety.validate_url_strict("http://100.101.102.103/")[1] == (
@@ -1017,7 +1017,7 @@ def test_bare_host_entry_matches_any_port_and_covers_tailscale(monkeypatch) -> N
 
 
 def test_port_mismatch_is_refused(monkeypatch) -> None:
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "localhost:3000")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "localhost:3000")
     assert url_safety.validate_url("http://localhost:3001/") is False
     assert url_safety.validate_url("http://localhost/") is False  # implicit :80
     with pytest.raises(url_safety.URLSafetyError, match="Blocked hostname"):
@@ -1025,7 +1025,7 @@ def test_port_mismatch_is_refused(monkeypatch) -> None:
 
 
 def test_unlisted_host_is_refused(monkeypatch) -> None:
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "localhost:3000")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "localhost:3000")
     assert url_safety.validate_url("http://127.0.0.1:3000/") is False
     assert url_safety.validate_url("http://192.168.1.10:3000/") is False
     with pytest.raises(url_safety.URLSafetyError, match="Blocked IP literal"):
@@ -1047,7 +1047,7 @@ def test_metadata_endpoints_are_never_allowlistable(monkeypatch, target) -> None
     """Listing a metadata endpoint must not unblock it. This is the trapdoor
     a naive 'allow loopback and private' carve-out falls through."""
     host = target.strip("[]")
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", f"{host},{host}:80,{host}:3128")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", f"{host},{host}:80,{host}:3128")
     assert url_safety.validate_url(f"http://{target}/latest/meta-data/") is False
     with pytest.raises(url_safety.URLSafetyError):
         url_safety.validate_url_strict(f"http://{target}/latest/meta-data/")
@@ -1056,7 +1056,7 @@ def test_metadata_endpoints_are_never_allowlistable(monkeypatch, target) -> None
 def test_allowlist_does_not_unblock_link_local_resolution(monkeypatch) -> None:
     """A listed name that resolves into 169.254/16 is still refused: the
     allowlist forgives loopback, RFC 1918 and RFC 6598, never link-local."""
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "sneaky.local:80")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "sneaky.local:80")
     resolver = _loopback_resolver({"sneaky.local": "169.254.169.254"})
     with patch.object(url_safety.socket, "getaddrinfo", side_effect=resolver):
         with pytest.raises(url_safety.URLSafetyError, match="DNS rebinding refused"):
@@ -1066,7 +1066,7 @@ def test_allowlist_does_not_unblock_link_local_resolution(monkeypatch) -> None:
 def test_allowlist_does_not_change_is_safe_ip(monkeypatch) -> None:
     """is_safe_ip stays a pure predicate. Every fail-closed path downstream
     (redirects, subresources) depends on it not reading the environment."""
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "localhost:3000,127.0.0.1:8080")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "localhost:3000,127.0.0.1:8080")
     assert url_safety.is_safe_ip("127.0.0.1") is False
     assert url_safety.is_safe_ip("192.168.1.10") is False
     assert url_safety.is_safe_ip("100.101.102.103") is False
@@ -1076,7 +1076,7 @@ def test_allowlisted_host_is_refused_as_a_redirect_target(monkeypatch) -> None:
     """The allowlist is consulted once, for the top-level URL. Inside the
     pinned scope a 30x to the same host resolves through the fall-through
     check, which does not read it."""
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "localhost:3000")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "localhost:3000")
     resolver = _loopback_resolver({"localhost": "127.0.0.1"})
     with patch.object(url_safety.socket, "getaddrinfo", side_effect=resolver):
         with url_safety._pin_dns("audited.example", "93.184.216.34", 443):
@@ -1087,7 +1087,7 @@ def test_allowlisted_host_is_refused_as_a_redirect_target(monkeypatch) -> None:
 def test_allowlisted_host_is_refused_as_a_browser_subresource(monkeypatch) -> None:
     """The Playwright route handler never reads the allowlist, so a rendered
     page cannot pull a subresource off the allowlisted dev server."""
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "localhost:3000,127.0.0.1:8080")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "localhost:3000,127.0.0.1:8080")
     handler = url_safety.make_safe_playwright_route_handler()
     resolver = _loopback_resolver({"localhost": "127.0.0.1"})
     with patch.object(url_safety.socket, "getaddrinfo", side_effect=resolver):
@@ -1103,7 +1103,7 @@ def test_local_target_entries_are_normalized(monkeypatch) -> None:
     """Entries go through normalize_hostname, so case, a trailing dot, and
     obfuscated IPv4 cannot be used to smuggle a second spelling past a
     reviewer reading the environment variable."""
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", " LocalHost.:3000 , 2130706433:8080 ")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", " LocalHost.:3000 , 2130706433:8080 ")
     assert url_safety._local_targets() == (("localhost", 3000), ("127.0.0.1", 8080))
     assert url_safety.validate_url("http://localhost:3000/") is True
     assert url_safety.validate_url("http://127.0.0.1:8080/") is True
@@ -1111,7 +1111,7 @@ def test_local_target_entries_are_normalized(monkeypatch) -> None:
 
 def test_malformed_entries_are_dropped_not_widened(monkeypatch) -> None:
     monkeypatch.setenv(
-        "CLAUDE_SEO_LOCAL_TARGETS", "localhost:notaport,,:8080,localhost:3000"
+        "AI_AGENT_SEO_LOCAL_TARGETS", "localhost:notaport,,:8080,localhost:3000"
     )
     assert url_safety._local_targets() == (("localhost", 3000),)
     assert url_safety.validate_url("http://localhost:3000/") is True
@@ -1119,7 +1119,7 @@ def test_malformed_entries_are_dropped_not_widened(monkeypatch) -> None:
 
 
 def test_ipv6_entries_parse_in_both_spellings(monkeypatch) -> None:
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "[::1]:3000,fd00::1")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "[::1]:3000,fd00::1")
     assert url_safety._local_targets() == (("::1", 3000), ("fd00::1", None))
     assert url_safety.validate_url("http://[::1]:3000/") is True
     assert url_safety.validate_url("http://[::1]:3001/") is False
@@ -1127,7 +1127,7 @@ def test_ipv6_entries_parse_in_both_spellings(monkeypatch) -> None:
 
 def test_allowlist_does_not_bypass_authority_confusion_checks(monkeypatch) -> None:
     """The allowlist relaxes the address policy, nothing else."""
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "localhost:3000")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "localhost:3000")
     assert url_safety.validate_url("http://user@localhost:3000/") is False
     assert url_safety.validate_url("http://localhost:3000\\@evil.example/") is False
     assert url_safety.validate_url("ftp://localhost:3000/") is False

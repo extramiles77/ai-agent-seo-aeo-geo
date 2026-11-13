@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Canonical URL safety module for claude-seo.
+Canonical URL safety module for ai-agent-seo.
 
 Centralizes SSRF protection, DNS rebinding mitigation, and DNS-pinned HTTP
 fetching. Every script in this repository that accepts a user-supplied URL
@@ -53,7 +53,7 @@ URLSafetyError
 
 Local targets
 =============
-``CLAUDE_SEO_LOCAL_TARGETS`` is an opt-in, comma-separated allowlist of
+``AI_AGENT_SEO_LOCAL_TARGETS`` is an opt-in, comma-separated allowlist of
 ``host`` or ``host:port`` entries (for example
 ``localhost:3000,127.0.0.1:8080,100.101.102.103``) that lets an operator
 audit a dev server, a staging host, or a machine reached over Tailscale.
@@ -70,7 +70,7 @@ Threading
 The DNS pinning helper is a critical section guarded by a non-blocking
 ``threading.Lock``. Two concurrent pinned fetches on the same process will
 raise rather than corrupt the global ``socket.getaddrinfo`` reference.
-claude-seo scripts are intentionally single-threaded; parallelism is
+ai-agent-seo scripts are intentionally single-threaded; parallelism is
 delegated to the agent-process layer.
 
 Limitations
@@ -190,7 +190,7 @@ def _reject_authority_confusion(url: str, parsed) -> None:
 
     Backslashes, userinfo, and fragment/userinfo ambiguity have all been
     used to make one parser see a public host while another connects to a
-    private host. claude-seo never needs credentials in audit URLs, so
+    private host. ai-agent-seo never needs credentials in audit URLs, so
     userinfo is refused outright.
     """
     authority = _raw_authority(url)
@@ -275,11 +275,11 @@ def is_safe_ip(ip_str: str) -> bool:
 
 
 # ---------------------------------------------------------------------------
-# CLAUDE_SEO_LOCAL_TARGETS: an explicit, top-level-only allowlist
+# AI_AGENT_SEO_LOCAL_TARGETS: an explicit, top-level-only allowlist
 # ---------------------------------------------------------------------------
 #
 # Auditing a site before it is deployed, or a staging host reached over
-# Tailscale, means pointing claude-seo at a non-public address. The default
+# Tailscale, means pointing ai-agent-seo at a non-public address. The default
 # policy refuses that, correctly: this toolkit follows URLs found on pages it
 # crawls, so a blanket "allow private" switch is an SSRF hole with a friendly
 # name.
@@ -300,7 +300,7 @@ def is_safe_ip(ip_str: str) -> bool:
 #     link-local, 100.100.100.200 sits inside the Tailscale range this
 #     allowlist exists to permit, and fd00:ec2::254 is unique-local rather
 #     than link-local, so no single address predicate catches all three.
-_LOCAL_TARGETS_ENV = "CLAUDE_SEO_LOCAL_TARGETS"
+_LOCAL_TARGETS_ENV = "AI_AGENT_SEO_LOCAL_TARGETS"
 
 
 # Hostnames and literals no allowlist entry can ever unblock.
@@ -377,7 +377,7 @@ def _parse_local_target(entry: str) -> Optional[tuple[str, Optional[int]]]:
 
 
 def _local_targets() -> tuple[tuple[str, Optional[int]], ...]:
-    """The parsed contents of ``CLAUDE_SEO_LOCAL_TARGETS``.
+    """The parsed contents of ``AI_AGENT_SEO_LOCAL_TARGETS``.
 
     Read on every call rather than cached: the variable is operator
     configuration, and a cached empty tuple from import time would make the
@@ -391,7 +391,7 @@ def _local_targets() -> tuple[tuple[str, Optional[int]], ...]:
 
 
 def _is_allowlisted_local_target(hostname: str, port: Optional[int]) -> bool:
-    """True when ``hostname``/``port`` is named in ``CLAUDE_SEO_LOCAL_TARGETS``.
+    """True when ``hostname``/``port`` is named in ``AI_AGENT_SEO_LOCAL_TARGETS``.
 
     ``hostname`` must already be normalized. Metadata endpoints are refused
     before the list is even read.
@@ -563,7 +563,7 @@ def validate_url_strict(url: str) -> tuple[str, str]:
     if port is None:
         raise URLSafetyError(f"Invalid port in URL authority: {url!r}")
 
-    # The CLAUDE_SEO_LOCAL_TARGETS allowlist is read here, which is what keeps
+    # The AI_AGENT_SEO_LOCAL_TARGETS allowlist is read here, which is what keeps
     # it top-level only. The request chain reaches it again in one place, the
     # pin's port check for this same host (``_local_pin_allows_port``).
     allowlisted = _is_allowlisted_local_target(hostname, port)
@@ -614,7 +614,7 @@ def validate_url_strict(url: str) -> tuple[str, str]:
         if is_safe_ip(ip_str):
             continue
         if allowlisted and _is_allowlistable_ip(ip_str):
-            continue  # Named in CLAUDE_SEO_LOCAL_TARGETS; see that block.
+            continue  # Named in AI_AGENT_SEO_LOCAL_TARGETS; see that block.
         if has_a_record and _is_dns64_synthesized(ip_str):
             continue
         raise URLSafetyError(
@@ -732,7 +732,7 @@ def _local_pin_allows_port(hostname: str, validated_port: int, requested_port) -
 
     The validated port always may. Any other port on the pinned host (a
     redirect hop, a second request on a session) is a new target and goes
-    through ``CLAUDE_SEO_LOCAL_TARGETS`` again: a ``host:port`` entry reaches
+    through ``AI_AGENT_SEO_LOCAL_TARGETS`` again: a ``host:port`` entry reaches
     that port only, while a bare ``host`` entry keeps matching every port.
     A port that cannot be read as a number is refused.
     """
@@ -752,7 +752,7 @@ def _local_pin_allows_port(hostname: str, validated_port: int, requested_port) -
 
 
 # A single non-blocking lock guards the global getaddrinfo monkey-patch.
-# This is a deliberate choice: claude-seo scripts run one URL fetch at a
+# This is a deliberate choice: ai-agent-seo scripts run one URL fetch at a
 # time, and we'd rather raise loudly than silently corrupt resolver state
 # if a caller ever introduces threading.
 _dns_patch_lock = threading.Lock()
@@ -775,7 +775,7 @@ def _pin_dns(
 
     A public ``pinned_ip`` answers for every port on the named host, so an
     http to https redirect keeps the pin. A non-public ``pinned_ip`` (a
-    ``CLAUDE_SEO_LOCAL_TARGETS`` target) answers for ``port`` only, plus any
+    ``AI_AGENT_SEO_LOCAL_TARGETS`` target) answers for ``port`` only, plus any
     other port the allowlist names for that host; see
     :func:`_local_pin_allows_port`.
 
@@ -806,13 +806,13 @@ def _pin_dns(
     if not _dns_patch_lock.acquire(blocking=False):
         raise URLSafetyError(
             "DNS-pinned fetch already in progress on another thread; "
-            "claude-seo url_safety is not thread-safe by design."
+            "ai-agent-seo url_safety is not thread-safe by design."
         )
 
     original_getaddrinfo = socket.getaddrinfo
     target = hostname.lower()
     # A pinned address that is not public was admitted through
-    # CLAUDE_SEO_LOCAL_TARGETS, where ``host:port`` allows that port only.
+    # AI_AGENT_SEO_LOCAL_TARGETS, where ``host:port`` allows that port only.
     # Such a pin must not answer for the host's other ports, or a redirect
     # from the allowed dev server reaches every service on that address.
     port_bound = not is_safe_ip(pinned_ip)
@@ -892,7 +892,7 @@ def _pin_dns(
         _dns_patch_lock.release()
 
 
-# The browser-like default User-Agent for every raw-HTTP fetch in claude-seo.
+# The browser-like default User-Agent for every raw-HTTP fetch in ai-agent-seo.
 # ``fetch_page.py`` carries these defaults; they
 # live here now because ``url_safety`` is the lower layer, so this module is
 # the one place to change them. ``fetch_page.py`` imports them back.
@@ -1391,7 +1391,7 @@ def _cli() -> None:
     import sys
 
     parser = argparse.ArgumentParser(
-        description="Validate a URL against claude-seo's SSRF policy."
+        description="Validate a URL against ai-agent-seo's SSRF policy."
     )
     parser.add_argument("url", help="URL to validate")
     parser.add_argument(

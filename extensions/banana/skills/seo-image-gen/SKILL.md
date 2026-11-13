@@ -1,6 +1,6 @@
 ---
 name: seo-image-gen
-description: "AI image generation for SEO assets: OG/social preview images, blog hero images, schema images, product photography, infographics. Powered by Gemini via nanobanana-mcp. Requires banana extension installed. Use when the user wants an SEO asset and says \"OG image\", \"social preview\", \"hero image\", \"blog image\", \"product photo\", \"infographic\", \"seo image\", \"image-gen\", \"favicon\", \"schema image\", or \"pinterest pin\". Not for general artwork, banners, or thumbnails unrelated to SEO."
+description: "Generate SEO image assets (OG/social previews, blog heroes, product photos, infographics, schema images) with Gemini via the banana extension. Use when the user asks for an OG image, social preview, hero or blog image, or another SEO image asset; not for general artwork."
 argument-hint: "[og|hero|product|infographic|custom|batch] <description>"
 user-invocable: true
 license: MIT
@@ -83,7 +83,7 @@ For every generation request:
 
 If the user mentions a brand or has SEO presets configured:
 ```bash
-"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run --extension banana presets.py list
+"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run --extension banana presets.py list
 ```
 Load matching preset and apply as defaults. Also check `${CLAUDE_SKILL_DIR}/references/seo-image-presets.md`
 for SEO-specific preset templates.
@@ -121,7 +121,7 @@ After every successful generation, guide the user on:
 
 Image generation costs money. Be transparent:
 - Show estimated cost before generating (especially for batch)
-- Log every generation: `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run --extension banana cost_tracker.py log --model MODEL --resolution RES --prompt "brief"`
+- Log every generation: `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run --extension banana cost_tracker.py log --model MODEL --resolution RES --prompt "brief"`
 - Run `cost_tracker.py summary` if user asks about usage
 
 Pricing is not hard-coded. Check current Google pricing at
@@ -141,12 +141,12 @@ https://ai.google.dev/gemini-api/docs/pricing, store dated values in
 
 | Error | Resolution |
 |-------|-----------|
-| MCP not configured | Run `./extensions/banana/install.sh` or `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run --extension banana setup_mcp.py --key YOUR_KEY` |
+| MCP not configured | Run `./extensions/banana/install.sh` or `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run --extension banana setup_mcp.py --key YOUR_KEY` |
 | API key invalid | New key at https://aistudio.google.com/apikey |
 | Rate limited (429) | Wait 60s, retry. Check current free-tier limits before batch operations |
 | `IMAGE_SAFETY` | Rephrase prompt - see `references/prompt-adaptation-safety.md` |
-| MCP unavailable | Fall back: `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run --extension banana generate.py --prompt "..." --aspect-ratio "16:9" --model "$NANOBANANA_MODEL"` |
-| CSV batch input | Plan first: `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run --extension banana batch.py --csv requests.csv --model "$NANOBANANA_MODEL"` |
+| MCP unavailable | Fall back: `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run --extension banana generate.py --prompt "..." --aspect-ratio "16:9" --model "$NANOBANANA_MODEL"` |
+| CSV batch input | Plan first: `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run --extension banana batch.py --csv requests.csv --model "$NANOBANANA_MODEL"` |
 | Extension not installed | Show install instructions: `./extensions/banana/install.sh` |
 
 ## Cross-Skill Integration

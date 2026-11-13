@@ -1,4 +1,4 @@
-# Ai Agent SEO - Python Dependencies
+# AI Agent SEO - Python Dependencies
 # Bounded version pinning with security-conscious minimums
 # Last updated: November 10, 2026 (urllib3 2.8.0 security floor, Dependabot floor bumps)
 

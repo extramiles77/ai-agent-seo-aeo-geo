@@ -74,7 +74,7 @@
 
 **Disavow file format:**
 ```
-# Toxic domains identified by Ai Agent SEO backlink analysis
+# Toxic domains identified by AI Agent SEO backlink analysis
 # Date: YYYY-MM-DD
 # Total domains disavowed: X
 domain:spamsite1.com

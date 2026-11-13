@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Banana Image Generation Extension Installer for Ai Agent SEO
+# Banana Image Generation Extension Installer for AI Agent SEO
 # Wraps everything in main() to prevent partial execution on network failure
 
 main() {
@@ -15,17 +15,17 @@ main() {
 
     echo "════════════════════════════════════════"
     echo "║  Banana Image Gen - SEO Extension    ║"
-    echo "║  For Ai Agent SEO                      ║"
+    echo "║  For AI Agent SEO                      ║"
     echo "════════════════════════════════════════"
     echo ""
 
     # Check prerequisites
     if [ ! -d "${SEO_SKILL_DIR}" ]; then
-        echo "✗ Ai Agent SEO is not installed."
+        echo "✗ AI Agent SEO is not installed."
         echo "  Install it first by running install.sh from this checkout."
         exit 1
     fi
-    echo "✓ Ai Agent SEO detected"
+    echo "✓ AI Agent SEO detected"
 
     if ! command -v node >/dev/null 2>&1; then
         echo "✗ Node.js is required but not installed."
@@ -57,7 +57,7 @@ main() {
         SOURCE_DIR="${SCRIPT_DIR}/extensions/banana"
     else
         echo "✗ Cannot find extension source files."
-        echo "  Run this script from the claude-seo repo: ./extensions/banana/install.sh"
+        echo "  Run this script from the ai-agent-seo repo: ./extensions/banana/install.sh"
         exit 1
     fi
 
@@ -97,10 +97,10 @@ PY
         echo "→ Configuring nanobanana-mcp server..."
         # Credentials travel in the environment (never argv, never interpolated into the source string)
         # and the settings file is written atomically with 0600 permissions.
-        CLAUDE_SEO_SECRET="${GOOGLE_AI_API_KEY}" python3 - "${MCP_CONFIG_FILE}" <<'PY'
+        AI_AGENT_SEO_SECRET="${GOOGLE_AI_API_KEY}" python3 - "${MCP_CONFIG_FILE}" <<'PY'
 import json, os, sys, tempfile
 
-settings_path, api_key = sys.argv[1], os.environ["CLAUDE_SEO_SECRET"]
+settings_path, api_key = sys.argv[1], os.environ["AI_AGENT_SEO_SECRET"]
 
 if os.path.exists(settings_path):
     try:
@@ -162,10 +162,10 @@ PY
     # absolute installed path. The substitution is idempotent.
     for installed_doc in "${SKILL_DIR}/SKILL.md" "${SKILL_DIR}/references/"*.md "${AGENT_DIR}/seo-image-gen.md"; do
         [ -f "${installed_doc}" ] || continue
-        temp_doc="${installed_doc}.claude-seo-tmp"
-        sed -e 's#"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run#"$HOME/.claude/skills/seo/scripts/claude-seo" run#g' \
-            -e 's#"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" setup#"$HOME/.claude/skills/seo/scripts/claude-seo" setup#g' \
-            -e 's#"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" doctor#"$HOME/.claude/skills/seo/scripts/claude-seo" doctor#g' \
+        temp_doc="${installed_doc}.ai-agent-seo-tmp"
+        sed -e 's#"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run#"$HOME/.claude/skills/seo/scripts/ai-agent-seo" run#g' \
+            -e 's#"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" setup#"$HOME/.claude/skills/seo/scripts/ai-agent-seo" setup#g' \
+            -e 's#"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" doctor#"$HOME/.claude/skills/seo/scripts/ai-agent-seo" doctor#g' \
             "${installed_doc}" > "${temp_doc}"
         mv "${temp_doc}" "${installed_doc}"
     done

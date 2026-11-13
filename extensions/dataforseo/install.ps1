@@ -1,22 +1,22 @@
-# DataForSEO Extension Installer for Ai Agent SEO (Windows)
+# DataForSEO Extension Installer for AI Agent SEO (Windows)
 # PowerShell installation script
 
 $ErrorActionPreference = "Stop"
 
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "|   DataForSEO Extension - Installer   |" -ForegroundColor Cyan
-Write-Host "|   For Ai Agent SEO                     |" -ForegroundColor Cyan
+Write-Host "|   For AI Agent SEO                     |" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 
 # Check prerequisites
 $SeoSkillDir = "$env:USERPROFILE\.claude\skills\seo"
 if (-not (Test-Path $SeoSkillDir)) {
-    Write-Host "[X] Ai Agent SEO is not installed." -ForegroundColor Red
+    Write-Host "[X] AI Agent SEO is not installed." -ForegroundColor Red
     Write-Host "  Install it first: irm  | iex"
     exit 1
 }
-Write-Host "[OK] Ai Agent SEO detected" -ForegroundColor Green
+Write-Host "[OK] AI Agent SEO detected" -ForegroundColor Green
 
 $nodeCmd = Get-Command -Name node -ErrorAction SilentlyContinue
 if ($null -eq $nodeCmd) {
@@ -68,7 +68,7 @@ if (Test-Path "$ScriptDir\skills\seo-dataforseo\SKILL.md") {
     $SourceDir = "$ScriptDir\extensions\dataforseo"
 } else {
     Write-Host "[X] Cannot find extension source files." -ForegroundColor Red
-    Write-Host "  Run this script from the claude-seo repo."
+    Write-Host "  Run this script from the ai-agent-seo repo."
     exit 1
 }
 

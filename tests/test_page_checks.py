@@ -379,7 +379,7 @@ def test_findings_are_sorted_by_severity_and_summed():
     assert list(result)[-1] == "summary"
 
 
-def test_thresholds_are_the_documented_claude_seo_values():
+def test_thresholds_are_the_documented_ai_agent_seo_values():
     assert page_checks.THRESHOLDS["title_min_chars"] == 30
     assert page_checks.THRESHOLDS["title_max_chars"] == 60
     assert page_checks.THRESHOLDS["meta_description_max_chars"] == 160

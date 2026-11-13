@@ -131,7 +131,7 @@ Google's raters assess low-quality, scaled, copied, or AI-generated main content
 
 > **Gen-AI optimization is SEO (Google docs, published 2026-05-15, last updated 2026-07-10):** the official "optimizing for generative AI features" guide states you do **not** need new AI files, markup, Markdown, content chunking, or AI-specific rewrites; chasing inauthentic "mentions" is unhelpful. AEO/GEO is rebranded SEO rooted in core ranking/quality.
 
-> **Honest scoping (Google docs, 2026-06-05):** per "Using third-party SEO tools, services, and advice," no tool guarantees rankings and third-party tools have no access to Google's internal ranking data. claude-seo's scores are **heuristics**, not Google-internal signals, so say so in reports, and validate GEO/AEO findings against Google's official guidance (Search Console is the first-party source).
+> **Honest scoping (Google docs, 2026-06-05):** per "Using third-party SEO tools, services, and advice," no tool guarantees rankings and third-party tools have no access to Google's internal ranking data. ai-agent-seo's scores are **heuristics**, not Google-internal signals, so say so in reports, and validate GEO/AEO findings against Google's official guidance (Search Console is the first-party source).
 
 ## Draft Cleanup: AI Phrasing & Invisible Watermarks
 
@@ -139,8 +139,8 @@ For "humanize this", "remove watermarks", or "clean up this draft", run the
 bundled cleanup script on the user's own content:
 
 ```bash
-"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run content_humanize.py draft.md -o cleaned.md
-cat draft.md | "${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run content_humanize.py --json
+"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run content_humanize.py draft.md -o cleaned.md
+cat draft.md | "${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run content_humanize.py --json
 ```
 
 Two deterministic passes, both logged in the JSON output:
@@ -161,7 +161,7 @@ decline requests to strip provenance from content the user doesn't own.
 
 ## Hidden Text
 
-`"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run parse_html.py --url <url> --json` returns
+`"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run parse_html.py --url <url> --json` returns
 `hidden_text`: characters that are in the HTML but hidden by an attribute or an
 inline style. Report a high `chars` count outside `collapsed_chars` (FAQ,
 accordion and tab content, which is legitimately collapsed) as a hidden-text
@@ -207,7 +207,7 @@ Before attributing a traffic or ranking change to anything, list the confirmed
 Google updates in that window from the primary-source ledger:
 
 ```bash
-"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run seo_updates.py --since <yyyy-mm> --json
+"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run seo_updates.py --since <yyyy-mm> --json
 ```
 
 Every entry cites a Google-owned URL. If `freshness.stale` is true, say the

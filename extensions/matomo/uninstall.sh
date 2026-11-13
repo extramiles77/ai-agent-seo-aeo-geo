@@ -3,7 +3,7 @@ set -euo pipefail
 SKILL_DIR="${HOME}/.claude/skills/seo-matomo"
 AGENT_FILE="${HOME}/.claude/agents/seo-matomo.md"
 SETTINGS_JSON="${HOME}/.claude/settings.json"
-CONFIG_JSON="${HOME}/.config/claude-seo/matomo.json"
+CONFIG_JSON="${HOME}/.config/ai-agent-seo/matomo.json"
 [ -d "${SKILL_DIR}" ] && rm -rf "${SKILL_DIR}" && echo "✓ Removed ${SKILL_DIR}"
 [ -f "${AGENT_FILE}" ] && rm -f "${AGENT_FILE}" && echo "✓ Removed ${AGENT_FILE}"
 [ -f "${CONFIG_JSON}" ] && rm -f "${CONFIG_JSON}" && echo "✓ Removed ${CONFIG_JSON}"
@@ -49,5 +49,5 @@ if removed:
 PY
 fi
 
-echo "Note: CLAUDE_SEO_LOCAL_TARGETS, if you set it for a private instance,"
+echo "Note: AI_AGENT_SEO_LOCAL_TARGETS, if you set it for a private instance,"
 echo "is your own environment setting and was not touched."

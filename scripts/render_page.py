@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Shared headless renderer for claude-seo.
+Shared headless renderer for ai-agent-seo.
 
 Every subagent that fetches HTML for analysis (technical, content, schema,
 geo, local, ecommerce, hreflang, images) calls this module instead of
@@ -935,7 +935,7 @@ def _json_summary(result: dict, *, max_text: int = 0) -> dict:
 
 def _cli() -> None:
     parser = argparse.ArgumentParser(
-        description="claude-seo shared headless renderer (Playwright + trafilatura)"
+        description="ai-agent-seo shared headless renderer (Playwright + trafilatura)"
     )
     parser.add_argument("url", help="URL to render")
     parser.add_argument(

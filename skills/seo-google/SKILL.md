@@ -1,6 +1,6 @@
 ---
 name: seo-google
-description: "Google SEO APIs: Search Console (Search Analytics, URL Inspection, Sitemaps), PageSpeed Insights v5, CrUX field data with 25-week history, Indexing API v3, and GA4 organic traffic. Provides real Google field data for Core Web Vitals, indexation status, search performance, and organic traffic trends. Use when user says \"search console\", \"GSC\", \"PageSpeed\", \"CrUX\", \"field data\", \"indexing API\", \"GA4 organic\", \"URL inspection\", or \"real CWV data\"."
+description: "Google SEO APIs: Search Console (queries, URL Inspection, sitemaps), PageSpeed Insights, CrUX field data and history, Indexing API and GA4 organic traffic. Use when the user mentions Search Console/GSC, PageSpeed, CrUX, field data, URL inspection or GA4."
 user-invocable: true
 argument-hint: "[command] [url|property]"
 license: MIT
@@ -13,7 +13,7 @@ metadata:
 # Google SEO APIs
 
 Direct access to Google's own SEO data. Bridges the gap between crawl-based
-analysis (existing claude-seo skills) and Google's real-time field data: actual
+analysis (existing ai-agent-seo skills) and Google's real-time field data: actual
 Chrome user metrics, real indexation status, search performance, and organic traffic.
 
 All APIs are free. Setup requires a Google Cloud project with API key and/or
@@ -23,10 +23,10 @@ service account -- run `/seo google setup` for step-by-step instructions.
 
 Before executing any command, check credentials:
 ```bash
-"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run google_auth.py --check --json
+"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run google_auth.py --check --json
 ```
 
-Config file: `~/.config/claude-seo/google-api.json`
+Config file: `~/.config/ai-agent-seo/google-api.json`
 ```json
 {
   "service_account_path": "/path/to/service_account.json",
@@ -83,7 +83,7 @@ Always communicate the detected tier before running commands.
 
 Combined Lighthouse lab data + CrUX field data.
 
-**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run pagespeed_check.py <url> --json`
+**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run pagespeed_check.py <url> --json`
 **Reference:** `references/pagespeed-crux-api.md` (Core Web Vitals thresholds: `references/crux-history-api.md`)
 **Report the Lighthouse build** from the output's `lighthouse_version` field instead of assuming the latest release.
 **Default:** Both mobile + desktop strategies, all Lighthouse categories.
@@ -95,13 +95,13 @@ Chrome user metrics). CrUX tries URL-level first, falls back to origin-level.
 
 CrUX field data only (no Lighthouse run). Faster.
 
-**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run pagespeed_check.py <url> --crux-only --json`
+**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run pagespeed_check.py <url> --crux-only --json`
 
 ### `/seo google crux-history <url>`
 
 25-week CrUX History trends. Shows whether CWV metrics are improving, stable, or degrading.
 
-**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run crux_history.py <url> --json`
+**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run crux_history.py <url> --json`
 **Reference:** `references/crux-history-api.md`
 
 Output includes per-metric trend direction, percentage change, and weekly p75 values.
@@ -114,8 +114,8 @@ Output includes per-metric trend direction, percentage change, and weekly p75 va
 
 Search Analytics: clicks, impressions, CTR, position for last 28 days.
 
-**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run gsc_query.py --property <property> --json`
-**Site URL or host instead of a property** (every site audit): `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run gsc_query.py --domain <audited-domain> --json`
+**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run gsc_query.py --property <property> --json`
+**Site URL or host instead of a property** (every site audit): `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run gsc_query.py --domain <audited-domain> --json`
 **Which flag:** a GSC property (`sc-domain:example.com`, or a URL-prefix property the user named as such) goes to `--property`; a site URL or host goes to `--domain`, which looks up that site's property and refuses another site's. Never pass a property to `--domain` or leave either flag empty. With neither flag the script names the default property on stderr, or exits if a `sites` mapping is configured (`references/auth-setup.md`).
 **Reference:** `references/search-console-api.md`
 **Default:** 28 days, dimensions=query,page, type=web, limit=1000.
@@ -146,7 +146,7 @@ dimension rows, not the size of every pagination request.
 
 URL Inspection: real indexation status from Google.
 
-**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run gsc_inspect.py <url> --domain <audited-domain> --json`
+**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run gsc_inspect.py <url> --domain <audited-domain> --json`
 
 Returns: verdict (PASS/FAIL), coverage state, robots.txt status, indexing state,
 page fetch state, canonical selection, rich results. (`mobileUsabilityResult` is deprecated
@@ -156,7 +156,7 @@ in the API; do not report it as a mobile-usability check.)
 
 Batch inspection from a file (one URL per line). Rate limited to 2,000/day per site.
 
-**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run gsc_inspect.py --batch <file> --domain <audited-domain> --json`
+**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run gsc_inspect.py --batch <file> --domain <audited-domain> --json`
 
 ### `/seo google sitemaps <property>`
 
@@ -164,8 +164,8 @@ List submitted sitemaps with status, errors, warnings. Sitemap contents report
 submitted counts only; URL Inspection API is the indexation truth for whether
 specific URLs are indexed.
 
-**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run gsc_query.py sitemaps --property <property> --json`
-**Site URL or host instead of a property:** `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run gsc_query.py sitemaps --domain <audited-domain> --json`
+**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run gsc_query.py sitemaps --property <property> --json`
+**Site URL or host instead of a property:** `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run gsc_query.py sitemaps --domain <audited-domain> --json`
 
 ---
 
@@ -175,7 +175,7 @@ specific URLs are indexed.
 
 Notify Google of a URL update.
 
-**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run indexing_notify.py <url> --json`
+**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run indexing_notify.py <url> --json`
 **Reference:** `references/indexing-api.md`
 
 The Indexing API is officially for JobPosting and BroadcastEvent/VideoObject pages.
@@ -185,7 +185,7 @@ Always inform the user of this restriction. Daily quota: 200 publish requests.
 
 Batch submit URLs from a file. Tracks quota usage.
 
-**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run indexing_notify.py --batch <file> --json`
+**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run indexing_notify.py --batch <file> --json`
 
 ---
 
@@ -195,8 +195,8 @@ Batch submit URLs from a file. Tracks quota usage.
 
 Organic traffic report: daily sessions, users, pageviews, bounce rate, engagement.
 
-**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run ga4_report.py --property <property-id> --json`
-**Site URL or host, or no property ID given** (every site audit): `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run ga4_report.py --domain <audited-domain> --json`
+**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run ga4_report.py --property <property-id> --json`
+**Site URL or host, or no property ID given** (every site audit): `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run ga4_report.py --domain <audited-domain> --json`
 **Which flag:** a numeric GA4 property ID goes to `--property`; a site URL or host goes to `--domain`. Same rules as `gsc` above.
 **Reference:** `references/ga4-data-api.md`
 **Default:** 28 days, filtered to Organic Search channel group.
@@ -207,8 +207,8 @@ Organic traffic report: daily sessions, users, pageviews, bounce rate, engagemen
 
 Top organic landing pages ranked by sessions.
 
-**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run ga4_report.py --property <property-id> --report top-pages --json`
-**Site URL or host, or no property ID given:** `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run ga4_report.py --domain <audited-domain> --report top-pages --json`
+**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run ga4_report.py --property <property-id> --report top-pages --json`
+**Site URL or host, or no property ID given:** `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run ga4_report.py --domain <audited-domain> --report top-pages --json`
 
 ---
 
@@ -220,7 +220,7 @@ Some third-party studies report a 0.737 correlation between YouTube mentions and
 
 Search YouTube for videos. Returns title, channel, views, likes, duration.
 
-**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run youtube_search.py search "<query>" --json`
+**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run youtube_search.py search "<query>" --json`
 **Reference:** `references/youtube-api.md`
 **Quota:** 100 units per search (10,000 units/day free).
 
@@ -228,7 +228,7 @@ Search YouTube for videos. Returns title, channel, views, likes, duration.
 
 Detailed video info + tags + top 10 comments.
 
-**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run youtube_search.py video <video_id> --json`
+**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run youtube_search.py video <video_id> --json`
 **Quota:** 2 units (video details + comments).
 
 ---
@@ -241,7 +241,7 @@ Google NLP entity/sentiment output for internal content-quality checks. Do not t
 
 Full NLP analysis: entities, sentiment, content classification.
 
-**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run nlp_analyze.py --url <url> --json` or `--text "..."`
+**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run nlp_analyze.py --url <url> --json` or `--text "..."`
 **Reference:** `references/nlp-api.md`
 **Language:** auto-detected by default; add `--language <code>` (BCP-47, e.g. `pt-BR`) only to override the detection. The JSON `language` field reports the code used.
 **Free tier:** 5,000 units/month. Requires billing enabled on GCP project.
@@ -250,7 +250,7 @@ Full NLP analysis: entities, sentiment, content classification.
 
 Entity extraction only (faster, less quota).
 
-**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run nlp_analyze.py --url <url> --features entities --json`
+**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run nlp_analyze.py --url <url> --features entities --json`
 
 ---
 
@@ -262,7 +262,7 @@ Gold-standard keyword volume data. Requires Google Ads account.
 
 Generate keyword ideas from seed terms.
 
-**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run keyword_planner.py ideas "<seed>" --json`
+**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run keyword_planner.py ideas "<seed>" --json`
 **Reference:** `references/keyword-planner-api.md`
 **Requires:** Ads developer token + customer ID in config (Tier 3).
 
@@ -270,7 +270,7 @@ Generate keyword ideas from seed terms.
 
 Search volume for specific keywords (comma-separated).
 
-**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run keyword_planner.py volume "<kw1>,<kw2>" --json`
+**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run keyword_planner.py volume "<kw1>,<kw2>" --json`
 
 ---
 
@@ -303,7 +303,7 @@ After any analysis command, offer to generate a PDF/HTML report.
 
 Generate a professional PDF report with charts and analytics.
 
-**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run google_report.py --type <type> --data <json> --domain <domain> --format pdf`
+**Script:** `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run google_report.py --type <type> --data <json> --domain <domain> --format pdf`
 
 | Type | Input | Output |
 |------|-------|--------|
@@ -314,8 +314,8 @@ Generate a professional PDF report with charts and analytics.
 
 **Workflow:**
 1. Run data collection commands (pagespeed, gsc, inspect-batch, etc.)
-2. Save JSON output to file: `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run pagespeed_check.py <url> --json > data.json`
-3. Generate report: `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run google_report.py --type cwv-audit --data data.json --domain <domain>`
+2. Save JSON output to file: `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run pagespeed_check.py <url> --json > data.json`
+3. Generate report: `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run google_report.py --type cwv-audit --data data.json --domain <domain>`
 
 **Convention:** After completing analysis, suggest: "Generate a report? Use `/seo google report <type>`"
 

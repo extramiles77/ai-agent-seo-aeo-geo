@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Ai Agent SEO: SE Ranking extension installer.
+# AI Agent SEO: SE Ranking extension installer.
 #
 # SE Ranking's strength for v2: AI Share-of-Voice tracking across
 # ChatGPT, Gemini, Perplexity, AI Overviews, and AI Mode. The gap
@@ -14,13 +14,13 @@ main() {
     SETTINGS_JSON="${HOME}/.claude/settings.json"
 
     echo "════════════════════════════════════════"
-    echo "║ Ai Agent SEO: SE Ranking extension     ║"
+    echo "║ AI Agent SEO: SE Ranking extension     ║"
     echo "════════════════════════════════════════"
 
     command -v python3 >/dev/null 2>&1 || { echo "✗ Python 3 required."; exit 1; }
 
     if [ ! -d "${SKILL_DIR}/seo" ]; then
-        echo "✗ claude-seo base plugin not installed."
+        echo "✗ ai-agent-seo base plugin not installed."
         exit 1
     fi
 
@@ -35,9 +35,9 @@ main() {
     echo "✓ Installed skill: ${SKILL_DIR}/seo-seranking/SKILL.md"
 
     mkdir -p "$(dirname "${SETTINGS_JSON}")"
-    CLAUDE_SEO_SECRET="${SR_KEY}" python3 - "${SETTINGS_JSON}" <<'PY'
+    AI_AGENT_SEO_SECRET="${SR_KEY}" python3 - "${SETTINGS_JSON}" <<'PY'
 import json, os, sys, tempfile
-path, key = sys.argv[1], os.environ["CLAUDE_SEO_SECRET"]
+path, key = sys.argv[1], os.environ["AI_AGENT_SEO_SECRET"]
 data = {}
 if os.path.exists(path):
     try: data = json.load(open(path))

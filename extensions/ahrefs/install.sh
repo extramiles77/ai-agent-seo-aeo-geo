@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Ai Agent SEO: Ahrefs extension installer.
+# AI Agent SEO: Ahrefs extension installer.
 #
 # Wires the official @ahrefs/mcp server into ~/.claude.json and
 # copies the seo-ahrefs mirror skill into ~/.claude/skills/.
@@ -15,7 +15,7 @@ main() {
     MCP_CONFIG_JSON="${HOME}/.claude.json"
 
     echo "════════════════════════════════════════"
-    echo "║   Ai Agent SEO: Ahrefs extension       ║"
+    echo "║   AI Agent SEO: Ahrefs extension       ║"
     echo "════════════════════════════════════════"
 
     command -v python3 >/dev/null 2>&1 || {
@@ -26,7 +26,7 @@ main() {
     }
 
     if [ ! -d "${SKILL_DIR}/seo" ]; then
-        echo "✗ claude-seo base plugin not installed."
+        echo "✗ ai-agent-seo base plugin not installed."
         echo "  Install it first by running install.sh from this checkout."
         exit 1
     fi
@@ -51,7 +51,7 @@ main() {
 
     # Merge MCP config into ~/.claude.json atomically.
     mkdir -p "$(dirname "${MCP_CONFIG_JSON}")"
-    CLAUDE_SEO_SECRET="${AHREFS_TOKEN}" python3 - "${MCP_CONFIG_JSON}" <<'PY'
+    AI_AGENT_SEO_SECRET="${AHREFS_TOKEN}" python3 - "${MCP_CONFIG_JSON}" <<'PY'
 import json
 import os
 import sys
@@ -59,7 +59,7 @@ import tempfile
 
 # The token arrives in the environment, not argv: argv is visible to other
 # local users through ps, the environment is not.
-path, token = sys.argv[1], os.environ["CLAUDE_SEO_SECRET"]
+path, token = sys.argv[1], os.environ["AI_AGENT_SEO_SECRET"]
 data = {}
 if os.path.exists(path):
     try:

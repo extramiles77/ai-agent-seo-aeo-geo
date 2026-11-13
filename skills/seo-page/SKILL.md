@@ -17,14 +17,14 @@ metadata:
 Run this first. It does the mechanical on-page checks in code, so they are
 repeatable and you do not recount them from the HTML by hand:
 
-`"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run page_checks.py --url <url>`
+`"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run page_checks.py --url <url>`
 
 For saved HTML (no network request; `--headers-json` is optional):
 
-`"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run page_checks.py --file page.html --base-url <url> --headers-json headers.json`
+`"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run page_checks.py --file page.html --base-url <url> --headers-json headers.json`
 
 For a JavaScript-rendered page, save the rendered HTML first with
-`"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run fetch_page.py <url> --render auto --output page.html`,
+`"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run fetch_page.py <url> --render auto --output page.html`,
 then use `--file`.
 
 The JSON holds `facts` (lengths and counts), `findings` (each with a stable
@@ -79,7 +79,7 @@ finding id for an item, use its result; the rest still needs your own analysis.
 - Title tag: 30-60 characters (see quality-gates.md), includes primary keyword, unique
 - Meta description: 120-160 characters (see quality-gates.md), compelling, includes keyword
 - Meta description is not a restatement of the title: run
-  `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run metadata_template.py --title "<title>" --description "<desc>" --json`
+  `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run metadata_template.py --title "<title>" --description "<desc>" --json`
   (heuristic, deterministic string comparison). A description that opens by
   repeating its own title and closes on a stock CTA ("Try it free now.",
   "Start free!") is templated metadata, the shape bulk generation jobs produce
@@ -116,7 +116,7 @@ finding id for an item, use its result; the rest still needs your own analysis.
 - File size: flag >200KB (warning), >500KB (critical)
 - Format: recommend WebP/AVIF over JPEG/PNG, judged by the format actually served, not the URL extension
   (a `.jpg` URL often serves WebP). Run
-  `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run parse_html.py --url <url> --probe-images --json` and read
+  `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run parse_html.py --url <url> --probe-images --json` and read
   `served_format` / `served_bytes` per image; see `seo-images` for the rules
 - Dimensions: width/height set for CLS prevention
 - Lazy loading: report `lazy_method` per image (native | perfmatters | ewww | js-generic | none). Do not flag "not lazy-loaded" when JS lazy-loaders (Perfmatters, EWWW, lazysizes) are detected, they intentionally strip the native `loading="lazy"` attribute and use `data-src` placeholders

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Google API credential management for Ai Agent SEO.
+Google API credential management for AI Agent SEO.
 
 Loads and validates credentials for Google Search Console, PageSpeed Insights,
 CrUX, Indexing API, and GA4. Supports service accounts, OAuth web credentials
@@ -27,8 +27,8 @@ import sys
 import time
 from typing import Optional
 
-CONFIG_PATH = os.path.expanduser("~/.config/claude-seo/google-api.json")
-TOKEN_PATH = os.path.expanduser("~/.config/claude-seo/oauth-token.json")
+CONFIG_PATH = os.path.expanduser("~/.config/ai-agent-seo/google-api.json")
+TOKEN_PATH = os.path.expanduser("~/.config/ai-agent-seo/oauth-token.json")
 
 # Service-to-scope mapping
 SCOPES = {
@@ -104,7 +104,7 @@ def load_config() -> dict:
     """
     Load configuration from config file with environment variable fallbacks.
 
-    Reads ~/.config/claude-seo/google-api.json first. Any missing fields
+    Reads ~/.config/ai-agent-seo/google-api.json first. Any missing fields
     are filled from environment variables.
 
     Returns:
@@ -213,9 +213,9 @@ def _load_gcloud_adc() -> Optional[dict]:
 
 
 def _prefers_gcloud() -> bool:
-    """CLAUDE_SEO_GOOGLE_AUTH=adc picks the gcloud sign-in even when a service
+    """AI_AGENT_SEO_GOOGLE_AUTH=adc picks the gcloud sign-in even when a service
     account is configured (which may not have access to every property)."""
-    return os.environ.get("CLAUDE_SEO_GOOGLE_AUTH", "").strip().lower() in ("adc", "gcloud")
+    return os.environ.get("AI_AGENT_SEO_GOOGLE_AUTH", "").strip().lower() in ("adc", "gcloud")
 
 
 def get_gcloud_credentials(scopes: list):
@@ -820,7 +820,7 @@ def check_credentials(service: str) -> dict:
         # Check OAuth token first
         token_data = _load_oauth_token()
         if _prefers_gcloud() and _load_gcloud_adc() is not None:
-            # Chosen with CLAUDE_SEO_GOOGLE_AUTH=adc: used first, so reported first.
+            # Chosen with AI_AGENT_SEO_GOOGLE_AUTH=adc: used first, so reported first.
             result["available"] = True
             result["method"] = "gcloud_adc"
             result["account"] = _load_gcloud_adc().get("account")
@@ -978,7 +978,7 @@ Google SEO API Setup Instructions
 FASTEST, FOR PROPERTIES YOU OWN: use your own Google account
    gcloud auth application-default login \\
      --scopes=https://www.googleapis.com/auth/webmasters.readonly,https://www.googleapis.com/auth/cloud-platform
-   Then set CLAUDE_SEO_GOOGLE_AUTH=adc (needed only if a service account is
+   Then set AI_AGENT_SEO_GOOGLE_AUTH=adc (needed only if a service account is
    also configured). Add an API key (step 3) for PageSpeed and CrUX.
 
 1. CREATE A GOOGLE CLOUD PROJECT
@@ -1009,8 +1009,8 @@ FASTEST, FOR PROPERTIES YOU OWN: use your own Google account
      Paste email, set Viewer role
 
 6. CREATE CONFIG FILE
-   mkdir -p ~/.config/claude-seo
-   Save to ~/.config/claude-seo/google-api.json:
+   mkdir -p ~/.config/ai-agent-seo
+   Save to ~/.config/ai-agent-seo/google-api.json:
 
    {
      "service_account_path": "/path/to/service_account.json",
@@ -1032,7 +1032,7 @@ ENVIRONMENT VARIABLE ALTERNATIVES:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Google API credential management for Ai Agent SEO"
+        description="Google API credential management for AI Agent SEO"
     )
     parser.add_argument(
         "--check",

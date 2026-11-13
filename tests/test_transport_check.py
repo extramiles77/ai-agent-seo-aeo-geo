@@ -122,7 +122,7 @@ class Net:
 
 @pytest.fixture
 def net(monkeypatch) -> Net:
-    for name in (*tc.PROXY_ENV_VARS, "CLAUDE_SEO_LOCAL_TARGETS"):
+    for name in (*tc.PROXY_ENV_VARS, "AI_AGENT_SEO_LOCAL_TARGETS"):
         monkeypatch.delenv(name, raising=False)
     state = Net()
 

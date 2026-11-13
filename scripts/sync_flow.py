@@ -18,8 +18,8 @@ import urllib.request
 
 # No upstream is hardcoded: point this at the contents API of the FLOW mirror
 # you are allowed to sync from, for example
-#   export CLAUDE_SEO_FLOW_API_ROOT=https://api.github.com/repos/<owner>/<repo>/contents
-API_ROOT = os.environ.get("CLAUDE_SEO_FLOW_API_ROOT", "").rstrip("/")
+#   export AI_AGENT_SEO_FLOW_API_ROOT=https://api.github.com/repos/<owner>/<repo>/contents
+API_ROOT = os.environ.get("AI_AGENT_SEO_FLOW_API_ROOT", "").rstrip("/")
 _ALLOWED_HOST = "api.github.com"
 _SIZE_LIMIT = 5 * 1024 * 1024  # 5 MB
 
@@ -121,7 +121,7 @@ def _authed_headers():
 def content_url(path, ref):
     if not API_ROOT:
         raise SystemExit(
-            "CLAUDE_SEO_FLOW_API_ROOT is not set. Point it at the api.github.com "
+            "AI_AGENT_SEO_FLOW_API_ROOT is not set. Point it at the api.github.com "
             "contents URL of the FLOW mirror to sync from."
         )
     return f"{API_ROOT}/{path}" + (f"?ref={ref}" if ref else "")

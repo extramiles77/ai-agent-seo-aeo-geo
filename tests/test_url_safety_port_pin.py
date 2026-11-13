@@ -1,5 +1,5 @@
 """
-Port-bound DNS pin for CLAUDE_SEO_LOCAL_TARGETS (scripts/url_safety.py).
+Port-bound DNS pin for AI_AGENT_SEO_LOCAL_TARGETS (scripts/url_safety.py).
 
 A ``host:port`` allowlist entry admits that port only. These tests drive the
 real ``requests`` and ``urllib3`` stack through ``safe_requests_get`` with
@@ -100,7 +100,7 @@ class _FakeSocket:
 @pytest.fixture(autouse=True)
 def _isolated(monkeypatch):
     """No developer allowlist, no developer proxy."""
-    monkeypatch.delenv("CLAUDE_SEO_LOCAL_TARGETS", raising=False)
+    monkeypatch.delenv("AI_AGENT_SEO_LOCAL_TARGETS", raising=False)
     monkeypatch.setattr(url_safety.requests.utils, "getproxies", lambda: {})
 
 
@@ -116,7 +116,7 @@ def _get(url: str, net: _FakeNet):
 
 
 def test_allowed_local_target_still_fetches(monkeypatch) -> None:
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "localhost:3000")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "localhost:3000")
     net = _FakeNet({"localhost": "127.0.0.1"}, {("127.0.0.1", 3000): _ok("dev server")})
 
     response = _get("http://localhost:3000/", net)
@@ -131,7 +131,7 @@ def test_pin_on_a_non_public_address_answers_for_the_validated_port(
     monkeypatch, requested_port
 ) -> None:
     """A lookup that names no port gets the validated one, as before."""
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "localhost:3000")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "localhost:3000")
     with url_safety._pin_dns("localhost", "127.0.0.1", 3000):
         sockaddr = socket.getaddrinfo("localhost", requested_port)[0][4]
     assert sockaddr == ("127.0.0.1", requested_port or 3000)
@@ -174,7 +174,7 @@ def test_redirect_to_another_port_on_an_allowed_local_host_is_refused(
     monkeypatch, allowlist, start, hosts, first, location
 ) -> None:
     """``host:port`` allows that port only, on every hop."""
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", allowlist)
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", allowlist)
     servers = {first: _redirect(location)}
     # Every other port on the address answers, so only the pin can stop it.
     for port in (80, 6379, 9200):
@@ -188,7 +188,7 @@ def test_redirect_to_another_port_on_an_allowed_local_host_is_refused(
 
 
 def test_session_cannot_reach_another_port_on_an_allowed_local_host(monkeypatch) -> None:
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "localhost:3000")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "localhost:3000")
     net = _FakeNet(
         {"localhost": "127.0.0.1"},
         {("127.0.0.1", 3000): _ok("dev server"), ("127.0.0.1", 6379): _ok("internal service")},
@@ -205,7 +205,7 @@ def test_session_cannot_reach_another_port_on_an_allowed_local_host(monkeypatch)
 
 def test_redirect_to_a_port_the_allowlist_also_names_is_followed(monkeypatch) -> None:
     """The other port is checked as a new target, and the operator named it."""
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "localhost:3000,localhost:3001")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "localhost:3000,localhost:3001")
     net = _FakeNet(
         {"localhost": "127.0.0.1"},
         {
@@ -227,7 +227,7 @@ def test_redirect_to_a_port_the_allowlist_also_names_is_followed(monkeypatch) ->
 
 def test_bare_host_entry_still_matches_any_port_on_redirect(monkeypatch) -> None:
     """A bare ``host`` entry matches any port, so its redirects keep working."""
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "100.101.102.103")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "100.101.102.103")
     net = _FakeNet(
         {},
         {
@@ -244,7 +244,7 @@ def test_bare_host_entry_still_matches_any_port_on_redirect(monkeypatch) -> None
 def test_pin_on_a_non_public_address_answers_for_the_validated_port_only(
     monkeypatch, requested_port
 ) -> None:
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "localhost:3000")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "localhost:3000")
     with url_safety._pin_dns("localhost", "127.0.0.1", 3000):
         with pytest.raises(socket.gaierror, match="validated port is 3000"):
             socket.getaddrinfo("localhost", requested_port)
@@ -302,7 +302,7 @@ def test_pin_on_a_public_address_answers_for_any_port(requested_port) -> None:
 
 
 def test_public_pin_never_consults_the_allowlist(monkeypatch) -> None:
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "example.com:80")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "example.com:80")
     with patch.object(
         url_safety, "_is_allowlisted_local_target", side_effect=AssertionError("consulted")
     ):
@@ -325,7 +325,7 @@ def test_without_local_targets_local_hosts_are_refused_before_any_connection() -
 def test_public_host_redirecting_to_a_local_port_is_refused(monkeypatch, allowlist) -> None:
     """The allowlist never applies to a redirect target on another host."""
     if allowlist:
-        monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", allowlist)
+        monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", allowlist)
     net = _FakeNet(
         {"example.com": PUBLIC_IP, "localhost": "127.0.0.1"},
         {

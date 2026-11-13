@@ -1,4 +1,4 @@
-# Ai Agent SEO - Ahrefs extension installer (Windows / PowerShell).
+# AI Agent SEO - Ahrefs extension installer (Windows / PowerShell).
 # Mirrors extensions/ahrefs/install.sh.
 [CmdletBinding()]
 param()
@@ -19,7 +19,7 @@ $SkillDir = Join-Path $HOME ".claude/skills"
 $McpConfigJson = Join-Path $HOME ".claude.json"
 
 if (-not (Test-Path (Join-Path $SkillDir "seo"))) {
-    throw "claude-seo base plugin not installed."
+    throw "ai-agent-seo base plugin not installed."
 }
 
 $Token = Read-Host "Ahrefs API token" -AsSecureString

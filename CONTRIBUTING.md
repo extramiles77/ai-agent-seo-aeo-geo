@@ -1,4 +1,4 @@
-# Contributing to Ai Agent SEO
+# Contributing to AI Agent SEO
 
 Thanks for your interest in contributing! Here's how to get involved.
 
@@ -66,7 +66,7 @@ install chromium`). No additional setup needed for either.
 
 ## Community Extensions (Pro Hub Challenge)
 
-Ai Agent SEO accepts community-built extensions through PRs.
+AI Agent SEO accepts community-built extensions through PRs.
 
 To submit a community extension:
 1. Build your skill/agent/script following the patterns in this repo

@@ -196,10 +196,10 @@ def check_runtime_invocations(texts):
         r"\b(?:python3|python|py\s+-3)\s+[^\n`]*?scripts/[A-Za-z0-9_./-]+\.py"
     )
     raw_path = re.compile(r"(?<![\w/])scripts/([A-Za-z0-9_]+\.py)\b")
-    # The canonical form is "${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run <script>,
+    # The canonical form is "${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run <script>,
     # so the closing quote may sit between the launcher name and the subcommand.
     runtime = re.compile(
-        r"claude-seo[\"']?\s+run(?:\s+--extension\s+[a-z0-9-]+)?\s+([A-Za-z0-9_-]+\.py)"
+        r"ai-agent-seo[\"']?\s+run(?:\s+--extension\s+[a-z0-9-]+)?\s+([A-Za-z0-9_-]+\.py)"
     )
     for f in carriers:
         content = read(f)
@@ -208,7 +208,7 @@ def check_runtime_invocations(texts):
         for script in sorted(set(raw_path.findall(content))):
             errors.append(
                 f"{f}: unsupported raw script path scripts/{script}; "
-                f'use "${{CLAUDE_PLUGIN_ROOT}}/scripts/claude-seo" run {script}'
+                f'use "${{CLAUDE_PLUGIN_ROOT}}/scripts/ai-agent-seo" run {script}'
             )
         for script in sorted(set(runtime.findall(content))):
             if not os.path.isfile(os.path.join(REPO, "scripts", script)) and not any(

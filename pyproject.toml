@@ -1,5 +1,5 @@
 [project]
-name = "claude-seo"
+name = "ai-agent-seo"
 version = "3.0.0"
 description = "Comprehensive SEO analysis skill for Claude Code"
 requires-python = ">=3.11"
@@ -10,6 +10,11 @@ authors = [
 ]
 keywords = ["seo", "claude-code", "ai-tools", "schema-markup", "e-e-a-t", "geo"]
 
+
+[project.urls]
+Homepage = "https://github.com/extramiles77/ai-agent-seo"
+Repository = "https://github.com/extramiles77/ai-agent-seo"
+Issues = "https://github.com/extramiles77/ai-agent-seo/issues"
 
 [tool.ruff]
 target-version = "py311"

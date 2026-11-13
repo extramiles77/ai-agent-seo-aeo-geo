@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Ai Agent SEO: Bing Webmaster + IndexNow extension installer.
+# AI Agent SEO: Bing Webmaster + IndexNow extension installer.
 #
 # Wires the existing scripts/bing_webmaster.py and indexnow_submit.py into
 # a discoverable seo-bing skill and stores the Bing Webmaster Tools API
@@ -14,11 +14,11 @@ main() {
     SETTINGS_JSON="${HOME}/.claude/settings.json"
 
     echo "════════════════════════════════════════"
-    echo "║ Ai Agent SEO: Bing Webmaster + IndexNow ║"
+    echo "║ AI Agent SEO: Bing Webmaster + IndexNow ║"
     echo "════════════════════════════════════════"
 
     command -v python3 >/dev/null 2>&1 || { echo "✗ Python 3 required."; exit 1; }
-    [ ! -d "${SKILL_DIR}/seo" ] && { echo "✗ claude-seo base not installed."; exit 1; }
+    [ ! -d "${SKILL_DIR}/seo" ] && { echo "✗ ai-agent-seo base not installed."; exit 1; }
 
     SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" >/dev/null 2>&1 && pwd)"
 
@@ -34,12 +34,12 @@ main() {
     mkdir -p "${SKILL_DIR}/seo-bing"
     cp "${SOURCE_DIR}/skills/seo-bing/SKILL.md" "${SKILL_DIR}/seo-bing/SKILL.md"
 
-    CLAUDE_SEO_SECRET="${BING_KEY}" CLAUDE_SEO_INDEXNOW_KEY="${INDEXNOW_KEY}" python3 - "${SETTINGS_JSON}" "${INDEXNOW_LOC}" <<'PY'
+    AI_AGENT_SEO_SECRET="${BING_KEY}" AI_AGENT_SEO_INDEXNOW_KEY="${INDEXNOW_KEY}" python3 - "${SETTINGS_JSON}" "${INDEXNOW_LOC}" <<'PY'
 import json, os, sys, tempfile
 path = sys.argv[1]
 idx_loc = sys.argv[2] if len(sys.argv) > 2 else ""
-bing = os.environ.get("CLAUDE_SEO_SECRET", "")
-idx_key = os.environ.get("CLAUDE_SEO_INDEXNOW_KEY", "")
+bing = os.environ.get("AI_AGENT_SEO_SECRET", "")
+idx_key = os.environ.get("AI_AGENT_SEO_INDEXNOW_KEY", "")
 data = {}
 if os.path.exists(path):
     try: data = json.load(open(path))
@@ -56,8 +56,8 @@ PY
 
     echo
     echo "Done. Verify your IndexNow key is published (manual install path shown;"
-    echo "plugin installs use \"\${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo\" instead):"
-    echo "  \"\$HOME/.claude/skills/seo/scripts/claude-seo\" run indexnow_submit.py --host example.com \\"
+    echo "plugin installs use \"\${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo\" instead):"
+    echo "  \"\$HOME/.claude/skills/seo/scripts/ai-agent-seo\" run indexnow_submit.py --host example.com \\"
     echo "    --key \$INDEXNOW_KEY --key-location \$INDEXNOW_KEY_LOCATION --verify-only"
 }
 main "$@"

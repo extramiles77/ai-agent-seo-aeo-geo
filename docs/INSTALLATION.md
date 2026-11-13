@@ -30,7 +30,7 @@ repository, and it never falls back to global or user package installation.
 3. **Verify the managed runtime**
 
 ```bash
-~/.claude/skills/seo/scripts/claude-seo doctor
+~/.claude/skills/seo/scripts/ai-agent-seo doctor
 ```
 
 `/seo setup` provisions dependencies and Chromium into
@@ -46,7 +46,7 @@ The installer copies files to:
 | Main skill | `~/.claude/skills/seo/` |
 | Sub-skills | `~/.claude/skills/seo-*/` |
 | Subagents | `~/.claude/agents/seo-*.md` |
-| Runtime launcher | `~/.claude/skills/seo/scripts/claude-seo` |
+| Runtime launcher | `~/.claude/skills/seo/scripts/ai-agent-seo` |
 | Isolated Python | `~/.claude/skills/seo/.venv/` |
 
 ## Other AI Agents (Codex, Gemini CLI, Cursor, OpenCode, Copilot, Antigravity, Windsurf)
@@ -68,7 +68,7 @@ bash install.sh --target agents --dry-run   # preview only
 ```
 
 Windows PowerShell: `.\install.ps1 -Target agents` (or `-List`). In
-PowerShell-based harnesses the skills call `scripts\claude-seo.cmd`.
+PowerShell-based harnesses the skills call `scripts\ai-agent-seo.cmd`.
 
 Notes:
 
@@ -78,7 +78,7 @@ Notes:
   or approve the commands when asked.
 - OpenCode, Cursor and Copilot also read `~/.claude/skills`. Installing both
   `claude` and `agents` is fine; both copies are identical.
-- Uninstall: `./scripts/claude-seo uninstall --target agents`.
+- Uninstall: `./scripts/ai-agent-seo uninstall --target agents`.
 
 ## Verify Installation
 
@@ -124,6 +124,18 @@ bash uninstall.sh
 bash install.sh
 ```
 
+### Upgrading from claude-seo
+
+The project is now named AI Agent SEO (`ai-agent-seo`). Old settings keep
+working:
+
+| Before | Now | Compatibility |
+|---|---|---|
+| `scripts/claude-seo` launcher | `scripts/ai-agent-seo` | Reinstall; the installer rewrites every skill to the new launcher |
+| `CLAUDE_SEO_*` variables (`CLAUDE_SEO_PYTHON`, `CLAUDE_SEO_LOCAL_TARGETS`, ...) | `AI_AGENT_SEO_*` | Old names are still read when the new one is unset |
+| `~/.config/claude-seo/`, `~/.cache/claude-seo/` | `~/.config/ai-agent-seo/`, `~/.cache/ai-agent-seo/` | Copied once on the first script run if the new folder does not exist; the old folder is left in place |
+| Plugin `claude-seo` | Plugin `ai-agent-seo` | Uninstall the old plugin, then install the new one |
+
 ## Troubleshooting
 
 ### "Skill not found" error
@@ -141,7 +153,7 @@ If the file doesn't exist, re-run the installer.
 Run the managed setup again:
 
 ```bash
-~/.claude/skills/seo/scripts/claude-seo setup
+~/.claude/skills/seo/scripts/ai-agent-seo setup
 ```
 
 ### Playwright screenshot errors
@@ -149,8 +161,8 @@ Run the managed setup again:
 Run the managed setup again and inspect the result:
 
 ```bash
-~/.claude/skills/seo/scripts/claude-seo setup
-~/.claude/skills/seo/scripts/claude-seo doctor
+~/.claude/skills/seo/scripts/ai-agent-seo setup
+~/.claude/skills/seo/scripts/ai-agent-seo doctor
 ```
 
 ### Permission errors on Unix

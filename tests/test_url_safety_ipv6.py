@@ -53,7 +53,7 @@ def _resolver(records: dict, families: list | None = None):
 @pytest.fixture(autouse=True)
 def _isolated(monkeypatch):
     """No developer allowlist, no developer proxy."""
-    monkeypatch.delenv("CLAUDE_SEO_LOCAL_TARGETS", raising=False)
+    monkeypatch.delenv("AI_AGENT_SEO_LOCAL_TARGETS", raising=False)
     monkeypatch.setattr(url_safety.requests.utils, "getproxies", lambda: {})
 
 
@@ -418,12 +418,12 @@ def test_strict_reports_a_host_with_no_records() -> None:
 
 
 # ---------------------------------------------------------------------------
-# CLAUDE_SEO_LOCAL_TARGETS with IPv6
+# AI_AGENT_SEO_LOCAL_TARGETS with IPv6
 # ---------------------------------------------------------------------------
 
 
 def test_allowlisted_ipv6_loopback_literal_is_pinned_as_ipv6(monkeypatch) -> None:
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "[::1]:3000")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "[::1]:3000")
     assert url_safety.validate_url_strict("http://[::1]:3000/") == (
         "http://[::1]:3000/",
         "::1",
@@ -433,14 +433,14 @@ def test_allowlisted_ipv6_loopback_literal_is_pinned_as_ipv6(monkeypatch) -> Non
 
 
 def test_allowlisted_localhost_with_both_families_still_pins_ipv4(monkeypatch) -> None:
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "localhost:3000")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "localhost:3000")
     resolver = _resolver({"localhost": ["::1", "127.0.0.1"]})
     with patch.object(url_safety.socket, "getaddrinfo", side_effect=resolver):
         assert url_safety.validate_url_strict("http://localhost:3000/")[1] == "127.0.0.1"
 
 
 def test_allowlisted_name_may_resolve_to_unique_local_ipv6(monkeypatch) -> None:
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "staging.internal:8080")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "staging.internal:8080")
     resolver = _resolver({"staging.internal": ["fd00::5"]})
     with patch.object(url_safety.socket, "getaddrinfo", side_effect=resolver):
         assert url_safety.validate_url_strict("http://staging.internal:8080/")[1] == "fd00::5"
@@ -452,7 +452,7 @@ def test_allowlisted_name_may_resolve_to_unique_local_ipv6(monkeypatch) -> None:
 def test_allowlist_never_admits_these_ipv6_addresses(monkeypatch, address) -> None:
     """Link-local, metadata, multicast, unspecified, zoned and NAT64 answers
     stay refused for a listed name, exactly as 169.254.169.254 does."""
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "staging.internal:8080")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "staging.internal:8080")
     resolver = _resolver({"staging.internal": [address]})
     with patch.object(url_safety.socket, "getaddrinfo", side_effect=resolver):
         with pytest.raises(url_safety.URLSafetyError, match="DNS rebinding refused"):
@@ -460,7 +460,7 @@ def test_allowlist_never_admits_these_ipv6_addresses(monkeypatch, address) -> No
 
 
 def test_allowlist_does_not_forgive_an_unsafe_aaaa_on_an_unlisted_host(monkeypatch) -> None:
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "staging.internal:8080")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "staging.internal:8080")
     resolver = _resolver({"other.example": [PUBLIC_V4, "fd00::5"]})
     with patch.object(url_safety.socket, "getaddrinfo", side_effect=resolver):
         with pytest.raises(url_safety.URLSafetyError, match="non-public IP fd00::5"):
@@ -531,7 +531,7 @@ def test_public_ipv6_pin_answers_for_any_port(requested_port) -> None:
 
 
 def test_ipv6_local_pin_is_bound_to_the_validated_port(monkeypatch) -> None:
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "[::1]:3000")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "[::1]:3000")
     with url_safety._pin_dns("::1", "::1", 3000):
         assert socket.getaddrinfo("::1", 3000)[0][4] == ("::1", 3000, 0, 0)
         assert socket.getaddrinfo("::1", None)[0][4] == ("::1", 3000, 0, 0)
@@ -548,7 +548,7 @@ def test_ipv6_local_pin_is_port_bound_without_an_allowlist() -> None:
 
 
 def test_bare_ipv6_allowlist_entry_keeps_matching_any_port(monkeypatch) -> None:
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "fd00::5")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "fd00::5")
     with url_safety._pin_dns("fd00::5", "fd00::5", 80):
         assert socket.getaddrinfo("fd00::5", 8080)[0][4] == ("fd00::5", 8080, 0, 0)
 
@@ -754,7 +754,7 @@ def test_ipv6_host_redirect_to_another_port_is_followed_when_public() -> None:
 
 def test_redirect_to_another_port_on_an_allowed_ipv6_local_host_is_refused(monkeypatch) -> None:
     """The port-bound rule for local targets, unchanged, on an IPv6 pin."""
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "[::1]:3000")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "[::1]:3000")
     net = _FakeNet(
         {},
         {
@@ -784,7 +784,7 @@ def test_another_spelling_of_the_allowed_ipv6_host_does_not_escape_the_port_rule
     """A redirect cannot reach another port by naming the pinned loopback
     address differently: any spelling that is not the pinned host is a new
     host, and a new host on a non-public address is refused."""
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", "[::1]:3000")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", "[::1]:3000")
     servers = {("::1", 3000): _redirect(location)}
     for ip in ("::1", "127.0.0.1", "::ffff:127.0.0.1", "::ffff:7f00:1"):
         servers[(ip, 6379)] = _ok("internal service")

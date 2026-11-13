@@ -1,4 +1,4 @@
-# DataForSEO Extension Uninstaller for Ai Agent SEO (Windows)
+# DataForSEO Extension Uninstaller for AI Agent SEO (Windows)
 
 $ErrorActionPreference = "Stop"
 

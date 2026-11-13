@@ -1,6 +1,6 @@
 ---
 name: seo-unlighthouse
-description: Multi-page Lighthouse audit via the MIT-licensed Unlighthouse CLI. Free-tier alternative to running PageSpeed against every URL on a site, no API quota burn, runs locally.
+description: "Run Lighthouse on every page of a site locally with the Unlighthouse CLI, without PageSpeed API quota. Use when the user wants site-wide Lighthouse or performance scores for many URLs."
 metadata:
   version: "3.0.0"
 compatibility: "Requires Node 18+ and the unlighthouse npm package. Run extensions/unlighthouse/install.sh to pre-warm."
@@ -28,7 +28,7 @@ and aggregate the results. Useful when:
 | `/seo unlighthouse <url> --device desktop` | Desktop form factor |
 | `/seo unlighthouse <url> --max-routes 50 --output-dir ./reports` | Cap + persist |
 
-All flags forward through `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run unlighthouse_run.py`, which handles
+All flags forward through `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run unlighthouse_run.py`, which handles
 url_safety pre-flight and subprocess timeout management.
 
 ## Output handling
@@ -53,7 +53,7 @@ from the overall `--timeout` subprocess guard (default 600s).
 
 - For single-URL field data (CrUX), use `seo-google psi` / `seo-google crux`.
 - For LCP subpart decomposition on slow pages, use the
-  `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run lcp_subparts.py` workflow.
+  `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run lcp_subparts.py` workflow.
 
 ## Security
 

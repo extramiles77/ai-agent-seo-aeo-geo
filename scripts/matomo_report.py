@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Matomo Reporting API client for Ai Agent SEO.
+Matomo Reporting API client for AI Agent SEO.
 
 Queries the Matomo Reporting API for organic traffic, top landing pages,
 device and country breakdowns, and referrer analysis. Self-hosted Matomo
@@ -84,7 +84,7 @@ def _request(url: str, token: str, params: dict, timeout: int = DEFAULT_TIMEOUT)
 
     Matomo accepts both GET and POST. POST keeps the token out of URLs and
     access logs. ``matomo_auth.post_to_instance`` applies the SSRF guard: the
-    endpoint is validated and DNS-pinned, ``CLAUDE_SEO_LOCAL_TARGETS`` is the
+    endpoint is validated and DNS-pinned, ``AI_AGENT_SEO_LOCAL_TARGETS`` is the
     only way a private instance is reached, and a redirect off the instance is
     refused rather than followed.
 

@@ -1,4 +1,4 @@
-"""claude-seo can use the person's own gcloud sign-in for Google APIs.
+"""ai-agent-seo can use the person's own gcloud sign-in for Google APIs.
 
 A service account (GOOGLE_APPLICATION_CREDENTIALS) may lack access to a
 property the person owns; their `gcloud auth application-default login`
@@ -27,7 +27,7 @@ def _adc(tmp_path: Path, kind: str = "authorized_user") -> Path:
 def isolated(tmp_path, monkeypatch):
     monkeypatch.setattr(google_auth, "CONFIG_PATH", str(tmp_path / "google-api.json"))
     monkeypatch.setattr(google_auth, "TOKEN_PATH", str(tmp_path / "oauth-token.json"))
-    for name in ("GOOGLE_APPLICATION_CREDENTIALS", "CLAUDE_SEO_GOOGLE_AUTH", "GOOGLE_API_KEY"):
+    for name in ("GOOGLE_APPLICATION_CREDENTIALS", "AI_AGENT_SEO_GOOGLE_AUTH", "GOOGLE_API_KEY"):
         monkeypatch.delenv(name, raising=False)
     gcloud = tmp_path / "gcloud"
     gcloud.mkdir()
@@ -59,7 +59,7 @@ def test_explicit_choice_beats_a_configured_service_account(isolated, monkeypatc
     sa.write_text(json.dumps({"type": "service_account", "client_email": "bot@x.iam.gserviceaccount.com", "private_key": "k"}))
     monkeypatch.setenv("GOOGLE_APPLICATION_CREDENTIALS", str(sa))
     assert google_auth.check_credentials("gsc")["method"] == "service_account"
-    monkeypatch.setenv("CLAUDE_SEO_GOOGLE_AUTH", "adc")
+    monkeypatch.setenv("AI_AGENT_SEO_GOOGLE_AUTH", "adc")
     assert google_auth.check_credentials("gsc")["method"] == "gcloud_adc"
     creds = google_auth.get_oauth_credentials(["https://www.googleapis.com/auth/webmasters.readonly"])
     assert creds is not None and getattr(creds, "refresh_token", None) == "r"

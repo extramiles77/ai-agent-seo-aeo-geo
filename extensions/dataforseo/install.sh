@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# DataForSEO Extension Installer for Ai Agent SEO
+# DataForSEO Extension Installer for AI Agent SEO
 # Wraps everything in main() to prevent partial execution on network failure
 
 main() {
@@ -15,7 +15,7 @@ main() {
 
     echo "════════════════════════════════════════"
     echo "║   DataForSEO Extension - Installer   ║"
-    echo "║   For Ai Agent SEO                     ║"
+    echo "║   For AI Agent SEO                     ║"
     echo "════════════════════════════════════════"
     echo ""
 
@@ -28,17 +28,17 @@ main() {
         SEO_SKILL_DIR="${_PLUGIN_SEO_DIR}"
     fi
     if [ ! -d "${SEO_SKILL_DIR}" ]; then
-        _GLOB_MATCH=$(ls -d "${HOME}/.claude/plugins/cache/*/claude-seo/"*/skills/seo 2>/dev/null | tail -n1 || true)
+        _GLOB_MATCH=$(ls -d "${HOME}/.claude/plugins/cache/*/ai-agent-seo/"*/skills/seo 2>/dev/null | tail -n1 || true)
         [ -n "${_GLOB_MATCH}" ] && [ -d "${_GLOB_MATCH}" ] && SEO_SKILL_DIR="${_GLOB_MATCH}"
     fi
 
     # Check prerequisites
     if [ ! -d "${SEO_SKILL_DIR}" ]; then
-        echo "✗ Ai Agent SEO is not installed."
+        echo "✗ AI Agent SEO is not installed."
         echo "  Install it first by running install.sh from this checkout."
         exit 1
     fi
-    echo "✓ Ai Agent SEO detected"
+    echo "✓ AI Agent SEO detected"
 
     if ! command -v node >/dev/null 2>&1; then
         echo "✗ Node.js is required but not installed."
@@ -89,7 +89,7 @@ main() {
         SOURCE_DIR="${SCRIPT_DIR}/extensions/dataforseo"
     else
         echo "✗ Cannot find extension source files."
-        echo "  Run this script from the claude-seo repo: ./extensions/dataforseo/install.sh"
+        echo "  Run this script from the ai-agent-seo repo: ./extensions/dataforseo/install.sh"
         exit 1
     fi
 
@@ -114,12 +114,12 @@ main() {
 
     # Credentials travel in the environment (never argv, never interpolated into the source string)
     # and the settings file is written atomically with 0600 permissions.
-    CLAUDE_SEO_USERNAME="${DFSE_USERNAME}" CLAUDE_SEO_SECRET="${DFSE_PASSWORD}" python3 - "${MCP_CONFIG_FILE}" "${FIELD_CONFIG_PATH}" <<'PY'
+    AI_AGENT_SEO_USERNAME="${DFSE_USERNAME}" AI_AGENT_SEO_SECRET="${DFSE_PASSWORD}" python3 - "${MCP_CONFIG_FILE}" "${FIELD_CONFIG_PATH}" <<'PY'
 import json, os, sys, tempfile
 
 settings_path, field_config = sys.argv[1:3]
-username = os.environ["CLAUDE_SEO_USERNAME"]
-password = os.environ["CLAUDE_SEO_SECRET"]
+username = os.environ["AI_AGENT_SEO_USERNAME"]
+password = os.environ["AI_AGENT_SEO_SECRET"]
 
 if os.path.exists(settings_path):
     try:

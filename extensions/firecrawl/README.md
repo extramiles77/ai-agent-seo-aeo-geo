@@ -1,10 +1,10 @@
-# Firecrawl Extension for Ai Agent SEO
+# Firecrawl Extension for AI Agent SEO
 
 Full-site crawling, scraping, and site mapping powered by [Firecrawl](https://www.firecrawl.dev/). Enables comprehensive site-wide SEO analysis with JavaScript rendering support.
 
 ## Prerequisites
 
-- [Ai Agent SEO]() installed
+- [AI Agent SEO]() installed
 - Node.js 20+
 - Firecrawl API key ([sign up](https://www.firecrawl.dev/signup) -- free tier: 500 credits/month)
 
@@ -33,9 +33,9 @@ The installer will prompt for your Firecrawl API key and configure the MCP serve
 | `/seo firecrawl scrape <url>` | Single-page deep scrape with JS rendering | 1 |
 | `/seo firecrawl search <query> <url>` | Search within a site | 1 per result |
 
-## Integration with Ai Agent SEO
+## Integration with AI Agent SEO
 
-When installed, other Ai Agent SEO skills automatically leverage Firecrawl:
+When installed, other AI Agent SEO skills automatically leverage Firecrawl:
 
 - **`/seo audit`**: Uses `map` to discover all pages, then `crawl` for deep analysis
 - **`/seo technical`**: Broken link detection across entire site
@@ -79,4 +79,4 @@ When installed, other Ai Agent SEO skills automatically leverage Firecrawl:
 
 - [Firecrawl Documentation](https://docs.firecrawl.dev/)
 - [Firecrawl MCP Server](https://www.npmjs.com/package/firecrawl-mcp)
-- [Ai Agent SEO]()
+- [AI Agent SEO]()

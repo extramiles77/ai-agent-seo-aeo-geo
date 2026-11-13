@@ -1,10 +1,10 @@
-# DataForSEO Extension for Ai Agent SEO
+# DataForSEO Extension for AI Agent SEO
 
 Live SEO data via the [DataForSEO MCP server](https://github.com/dataforseo/mcp-server-typescript). Adds 23 data commands across 9 API modules: SERP analysis, keyword research, backlinks, on-page analysis, competitor analysis, content analysis, business listings, AI visibility checking, and LLM mention tracking.
 
 ## Prerequisites
 
-- [Ai Agent SEO]() installed
+- [AI Agent SEO]() installed
 - Node.js 20+
 - [DataForSEO account](https://app.dataforseo.com/register) with API credentials
 
@@ -117,9 +117,9 @@ New accounts include a free trial balance. See [DataForSEO pricing](https://data
 
 The extension includes a custom `field-config.json` that reduces API response sizes by ~75%, keeping only SEO-relevant fields. This saves tokens and speeds up analysis.
 
-## Integration with Ai Agent SEO
+## Integration with AI Agent SEO
 
-When installed, other Ai Agent SEO skills automatically detect DataForSEO availability and use live data:
+When installed, other AI Agent SEO skills automatically detect DataForSEO availability and use live data:
 
 - **`/seo audit`**: Uses real SERP, backlink, and on-page data
 - **`/seo technical`**: Uses on-page analysis for real technical data
@@ -165,4 +165,4 @@ This removes the skill, agent, field config, and MCP server entry from ~/.claude
 
 - [DataForSEO API Docs](https://docs.dataforseo.com/)
 - [DataForSEO MCP Server](https://github.com/dataforseo/mcp-server-typescript)
-- [Ai Agent SEO]()
+- [AI Agent SEO]()

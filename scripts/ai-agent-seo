@@ -6,12 +6,12 @@ set -euo pipefail
 #
 # It lives in scripts/ rather than bin/ because hosted marketplaces reject any
 # plugin that ships a top-level bin/ directory. Skills, agents, and hooks call
-# it as "${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo"; runtime.py is a sibling.
+# it as "${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo"; runtime.py is a sibling.
 launcher_dir="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 runtime="${launcher_dir}/runtime.py"
 
 if [[ ! -f "${runtime}" ]]; then
-    echo "Ai Agent SEO runtime is missing. Reinstall Ai Agent SEO." >&2
+    echo "AI Agent SEO runtime is missing. Reinstall AI Agent SEO." >&2
     exit 2
 fi
 
@@ -34,14 +34,19 @@ in_range() {
 
 range_text="3.${min_minor} to 3.${max_minor}"
 
+# Releases before the AI Agent SEO rename read CLAUDE_SEO_PYTHON; keep honouring it.
+if [[ -z "${AI_AGENT_SEO_PYTHON:-}" && -n "${CLAUDE_SEO_PYTHON:-}" ]]; then
+    AI_AGENT_SEO_PYTHON="${CLAUDE_SEO_PYTHON}"
+fi
+
 # An override is an executable path, not a shell command. Keeping it as one
 # array element prevents command injection and supports paths containing spaces.
-if [[ -n "${CLAUDE_SEO_PYTHON:-}" ]]; then
-    found="$(probe_version "${CLAUDE_SEO_PYTHON}" || true)"
+if [[ -n "${AI_AGENT_SEO_PYTHON:-}" ]]; then
+    found="$(probe_version "${AI_AGENT_SEO_PYTHON}" || true)"
     if in_range "${found}"; then
-        exec "${CLAUDE_SEO_PYTHON}" "${runtime}" "$@"
+        exec "${AI_AGENT_SEO_PYTHON}" "${runtime}" "$@"
     fi
-    echo "CLAUDE_SEO_PYTHON must be Python ${range_text}. Found ${found:-no usable Python} at ${CLAUDE_SEO_PYTHON}." >&2
+    echo "AI_AGENT_SEO_PYTHON must be Python ${range_text}. Found ${found:-no usable Python} at ${AI_AGENT_SEO_PYTHON}." >&2
     exit 2
 fi
 
@@ -71,5 +76,5 @@ while (( minor >= min_minor )); do
     minor=$(( minor - 1 ))
 done
 
-echo "Ai Agent SEO needs Python ${range_text}. Found: ${seen:-no Python}. Install Python 3.${max_minor} from python.org or set CLAUDE_SEO_PYTHON to a supported interpreter." >&2
+echo "AI Agent SEO needs Python ${range_text}. Found: ${seen:-no Python}. Install Python 3.${max_minor} from python.org or set AI_AGENT_SEO_PYTHON to a supported interpreter." >&2
 exit 2

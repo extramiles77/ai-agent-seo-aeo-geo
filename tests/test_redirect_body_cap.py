@@ -6,7 +6,7 @@ anything. url_safety caps that body with a response hook. render_page's raw
 fetch reads the final body under MAX_PAGE_BYTES the way fetch_page does.
 
 A real local server is used; it is reached through the narrow
-CLAUDE_SEO_LOCAL_TARGETS allowlist, which covers the top-level URL only, and
+AI_AGENT_SEO_LOCAL_TARGETS allowlist, which covers the top-level URL only, and
 the redirect stays on that host.
 """
 
@@ -67,7 +67,7 @@ def server(monkeypatch):
     thread = threading.Thread(target=httpd.serve_forever, daemon=True)
     thread.start()
     port = httpd.server_address[1]
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", f"127.0.0.1:{port}")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", f"127.0.0.1:{port}")
     try:
         yield f"http://127.0.0.1:{port}"
     finally:

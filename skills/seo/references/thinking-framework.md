@@ -1,6 +1,6 @@
 # The 10-Principle Audit Synthesis Framework
 
-This is the canonical methodology claude-seo uses to assemble raw findings
+This is the canonical methodology ai-agent-seo uses to assemble raw findings
 into strategically coherent recommendations. Every full-site audit and
 deep-page analysis walks through these ten principles before producing the
 final action plan.
@@ -25,12 +25,12 @@ not a recommendation.
 
 Collect signals without interpreting them. For a website audit this means:
 
-- Raw HTML + rendered HTML (via `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run render_page.py`)
+- Raw HTML + rendered HTML (via `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run render_page.py`)
 - Schema.org markup actually present (via `seo-schema`)
 - SERP visibility for the site's published topics (via `seo-dataforseo` /
   Google APIs when available)
 - Backlink + brand-mention landscape (via `seo-backlinks`)
-- Core Web Vitals field data from CrUX (via `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run pagespeed_check.py`)
+- Core Web Vitals field data from CrUX (via `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run pagespeed_check.py`)
 - AI-search citation patterns (via `seo-geo`)
 - Competitor pages on the target's primary keywords
 
@@ -149,7 +149,7 @@ surfaced?).
 
 ## When to escalate to the user
 
-These principles are claude-seo's; they are not the user's. Surface them
+These principles are ai-agent-seo's; they are not the user's. Surface them
 for the user when:
 
 - A recommendation requires accepting an assumption you'd rather not own

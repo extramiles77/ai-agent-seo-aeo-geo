@@ -55,7 +55,7 @@ The Python merge script is idempotent: re-running only replaces the
 
 Ahrefs charges per "unit". A unit covers most read endpoints (domain
 metrics, backlink data) at 1 unit each; bulk endpoints cost more. The
-`"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run dataforseo_costs.py` cost tracker shipped with claude-seo
+`"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run dataforseo_costs.py` cost tracker shipped with ai-agent-seo
 generalises across vendors; see the DataForSEO extension's
 `references/cost-tiers.md` for the budget-preset pattern to mirror when
 wiring Ahrefs accounting.

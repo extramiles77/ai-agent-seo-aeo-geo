@@ -95,7 +95,7 @@ updated 2026-09-02).
 
 ```bash
 # PageSpeed Insights API + CrUX (bundled script, reads the configured Google API key)
-"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run pagespeed_check.py URL --json
+"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run pagespeed_check.py URL --json
 
 # Raw PageSpeed Insights API call (replace YOUR_API_KEY with your key)
 curl -H "X-Goog-Api-Key: YOUR_API_KEY" \

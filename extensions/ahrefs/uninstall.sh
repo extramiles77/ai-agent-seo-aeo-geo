@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Ai Agent SEO: Ahrefs extension uninstaller.
+# AI Agent SEO: Ahrefs extension uninstaller.
 set -euo pipefail
 
 SKILL_DIR="${HOME}/.claude/skills/seo-ahrefs"

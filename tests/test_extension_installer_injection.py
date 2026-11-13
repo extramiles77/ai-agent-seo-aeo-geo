@@ -25,15 +25,15 @@ ROOT = Path(__file__).resolve().parents[1]
 # Secrets travel in the environment: argv is readable by other local users
 # through ps, the environment of a process is not.
 INSTALLERS = {
-    "extensions/dataforseo/install.sh": (["field.json"], "CLAUDE_SEO_SECRET"),
-    "extensions/firecrawl/install.sh": ([], "CLAUDE_SEO_SECRET"),
-    "extensions/banana/install.sh": ([], "CLAUDE_SEO_SECRET"),
-    "extensions/ahrefs/install.sh": ([], "CLAUDE_SEO_SECRET"),
-    "extensions/profound/install.sh": ([], "CLAUDE_SEO_SECRET"),
-    "extensions/seranking/install.sh": ([], "CLAUDE_SEO_SECRET"),
-    "extensions/bing-webmaster/install.sh": (["https://e.test/key.txt"], "CLAUDE_SEO_SECRET"),
+    "extensions/dataforseo/install.sh": (["field.json"], "AI_AGENT_SEO_SECRET"),
+    "extensions/firecrawl/install.sh": ([], "AI_AGENT_SEO_SECRET"),
+    "extensions/banana/install.sh": ([], "AI_AGENT_SEO_SECRET"),
+    "extensions/ahrefs/install.sh": ([], "AI_AGENT_SEO_SECRET"),
+    "extensions/profound/install.sh": ([], "AI_AGENT_SEO_SECRET"),
+    "extensions/seranking/install.sh": ([], "AI_AGENT_SEO_SECRET"),
+    "extensions/bing-webmaster/install.sh": (["https://e.test/key.txt"], "AI_AGENT_SEO_SECRET"),
 }
-BASE_ENV = {"CLAUDE_SEO_USERNAME": "user", "CLAUDE_SEO_INDEXNOW_KEY": "idx"}
+BASE_ENV = {"AI_AGENT_SEO_USERNAME": "user", "AI_AGENT_SEO_INDEXNOW_KEY": "idx"}
 
 _HEREDOC_RE = re.compile(r"python3 - [^\n]*<<'PY'\n(.*?)\nPY\n", re.DOTALL)
 
@@ -103,9 +103,9 @@ def test_no_installer_passes_a_secret_on_the_command_line(rel: Path) -> None:
 
 # PowerShell installers that feed a Python writer through a here-string.
 PS1_WRITERS = {
-    "extensions/profound/install.ps1": ([], "CLAUDE_SEO_SECRET"),
-    "extensions/seranking/install.ps1": ([], "CLAUDE_SEO_SECRET"),
-    "extensions/bing-webmaster/install.ps1": (["https://e.test/key.txt"], "CLAUDE_SEO_SECRET"),
+    "extensions/profound/install.ps1": ([], "AI_AGENT_SEO_SECRET"),
+    "extensions/seranking/install.ps1": ([], "AI_AGENT_SEO_SECRET"),
+    "extensions/bing-webmaster/install.ps1": (["https://e.test/key.txt"], "AI_AGENT_SEO_SECRET"),
 }
 
 
@@ -141,7 +141,7 @@ def test_ps1_writer_reads_secret_from_env_and_never_clobbers(tmp_path: Path, rel
 @pytest.mark.parametrize("rel", [*PS1_WRITERS, "extensions/matomo/install.ps1"])
 def test_ps1_installers_check_the_python_exit_code_and_keep_secrets_off_argv(rel: str) -> None:
     text = (ROOT / rel).read_text(encoding="utf-8")
-    assert "$env:CLAUDE_SEO_SECRET = " in text
+    assert "$env:AI_AGENT_SEO_SECRET = " in text
     assert "if ($LASTEXITCODE -ne 0) { throw" in text, f"{rel} would print Done after a refusal"
     for line in text.splitlines():
         if "| python -" in line:

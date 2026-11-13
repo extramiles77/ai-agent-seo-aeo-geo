@@ -5,7 +5,7 @@ directory (``marketplace_sync_bin_directory_not_allowed``). The launcher
 therefore lives in ``scripts/`` beside ``runtime.py``, and every skill, agent,
 and doc invokes it through the documented plugin-relative variable:
 
-    "${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run <script.py>
+    "${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run <script.py>
 
 Claude Code substitutes ``${CLAUDE_PLUGIN_ROOT}`` in skill body content and in
 ``allowed-tools`` Bash rules, and exports it to hook processes. The quoting
@@ -23,14 +23,14 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-LAUNCHER = ROOT / "scripts" / "claude-seo"
-CANONICAL = '"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo"'
-MANUAL = '"$HOME/.claude/skills/seo/scripts/claude-seo"'
+LAUNCHER = ROOT / "scripts" / "ai-agent-seo"
+CANONICAL = '"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo"'
+MANUAL = '"$HOME/.claude/skills/seo/scripts/ai-agent-seo"'
 
-# A bare invocation is ``claude-seo run`` with nothing in front of it. The
-# repository-relative form ``./scripts/claude-seo run`` and the canonical form
+# A bare invocation is ``ai-agent-seo run`` with nothing in front of it. The
+# repository-relative form ``./scripts/ai-agent-seo run`` and the canonical form
 # (which puts a closing quote between the name and the subcommand) do not match.
-BARE_INVOCATION = re.compile(r"(?<![A-Za-z0-9_/])claude-seo (?:run|setup|doctor)\b")
+BARE_INVOCATION = re.compile(r"(?<![A-Za-z0-9_/])ai-agent-seo (?:run|setup|doctor)\b")
 
 # No document is exempt: every instruction file must use the canonical form.
 DOC_EXCLUSIONS = set()
@@ -113,20 +113,20 @@ def test_instruction_files_use_the_canonical_plugin_root_form() -> None:
 
 def test_installers_reference_the_scripts_launcher() -> None:
     unix = (ROOT / "install.sh").read_text(encoding="utf-8")
-    assert 'cp "${SOURCE_DIR}/scripts/claude-seo" "${SKILL_DIR}/scripts/claude-seo"' in unix
-    assert 'chmod +x "${SKILL_DIR}/scripts/claude-seo"' in unix
-    assert '"${SKILL_DIR}/scripts/claude-seo" setup' in unix
+    assert 'cp "${SOURCE_DIR}/scripts/ai-agent-seo" "${SKILL_DIR}/scripts/ai-agent-seo"' in unix
+    assert 'chmod +x "${SKILL_DIR}/scripts/ai-agent-seo"' in unix
+    assert '"${SKILL_DIR}/scripts/ai-agent-seo" setup' in unix
     for subcommand in ("run", "setup", "doctor"):
         assert f"s#{CANONICAL} {subcommand}#{MANUAL} {subcommand}#g" in unix
-    assert "bin/claude-seo" not in unix
+    assert "bin/ai-agent-seo" not in unix
 
     windows = (ROOT / "install.ps1").read_text(encoding="utf-8")
-    assert "Join-Path $ScriptsPath 'claude-seo'" in windows
+    assert "Join-Path $ScriptsPath 'ai-agent-seo'" in windows
     assert "Join-Path $SkillDir 'scripts'" in windows
     for subcommand in ("run", "setup", "doctor"):
         assert f"'{CANONICAL} {subcommand}'" in windows
         assert f"'{MANUAL} {subcommand}'" in windows
-    assert "bin/claude-seo" not in windows
+    assert "bin/ai-agent-seo" not in windows
 
 
 @pytest.mark.skipif(
@@ -149,4 +149,4 @@ def test_launcher_runs_without_network_or_managed_runtime() -> None:
     )
     assert result.returncode == 0, result.stderr
     plain = re.sub(r"\x1b\[[0-9;]*m", "", result.stdout)
-    assert "usage: claude-seo doctor" in plain
+    assert "usage: ai-agent-seo doctor" in plain

@@ -2,7 +2,7 @@
 # Ref: HEAD | format: <sha256hex>  <rel_path> (sha256sum-compatible)
 
 d790798ef7fc2c44ac75080e93d8e9de15796a324290b700445ebcba3d142a3b  skills/seo-flow/references/bibliography.md
-4a01823e29666901f0a05b9b0ce844b53d31c69be338d9545fe0fe90337d4784  skills/seo-flow/references/flow-framework.md
+b9dd867587f2ac5bca64526a356b7276b89bae543092abec7b1a51f247f957cb  skills/seo-flow/references/flow-framework.md
 1c3bd8fc57f91d9d4e4a184ef5d5337f9e219d572136b31403cce9d68d803e1f  skills/seo-flow/references/prompts/README.md
 80b30036a749d0eda611073abfe6e43139e7dc574abf551b01d269e1ed7be616  skills/seo-flow/references/prompts/find/content-planning-for-topical-relevance-prompt.md
 0b3ab5eb38cca2ad3abd50983dae95755338ca0930c2540c35d7ffa99cd5c28a  skills/seo-flow/references/prompts/find/content-prioritization-prompt.md

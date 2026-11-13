@@ -52,8 +52,8 @@ Dependencies belong in the managed runtime. For a plugin install, run:
 
 For a manual install, run:
 ```bash
-~/.claude/skills/seo/scripts/claude-seo doctor
-~/.claude/skills/seo/scripts/claude-seo setup
+~/.claude/skills/seo/scripts/ai-agent-seo doctor
+~/.claude/skills/seo/scripts/ai-agent-seo setup
 ```
 
 Do not install individual packages, use `pip --user`, or create a PATH shim.
@@ -86,8 +86,8 @@ cp <this checkout>/requirements.txt ~/.claude/skills/seo/requirements.txt
 **Solution:** The Windows installer now tries both `python` and `py -3`. If both fail:
 
 1. Install Python from [python.org](https://python.org) and check "Add to PATH"
-2. Rerun `install.ps1`. It uses `CLAUDE_SEO_PYTHON` when set, otherwise the first of `py -3`, `python3` and `python` that is Python 3.11 to 3.14, otherwise the newest of `py -3.14` down to `py -3.11`
-3. If `py -3` is a newer Python that Ai Agent SEO does not support yet (such as 3.15), install 3.14 alongside it, or set `CLAUDE_SEO_PYTHON` to a supported `python.exe`
+2. Rerun `install.ps1`. It uses `AI_AGENT_SEO_PYTHON` when set, otherwise the first of `py -3`, `python3` and `python` that is Python 3.11 to 3.14, otherwise the newest of `py -3.14` down to `py -3.11`
+3. If `py -3` is a newer Python that AI Agent SEO does not support yet (such as 3.15), install 3.14 alongside it, or set `AI_AGENT_SEO_PYTHON` to a supported `python.exe`
 4. Run `/seo doctor` after installation
 
 ---
@@ -140,7 +140,7 @@ head -5 ~/.claude/agents/seo-technical.md
 
 3. Re-install agents:
 ```bash
-cp /path/to/claude-seo/agents/*.md ~/.claude/agents/
+cp /path/to/ai-agent-seo/agents/*.md ~/.claude/agents/
 ```
 
 ---

@@ -1,4 +1,4 @@
-# Ai Agent SEO: Multi-Platform Agent Instructions
+# AI Agent SEO: Multi-Platform Agent Instructions
 
 > For **Cursor**, **Cursor Cloud Agents**, **Google Antigravity**, **Gemini CLI**,
 > **Grok Build**,
@@ -13,7 +13,7 @@ Every skill in `skills/*/SKILL.md` is authored to the portable Agent Skills
 format (single-line `name` and `description` frontmatter). Validate compatibility with your harness via:
 
 ```bash
-./scripts/claude-seo run portability_check.py
+./scripts/ai-agent-seo run portability_check.py
 ```
 
 The check confirms each `SKILL.md` has the minimum frontmatter every harness
@@ -54,11 +54,11 @@ puts every agent's instructions in `seo/subagents/<name>.md`, and the skills
 say to read and execute them one at a time. The runtime (scripts plus an
 isolated `.venv`) is built once in the first target's `seo/` folder; other
 targets in the same run point at it. Uninstall with
-`./scripts/claude-seo uninstall --target <name>`.
+`./scripts/ai-agent-seo uninstall --target <name>`.
 
 ### Tool-name compatibility
 
-Where claude-seo skills mention Claude Code tools (`Read`, `Write`, `Edit`,
+Where ai-agent-seo skills mention Claude Code tools (`Read`, `Write`, `Edit`,
 `Bash`, `Glob`, `Grep`, `WebFetch`), each harness typically has an equivalent:
 
 | Claude Code | Codex | Cline | Aider | Cursor / Antigravity |
@@ -76,7 +76,7 @@ in case a recipe needs a specific call.
 
 ## Overview
 
-Ai Agent SEO is a Tier 4 SEO analysis skill with 26 sub-skills (22 core + 1 orchestrator +
+AI Agent SEO is a Tier 4 SEO analysis skill with 26 sub-skills (22 core + 1 orchestrator +
 1 framework integration + 2 extension mirrors), 19 sub-agents (16 core + 1 framework
 integration + 2 extension mirrors), and 64 Python execution scripts.
 
@@ -129,24 +129,24 @@ provide execution capabilities.
 **Running scripts directly** (Cursor doesn't have MCP):
 ```bash
 # Page fetching with SSRF protection
-./scripts/claude-seo run fetch_page.py https://example.com
+./scripts/ai-agent-seo run fetch_page.py https://example.com
 
 # HTML parsing for SEO elements
-./scripts/claude-seo run parse_html.py https://example.com
+./scripts/ai-agent-seo run parse_html.py https://example.com
 
 # PageSpeed Insights
-./scripts/claude-seo run pagespeed_check.py https://example.com --json
+./scripts/ai-agent-seo run pagespeed_check.py https://example.com --json
 
 # Drift baseline
-./scripts/claude-seo run drift_baseline.py https://example.com
+./scripts/ai-agent-seo run drift_baseline.py https://example.com
 
 # DataForSEO (requires credentials)
-DATAFORSEO_USERNAME=user DATAFORSEO_PASSWORD=pass ./scripts/claude-seo run dataforseo_merchant.py search "keyword"
+DATAFORSEO_USERNAME=user DATAFORSEO_PASSWORD=pass ./scripts/ai-agent-seo run dataforseo_merchant.py search "keyword"
 ```
 
 **Cursor Cloud gotchas:**
 - SSL certificates may not resolve for some domains. Investigate the certificate issue rather than disabling verification.
-- Run bundled tools through `claude-seo`; never call the venv interpreter directly.
+- Run bundled tools through `ai-agent-seo`; never call the venv interpreter directly.
 - Screenshots save to `/tmp/` not CWD. Check absolute paths.
 
 ## Using with Google Antigravity
@@ -195,7 +195,7 @@ extensions/                # 9 MCP extensions: DataForSEO, Firecrawl, Banana, Ah
 1. **Progressive Disclosure**: Read SKILL.md for routing, load references on demand
 2. **Industry Detection**: Auto-detect SaaS, e-commerce, local, publisher, agency
 3. **Security**: All scripts call `validate_url()` for SSRF protection
-4. **Config location**: `~/.config/claude-seo/` for API credentials
+4. **Config location**: `~/.config/ai-agent-seo/` for API credentials
 
 ## Credits
 

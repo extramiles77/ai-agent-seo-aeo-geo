@@ -3,7 +3,7 @@
 ``--timeout`` limits each socket read on its own, so a server that sends one
 byte every few seconds was never cut off. The deadline covers the whole
 fetch. The slow servers here are real local stubs, reached through the narrow
-CLAUDE_SEO_LOCAL_TARGETS allowlist the way ``test_redirect_body_cap.py`` does;
+AI_AGENT_SEO_LOCAL_TARGETS allowlist the way ``test_redirect_body_cap.py`` does;
 no network is used.
 """
 
@@ -106,7 +106,7 @@ def server(monkeypatch):
     thread = threading.Thread(target=httpd.serve_forever, daemon=True)
     thread.start()
     port = httpd.server_address[1]
-    monkeypatch.setenv("CLAUDE_SEO_LOCAL_TARGETS", f"127.0.0.1:{port}")
+    monkeypatch.setenv("AI_AGENT_SEO_LOCAL_TARGETS", f"127.0.0.1:{port}")
     monkeypatch.setattr(url_safety.requests.utils, "getproxies", lambda: {})
     try:
         yield f"http://127.0.0.1:{port}"
@@ -256,7 +256,7 @@ def test_content_bytes_counts_the_part_read_when_the_body_is_cut(monkeypatch):
 
 
 def test_content_bytes_is_none_when_no_body_was_read(monkeypatch):
-    monkeypatch.delenv("CLAUDE_SEO_LOCAL_TARGETS", raising=False)
+    monkeypatch.delenv("AI_AGENT_SEO_LOCAL_TARGETS", raising=False)
     assert fetch_page.fetch_page("http://127.0.0.1:1/")["content_bytes"] is None
     stalled = _streamed_response(b"", fp=_TimingOutBody())
     assert _patched_fetch(monkeypatch, stalled)["content_bytes"] is None
@@ -443,7 +443,7 @@ def test_result_carries_integer_timings_on_success(monkeypatch):
 
 
 def test_refused_url_reports_only_the_total(monkeypatch):
-    monkeypatch.delenv("CLAUDE_SEO_LOCAL_TARGETS", raising=False)
+    monkeypatch.delenv("AI_AGENT_SEO_LOCAL_TARGETS", raising=False)
     result = fetch_page.fetch_page("http://127.0.0.1:1/")
     assert result["error"].startswith("url_safety:")
     assert result["ttfb_ms"] is None

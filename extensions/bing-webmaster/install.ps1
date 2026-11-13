@@ -2,7 +2,7 @@ $ErrorActionPreference = "Stop"
 if (-not (Get-Command python -ErrorAction SilentlyContinue)) { throw "Python 3 required" }
 $SkillDir = Join-Path $HOME ".claude/skills"
 $SettingsJson = Join-Path $HOME ".claude/settings.json"
-if (-not (Test-Path (Join-Path $SkillDir "seo"))) { throw "claude-seo not installed" }
+if (-not (Test-Path (Join-Path $SkillDir "seo"))) { throw "ai-agent-seo not installed" }
 $BingKey = (Read-Host "Bing Webmaster Tools API key" -AsSecureString)
 $IdxKey  = Read-Host "IndexNow host key (32+ chars)"
 $IdxLoc  = Read-Host "IndexNow keyLocation URL"
@@ -16,8 +16,8 @@ $py = @"
 import json, os, sys, tempfile
 path = sys.argv[1]
 idx_loc = sys.argv[2] if len(sys.argv) > 2 else ''
-bing = os.environ.get('CLAUDE_SEO_SECRET', '')
-idx_key = os.environ.get('CLAUDE_SEO_INDEXNOW_KEY', '')
+bing = os.environ.get('AI_AGENT_SEO_SECRET', '')
+idx_key = os.environ.get('AI_AGENT_SEO_INDEXNOW_KEY', '')
 data = {}
 if os.path.exists(path):
     try: data = json.load(open(path))
@@ -30,11 +30,11 @@ fd, tmp = tempfile.mkstemp(dir=os.path.dirname(path) or '.', prefix='.settings.'
 with os.fdopen(fd, 'w') as fh: json.dump(data, fh, indent=2)
 os.replace(tmp, path)
 "@
-$env:CLAUDE_SEO_SECRET = $BingPlain
-$env:CLAUDE_SEO_INDEXNOW_KEY = $IdxKey
+$env:AI_AGENT_SEO_SECRET = $BingPlain
+$env:AI_AGENT_SEO_INDEXNOW_KEY = $IdxKey
 try {
     $py | python - $SettingsJson $IdxLoc
     # A native command's non-zero exit does not throw, even with Stop.
     if ($LASTEXITCODE -ne 0) { throw "Nothing was saved (python exited $LASTEXITCODE). See the message above." }
-} finally { Remove-Item Env:CLAUDE_SEO_SECRET -ErrorAction SilentlyContinue; Remove-Item Env:CLAUDE_SEO_INDEXNOW_KEY -ErrorAction SilentlyContinue }
+} finally { Remove-Item Env:AI_AGENT_SEO_SECRET -ErrorAction SilentlyContinue; Remove-Item Env:AI_AGENT_SEO_INDEXNOW_KEY -ErrorAction SilentlyContinue }
 Write-Host "Done."

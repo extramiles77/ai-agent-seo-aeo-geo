@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Ai Agent SEO Installer
+# AI Agent SEO Installer
 # Wraps everything in main() to prevent partial execution on network failure
 
 main() {
@@ -13,13 +13,13 @@ main() {
     #   bash install.sh --list              bash install.sh --help
     # With no options this script keeps its Claude Code install below.
     if [ "$#" -gt 0 ]; then
-        exec "${SOURCE_DIR}/scripts/claude-seo" install "$@"
+        exec "${SOURCE_DIR}/scripts/ai-agent-seo" install "$@"
     fi
     SKILL_DIR="${HOME}/.claude/skills/seo"
     AGENT_DIR="${HOME}/.claude/agents"
 
     echo "════════════════════════════════════════"
-    echo "║   Ai Agent SEO - Installer             ║"
+    echo "║   AI Agent SEO - Installer             ║"
     echo "║   Installs from this checkout          ║"
     echo "════════════════════════════════════════"
     echo ""
@@ -83,10 +83,10 @@ main() {
     # Copy the stable runtime launcher. It ships in scripts/ (never a top-level
     # bin/, which hosted marketplaces reject) and resolves runtime.py as a
     # sibling, so the manual layout below already matches the repository layout.
-    if [ -f "${SOURCE_DIR}/scripts/claude-seo" ]; then
+    if [ -f "${SOURCE_DIR}/scripts/ai-agent-seo" ]; then
         mkdir -p "${SKILL_DIR}/scripts"
-        cp "${SOURCE_DIR}/scripts/claude-seo" "${SKILL_DIR}/scripts/claude-seo"
-        chmod +x "${SKILL_DIR}/scripts/claude-seo"
+        cp "${SOURCE_DIR}/scripts/ai-agent-seo" "${SKILL_DIR}/scripts/ai-agent-seo"
+        chmod +x "${SKILL_DIR}/scripts/ai-agent-seo"
     fi
 
     # Copy hooks
@@ -149,12 +149,12 @@ main() {
     agents_root_esc=$(printf '%s' "${HOME}/.claude/agents/" | sed 's/[#&\\]/\\&/g')
     rewrite_doc() {
         local doc="$1" temp_doc
-        temp_doc="${doc}.claude-seo-tmp"
+        temp_doc="${doc}.ai-agent-seo-tmp"
         sed -e "s#\${CLAUDE_PLUGIN_ROOT}/skills/#${skills_root_esc}#g" \
             -e "s#\${CLAUDE_PLUGIN_ROOT}/agents/#${agents_root_esc}#g" \
-            -e 's#"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run#"$HOME/.claude/skills/seo/scripts/claude-seo" run#g' \
-            -e 's#"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" setup#"$HOME/.claude/skills/seo/scripts/claude-seo" setup#g' \
-            -e 's#"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" doctor#"$HOME/.claude/skills/seo/scripts/claude-seo" doctor#g' \
+            -e 's#"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run#"$HOME/.claude/skills/seo/scripts/ai-agent-seo" run#g' \
+            -e 's#"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" setup#"$HOME/.claude/skills/seo/scripts/ai-agent-seo" setup#g' \
+            -e 's#"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" doctor#"$HOME/.claude/skills/seo/scripts/ai-agent-seo" doctor#g' \
             "${doc}" > "${temp_doc}"
         mv "${temp_doc}" "${doc}"
     }
@@ -193,7 +193,7 @@ main() {
 
     echo "→ Creating isolated Python runtime..."
     set +e
-    "${SKILL_DIR}/scripts/claude-seo" setup
+    "${SKILL_DIR}/scripts/ai-agent-seo" setup
     runtime_status=$?
     set -e
     if [ "${runtime_status}" -ne 0 ] && [ "${runtime_status}" -ne 10 ]; then
@@ -204,7 +204,7 @@ main() {
     fi
 
     echo ""
-    echo "✓ Ai Agent SEO installed successfully!"
+    echo "✓ AI Agent SEO installed successfully!"
     echo ""
     echo "Usage:"
     echo "  1. Start Claude Code:  claude"

@@ -1,4 +1,4 @@
-# Firecrawl Extension Uninstaller for Ai Agent SEO (Windows)
+# Firecrawl Extension Uninstaller for AI Agent SEO (Windows)
 $ErrorActionPreference = 'Stop'
 
 Write-Host "Removing Firecrawl extension..." -ForegroundColor Yellow
@@ -34,4 +34,4 @@ if (Test-Path $McpConfigFile) {
 
 Write-Host ""
 Write-Host "v Firecrawl extension uninstalled." -ForegroundColor Green
-Write-Host "  Core Ai Agent SEO skills are unchanged."
+Write-Host "  Core AI Agent SEO skills are unchanged."

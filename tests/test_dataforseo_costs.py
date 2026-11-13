@@ -7,8 +7,8 @@ concurrent `log` calls both read the same ledger and the second overwrote the
 first. A budget ledger that quietly under-reports spend is the one thing it
 must not do.
 
-Every test runs against an isolated CLAUDE_SEO_CONFIG_DIR, never the real
-~/.config/claude-seo/ ledger.
+Every test runs against an isolated AI_AGENT_SEO_CONFIG_DIR, never the real
+~/.config/ai-agent-seo/ ledger.
 """
 
 from __future__ import annotations
@@ -29,7 +29,7 @@ _SCRIPT = _REPO / "scripts" / "dataforseo_costs.py"
 def _run(config_dir: Path, *argv: str) -> subprocess.CompletedProcess:
     """Invoke the CLI in a subprocess with an isolated ledger."""
     env = dict(os.environ)
-    env["CLAUDE_SEO_CONFIG_DIR"] = str(config_dir)
+    env["AI_AGENT_SEO_CONFIG_DIR"] = str(config_dir)
     return subprocess.run(
         [sys.executable, str(_SCRIPT), *argv],
         capture_output=True,
@@ -174,7 +174,7 @@ def test_isolated_config_dir_is_honoured(tmp_path) -> None:
 def test_check_reports_whether_credentials_are_in_env(tmp_path, monkeypatch):
     script = Path(__file__).resolve().parents[1] / "scripts" / "dataforseo_costs.py"
     env = {k: v for k, v in os.environ.items() if not k.startswith("DATAFORSEO_")}
-    env["CLAUDE_SEO_CONFIG_DIR"] = str(tmp_path)
+    env["AI_AGENT_SEO_CONFIG_DIR"] = str(tmp_path)
 
     def run(e):
         return json.loads(subprocess.run(

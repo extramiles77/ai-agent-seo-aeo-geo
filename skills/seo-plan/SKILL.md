@@ -1,6 +1,6 @@
 ---
 name: seo-plan
-description: "Strategic SEO planning for new or existing websites. Industry-specific templates, competitive analysis, content strategy, and implementation roadmap. Use when user says \"SEO plan\", \"SEO strategy\", \"SEO planning\", \"content strategy\", \"keyword strategy\", \"content calendar\", \"site architecture\", or \"SEO roadmap\"."
+description: "Strategic SEO planning for new or existing sites: industry templates, competitive analysis, content strategy, site architecture and roadmap. Use when the user asks for an SEO plan, strategy, roadmap or content calendar."
 user-invocable: true
 argument-hint: "[business-type]"
 license: MIT

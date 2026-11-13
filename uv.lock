@@ -3,6 +3,6 @@ revision = 3
 requires-python = ">=3.11"
 
 [[package]]
-name = "claude-seo"
+name = "ai-agent-seo"
 version = "3.0.0"
 source = { virtual = "." }

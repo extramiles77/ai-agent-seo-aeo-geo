@@ -1,4 +1,4 @@
-# Ai Agent SEO Installer for Windows
+# AI Agent SEO Installer for Windows
 # PowerShell installation script
 #
 # No arguments: install for Claude Code (below).
@@ -13,7 +13,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "|   Ai Agent SEO - Installer             |" -ForegroundColor Cyan
+Write-Host "|   AI Agent SEO - Installer             |" -ForegroundColor Cyan
 Write-Host "|   Claude Code SEO Skill              |" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
@@ -23,11 +23,15 @@ Write-Host ""
 $MinMinor = 11
 $MaxMinor = 14
 $script:SeenPython = @()
+# CLAUDE_SEO_PYTHON is the name used before the AI Agent SEO rename.
+if (-not $env:AI_AGENT_SEO_PYTHON -and $env:CLAUDE_SEO_PYTHON) {
+    $env:AI_AGENT_SEO_PYTHON = $env:CLAUDE_SEO_PYTHON
+}
 
 function Resolve-Python {
     # An override must be supported; it is never silently replaced.
-    if ($env:CLAUDE_SEO_PYTHON) {
-        return Test-PythonCandidate -Exe $env:CLAUDE_SEO_PYTHON -Args @()
+    if ($env:AI_AGENT_SEO_PYTHON) {
+        return Test-PythonCandidate -Exe $env:AI_AGENT_SEO_PYTHON -Args @()
     }
 
     # The default interpreter first, so an existing runtime keeps its Python.
@@ -121,10 +125,10 @@ $python = Resolve-Python
 if ($null -eq $python) {
     $found = 'no Python'
     if ($script:SeenPython.Count -gt 0) { $found = $script:SeenPython -join ', ' }
-    if ($env:CLAUDE_SEO_PYTHON) {
-        Write-Host "[x] CLAUDE_SEO_PYTHON must be Python 3.$MinMinor to 3.$MaxMinor. Found: $found." -ForegroundColor Red
+    if ($env:AI_AGENT_SEO_PYTHON) {
+        Write-Host "[x] AI_AGENT_SEO_PYTHON must be Python 3.$MinMinor to 3.$MaxMinor. Found: $found." -ForegroundColor Red
     } else {
-        Write-Host "[x] Ai Agent SEO needs Python 3.$MinMinor to 3.$MaxMinor. Found: $found. Install Python 3.$MaxMinor from python.org or set CLAUDE_SEO_PYTHON." -ForegroundColor Red
+        Write-Host "[x] AI Agent SEO needs Python 3.$MinMinor to 3.$MaxMinor. Found: $found. Install Python 3.$MaxMinor from python.org or set AI_AGENT_SEO_PYTHON." -ForegroundColor Red
     }
     exit 1
 }
@@ -223,11 +227,11 @@ try {
     # Copy the stable launcher used by skill and agent instructions. It ships in
     # scripts/ (never a top-level bin/, which hosted marketplaces reject) and
     # resolves runtime.py as a sibling, so it lands beside the copied scripts.
-    $LauncherSource = Join-Path $ScriptsPath 'claude-seo'
+    $LauncherSource = Join-Path $ScriptsPath 'ai-agent-seo'
     $SkillLauncherDir = Join-Path $SkillDir 'scripts'
     if (Test-Path $LauncherSource) {
         New-Item -ItemType Directory -Force -Path $SkillLauncherDir | Out-Null
-        Copy-Item -Force $LauncherSource (Join-Path $SkillLauncherDir 'claude-seo')
+        Copy-Item -Force $LauncherSource (Join-Path $SkillLauncherDir 'ai-agent-seo')
     }
 
     # Copy hooks
@@ -287,8 +291,8 @@ try {
     # launcher token in installed Markdown to the absolute installed path.
     # Claude Code's Bash tool expands $HOME on Windows as well as Unix. The
     # replacement consumes the plugin-root token, so a second pass is a no-op.
-    $pluginRunner = '"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run'
-    $manualRunner = '"$HOME/.claude/skills/seo/scripts/claude-seo" run'
+    $pluginRunner = '"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run'
+    $manualRunner = '"$HOME/.claude/skills/seo/scripts/ai-agent-seo" run'
     $installedDocs = @()
     Get-ChildItem -Path $SkillsPath -Directory | ForEach-Object {
         $sourceRoot = $_.FullName
@@ -328,10 +332,10 @@ try {
     $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
     $installedDocs | ForEach-Object {
         $text = [System.IO.File]::ReadAllText($_.FullName)
-        $pluginSetup = '"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" setup'
-        $pluginDoctor = '"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" doctor'
-        $manualSetup = '"$HOME/.claude/skills/seo/scripts/claude-seo" setup'
-        $manualDoctor = '"$HOME/.claude/skills/seo/scripts/claude-seo" doctor'
+        $pluginSetup = '"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" setup'
+        $pluginDoctor = '"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" doctor'
+        $manualSetup = '"$HOME/.claude/skills/seo/scripts/ai-agent-seo" setup'
+        $manualDoctor = '"$HOME/.claude/skills/seo/scripts/ai-agent-seo" doctor'
         $updated = $text.Replace($pluginRunner, $manualRunner)
         $updated = $updated.Replace($pluginSetup, $manualSetup)
         $updated = $updated.Replace($pluginDoctor, $manualDoctor)
@@ -361,7 +365,7 @@ try {
 }
 
 Write-Host ""
-Write-Host "[+] Ai Agent SEO installed successfully!" -ForegroundColor Green
+Write-Host "[+] AI Agent SEO installed successfully!" -ForegroundColor Green
 Write-Host ""
 Write-Host "Usage:" -ForegroundColor Cyan
 Write-Host "  1. Start Claude Code:  claude"

@@ -2,7 +2,7 @@ $ErrorActionPreference = "Stop"
 if (-not (Get-Command python -ErrorAction SilentlyContinue)) { throw "Python 3 required" }
 $SkillDir = Join-Path $HOME ".claude/skills"
 $AgentsDir = Join-Path $HOME ".claude/agents"
-if (-not (Test-Path (Join-Path $SkillDir "seo"))) { throw "claude-seo not installed" }
+if (-not (Test-Path (Join-Path $SkillDir "seo"))) { throw "ai-agent-seo not installed" }
 $MatomoUrl  = Read-Host "Matomo instance URL (e.g. https://analytics.example.com)"
 if (-not $MatomoUrl) { throw "Matomo URL required" }
 $TokenSecure = Read-Host "Matomo API token_auth (32-char hex)" -AsSecureString
@@ -13,7 +13,7 @@ $SourceDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepoRoot = Split-Path -Parent (Split-Path -Parent $SourceDir)
 $MatomoAuth = Join-Path $RepoRoot "scripts/matomo_auth.py"
 # Every Matomo request goes through the SSRF guard, which refuses private
-# addresses unless they are named in CLAUDE_SEO_LOCAL_TARGETS. Tell the user
+# addresses unless they are named in AI_AGENT_SEO_LOCAL_TARGETS. Tell the user
 # now, with the exact host:port, rather than at the first failed call.
 if (Test-Path $MatomoAuth) {
     $Hint = & python $MatomoAuth --local-target-hint $MatomoUrl 2>$null
@@ -30,7 +30,7 @@ Copy-Item (Join-Path $SourceDir "skills/seo-matomo/SKILL.md") (Join-Path $SkillT
 $AgentTarget = Join-Path $AgentsDir "seo-matomo.md"
 New-Item -ItemType Directory -Path $AgentsDir -Force | Out-Null
 Copy-Item (Join-Path $SourceDir "agents/seo-matomo.md") $AgentTarget -Force
-# Credentials go to ~/.config/claude-seo/matomo.json (0600 on POSIX, an
+# Credentials go to ~/.config/ai-agent-seo/matomo.json (0600 on POSIX, an
 # icacls-restricted ACL on Windows), written atomically via os.replace, not
 # into ~/.claude/settings.json: settings.json is a general-purpose config file
 # that tooling reads, prints, and syncs, and an API token has no business in
@@ -45,7 +45,7 @@ import importlib.util, os, sys
 args = sys.argv[1:]
 auth_path, url = args[0], args[1]
 site = args[2] if len(args) > 2 else ""
-token = os.environ['CLAUDE_SEO_SECRET']
+token = os.environ['AI_AGENT_SEO_SECRET']
 spec = importlib.util.spec_from_file_location('matomo_auth', auth_path)
 matomo_auth = importlib.util.module_from_spec(spec)
 sys.modules['matomo_auth'] = matomo_auth
@@ -58,10 +58,10 @@ matomo_auth.save_config({
 })
 print('Wrote Matomo credentials to ' + matomo_auth.CONFIG_PATH)
 "@
-$env:CLAUDE_SEO_SECRET = $TokenPlain
+$env:AI_AGENT_SEO_SECRET = $TokenPlain
 try {
     $py | python - $MatomoAuth $MatomoUrl $SiteId
     # A native command's non-zero exit does not throw, even with Stop.
     if ($LASTEXITCODE -ne 0) { throw "Nothing was saved (python exited $LASTEXITCODE). See the message above." }
-} finally { Remove-Item Env:CLAUDE_SEO_SECRET -ErrorAction SilentlyContinue }
+} finally { Remove-Item Env:AI_AGENT_SEO_SECRET -ErrorAction SilentlyContinue }
 Write-Host "Done. MATOMO_URL / MATOMO_API_TOKEN / MATOMO_SITE_ID still override the file."

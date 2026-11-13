@@ -11,7 +11,7 @@ metadata:
   category: seo
 ---
 
-# Firecrawl Extension for Ai Agent SEO
+# Firecrawl Extension for AI Agent SEO
 
 This skill requires the Firecrawl extension to be installed:
 ```bash

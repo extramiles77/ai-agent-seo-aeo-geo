@@ -1,5 +1,5 @@
 #!/usr/bin/env pwsh
-# claude-seo manual-install uninstaller (Windows)
+# ai-agent-seo manual-install uninstaller (Windows)
 #
 # Removes the orchestrator skill (~/.claude/skills/seo), all sub-skills
 # (~/.claude/skills/seo-*), and all sub-agents (~/.claude/agents/seo-*.md).
@@ -25,7 +25,7 @@ function Main {
     $SkillDir = Join-Path (Join-Path $env:USERPROFILE ".claude") "skills"
     $AgentDir = Join-Path (Join-Path $env:USERPROFILE ".claude") "agents"
 
-    Write-Color Cyan "=== Uninstalling claude-seo ==="
+    Write-Color Cyan "=== Uninstalling ai-agent-seo ==="
     Write-Host ""
 
     $removedSkills = 0
@@ -59,12 +59,12 @@ function Main {
 
     Write-Host ""
     if ($removedSkills -eq 0 -and $removedAgents -eq 0) {
-        Write-Color Yellow "Nothing to remove. Ai Agent SEO does not appear to be installed."
+        Write-Color Yellow "Nothing to remove. AI Agent SEO does not appear to be installed."
         Write-Color Yellow "If you installed via /plugin install, run /plugin uninstall instead."
         return
     }
 
-    Write-Color Cyan "=== claude-seo uninstalled ($removedSkills skill dirs, $removedAgents agent files) ==="
+    Write-Color Cyan "=== ai-agent-seo uninstalled ($removedSkills skill dirs, $removedAgents agent files) ==="
     Write-Host ""
     Write-Color Yellow "Restart Claude Code to complete removal."
 }

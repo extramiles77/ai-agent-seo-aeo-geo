@@ -1,8 +1,8 @@
-# Ai Agent SEO: Universal SEO Analysis Skill
+# AI Agent SEO: Universal SEO Analysis Skill
 
 ## Project Overview
 
-This repository contains **Ai Agent SEO**, a Tier 4 Claude Code skill for comprehensive
+This repository contains **AI Agent SEO**, a Tier 4 Claude Code skill for comprehensive
 SEO analysis across all industries. It follows the Agent Skills open standard and the
 3-layer architecture (directive, orchestration, execution). 26 sub-skills (22 core +
 1 orchestrator + 1 framework integration + 2 extension mirrors), 19 sub-agents (16 core +
@@ -17,7 +17,7 @@ as an optional extension for self-hosted analytics.
 ## Architecture
 
 ```
-claude-seo/
+ai-agent-seo/
   CLAUDE.md                          # Project instructions (this file)
   AGENTS.md                          # Multi-platform agent instructions (Cursor, Antigravity)
   .claude-plugin/
@@ -151,7 +151,7 @@ claude-seo/
     release_sign.py              # SHA-256 manifest generator for release signing
     verify_release.py            # Verify checkout integrity against a release manifest
     sitemap_discovery.py         # Sitemap discovery (robots.txt, common paths)
-    runtime.py                   # Managed runtime behind the claude-seo launcher
+    runtime.py                   # Managed runtime behind the ai-agent-seo launcher
     install_targets.py           # Cross-harness installer (Codex, Gemini CLI, Cursor, OpenCode, Copilot, Antigravity, Windsurf)
   schema/                          # Schema.org JSON-LD templates
   extensions/                      # Optional add-on install helpers
@@ -210,17 +210,17 @@ claude-seo/
 - Scripts must have docstrings, CLI interface, and JSON output
 - Follow kebab-case naming for all skill directories
 - Agents invoked via Agent tool, never via Bash
-- Bundled tools run through `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run`; plugin state uses `CLAUDE_PLUGIN_DATA`
+- Bundled tools run through `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run`; plugin state uses `CLAUDE_PLUGIN_DATA`
 - Manual Python dependencies install into `~/.claude/skills/seo/.venv/`
 - Test with `python3 -m pytest tests/` after changes (if applicable)
 
 ## Security Rules
 
-- **Never store credentials in this tree**: `.env`, `client_secret*.json`, `oauth-token.json`, `service_account*.json` belong under `~/.config/claude-seo/`, never in the checkout
+- **Never store credentials in this tree**: `.env`, `client_secret*.json`, `oauth-token.json`, `service_account*.json` belong under `~/.config/ai-agent-seo/`, never in the checkout
 - **URL validation**: All scripts that connect to user-supplied URLs must use `scripts/url_safety.py` (`validate_url_strict()` plus the pinned safe request helpers). This blocks private IPs, loopback, metadata endpoints, redirect rebinding, and DNS rebinding.
 - **OAuth tokens**: Never store `client_secret` in the token file. Read it from the client_secret.json file at runtime.
 - **No hardcoded paths**: Use `os.path.dirname(os.path.abspath(__file__))` for relative paths, never a user-specific absolute path
-- **Config location**: `~/.config/claude-seo/google-api.json` and `~/.config/claude-seo/backlinks-api.json` (user-space, not in repo)
+- **Config location**: `~/.config/ai-agent-seo/google-api.json` and `~/.config/ai-agent-seo/backlinks-api.json` (user-space, not in repo)
 
 ## Report Generation Rules
 

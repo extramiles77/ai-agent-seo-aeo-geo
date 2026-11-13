@@ -9,9 +9,9 @@ Tests run via `pytest tests/` and are wired into `.github/workflows/ci.yml`.
 """
 import json
 import re
+from pathlib import Path
 
 import pytest
-from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 PLUGIN_JSON = REPO_ROOT / ".claude-plugin" / "plugin.json"
@@ -176,7 +176,7 @@ def test_install_scripts_copy_from_their_own_checkout():
     for name in ("install.sh", "install.ps1"):
         text = (REPO_ROOT / name).read_text(encoding="utf-8")
         assert "git clone" not in text, f"{name} must not clone a repository"
-        assert "CLAUDE_SEO_TAG" not in text, f"{name} must not pin a release tag"
+        assert "AI_AGENT_SEO_TAG" not in text, f"{name} must not pin a release tag"
         assert "REPO_URL" not in text, f"{name} must not carry a repository URL"
 
 def _extract_section(text: str, heading: str) -> str:
@@ -465,7 +465,7 @@ def test_claude_md_script_inventory_lists_every_tracked_script():
 def test_no_nested_plugin_manifest_inside_the_plugin_root():
     """Claude Desktop skips a plugin whose folder holds another plugin.json (#344).
 
-    The claude-seo marketplace entry uses ``source: "./"``, so the whole
+    The ai-agent-seo marketplace entry uses ``source: "./"``, so the whole
     repository is the plugin folder. Only the root manifest may exist.
     """
     root_manifest = (REPO_ROOT / ".claude-plugin" / "plugin.json").resolve()
@@ -484,12 +484,14 @@ def test_seo_cockpit_installs_from_a_pinned_branch():
     """seo-cockpit is served from the seo-cockpit branch, pinned to a commit."""
     mp = json.loads(MARKETPLACE_JSON.read_text(encoding="utf-8"))
     entries = {e["name"]: e for e in mp["plugins"]}
-    assert mp["plugins"][0]["name"] == "claude-seo"
+    assert mp["plugins"][0]["name"] == "ai-agent-seo"
     assert mp["plugins"][0]["source"] == "./"
+    if "seo-cockpit" not in entries:
+        return  # this distribution ships no seo-cockpit companion
     source = entries["seo-cockpit"]["source"]
     assert isinstance(source, dict), "seo-cockpit must not be a relative path inside the plugin root"
     assert source["source"] == "git-subdir"
-    assert source["url"] == "extramiles77/claude-seo"
+    assert source["url"] == "extramiles77/ai-agent-seo"
     assert source["path"] == "plugins/seo-cockpit"
     assert source["ref"] == "seo-cockpit"
     assert re.fullmatch(r"[0-9a-f]{40}", source["sha"]), source.get("sha")

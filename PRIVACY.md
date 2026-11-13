@@ -2,7 +2,7 @@
 
 ## Data Handling
 
-Ai Agent SEO is a Claude Code skill that runs on your local machine. The core skill makes no third-party API calls by default (audits still fetch the target URLs you point them at), and does not collect, store, or transmit any personal data to a vendor.
+AI Agent SEO is a Claude Code skill that runs on your local machine. The core skill makes no third-party API calls by default (audits still fetch the target URLs you point them at), and does not collect, store, or transmit any personal data to a vendor.
 
 ## What Stays Local
 
@@ -24,7 +24,7 @@ Optional extensions make API calls to third-party services when you invoke their
 | **SE Ranking** | seranking.com/api | Domains and keywords you analyze | [SE Ranking Privacy](https://seranking.com/privacy-policy) |
 | **Profound** | Profound API (tryprofound.com) | Brands and domains you track | [Profound Privacy](https://tryprofound.com/privacy) |
 | **Bing Webmaster / IndexNow** | Bing Webmaster Tools API and IndexNow endpoints | Domains, submitted URLs, and key-verification URL data | [Microsoft Privacy](https://privacy.microsoft.com/) |
-| **Matomo** | Your own Matomo instance (self-hosted or Matomo Cloud); no claude-seo vendor is contacted | `idSite`, the report parameters (method, period, date range, segment, row limit), and `token_auth` in the POST body | [Matomo Privacy](https://matomo.org/privacy-policy/) (Cloud); self-hosted = your own policy |
+| **Matomo** | Your own Matomo instance (self-hosted or Matomo Cloud); no ai-agent-seo vendor is contacted | `idSite`, the report parameters (method, period, date range, segment, row limit), and `token_auth` in the POST body | [Matomo Privacy](https://matomo.org/privacy-policy/) (Cloud); self-hosted = your own policy |
 | **Unlighthouse** | Local only, no third-party vendor | Runs Lighthouse locally against the target URL; only the target site is contacted (to crawl it). Nothing is sent to a third-party vendor. | N/A (runs locally) |
 
 ## Backlink APIs
@@ -50,15 +50,15 @@ configured Matomo instance (self-hosted or Matomo Cloud):
 | `matomo_auth.py` | The configured `MATOMO_URL` | `API.getMatomoVersion` probe; `token_auth` in the POST body, never in a URL, never logged |
 | `matomo_report.py` | The configured `MATOMO_URL` | Reporting API queries for the configured `idSite`: method name, period, date range, segment, and row limit; `token_auth` in the POST body, never in a URL, never logged |
 
-The endpoint is the instance you configured and nothing else. No claude-seo
+The endpoint is the instance you configured and nothing else. No ai-agent-seo
 vendor, telemetry endpoint, or third party sees any of it, and the URLs of the
 site you analyze are read back from your own Matomo, not sent to it.
 
 Both scripts reach the instance through `scripts/url_safety.py`, the same
-SSRF-guarded, DNS-pinned path claude-seo uses for every user-supplied or
+SSRF-guarded, DNS-pinned path ai-agent-seo uses for every user-supplied or
 page-derived URL. Calls to fixed vendor API hosts go to those hosts directly.
 A self-hosted instance on a private address is reached by naming it in the
-`CLAUDE_SEO_LOCAL_TARGETS` allowlist; redirects away from the instance are
+`AI_AGENT_SEO_LOCAL_TARGETS` allowlist; redirects away from the instance are
 refused rather than followed. See SECURITY.md and
 `extensions/matomo/docs/MATOMO-SETUP.md`.
 
@@ -91,6 +91,6 @@ you have one set for the `gh` CLI.
 
 ## Credentials
 
-- API keys and OAuth tokens are stored locally in `~/.config/claude-seo/` or environment variables
-- Credentials live under `~/.config/claude-seo/`, never inside this directory
+- API keys and OAuth tokens are stored locally in `~/.config/ai-agent-seo/` or environment variables
+- Credentials live under `~/.config/ai-agent-seo/`, never inside this directory
 - OAuth tokens use refresh tokens and never store client secrets in token files

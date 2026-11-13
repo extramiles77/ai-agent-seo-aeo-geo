@@ -30,10 +30,12 @@ function stripWrappingQuotes(value) {
 
 function pythonCandidates() {
   const candidates = [];
-  if (process.env.CLAUDE_SEO_PYTHON) {
+  // CLAUDE_SEO_PYTHON is the name used before the AI Agent SEO rename.
+  const override = process.env.AI_AGENT_SEO_PYTHON || process.env.CLAUDE_SEO_PYTHON;
+  if (override) {
     candidates.push({
-      label: "CLAUDE_SEO_PYTHON",
-      exe: stripWrappingQuotes(process.env.CLAUDE_SEO_PYTHON),
+      label: process.env.AI_AGENT_SEO_PYTHON ? "AI_AGENT_SEO_PYTHON" : "CLAUDE_SEO_PYTHON",
+      exe: stripWrappingQuotes(override),
       args: [],
     });
   }
@@ -78,7 +80,7 @@ function main() {
   }
 
   console.error(
-    "Ai Agent SEO hook could not find Python. Tried CLAUDE_SEO_PYTHON, py -3, python3, python.",
+    "AI Agent SEO hook could not find Python. Tried AI_AGENT_SEO_PYTHON, py -3, python3, python.",
   );
   process.exit(1);
 }

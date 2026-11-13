@@ -16,7 +16,7 @@ metadata:
 
 ### 1. Crawlability
 - robots.txt: exists, valid, not blocking important resources
-- XML sitemap: run `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run sitemap_discovery.py <url> --json`; require a
+- XML sitemap: run `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run sitemap_discovery.py <url> --json`; require a
   valid entry in `found`, and report stale or unsafe robots.txt declarations
   separately from working fallback locations
 - Noindex tags: intentional vs accidental
@@ -100,7 +100,7 @@ Allow: /
 - Index bloat: unnecessary pages consuming crawl budget
 
 ### 3. Security
-- Run `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run transport_check.py <url>` and report its `findings` with their severities. It reads the TLS certificate (validity, days to expiry, host and www coverage, trust), grades the security headers below plus Permissions-Policy and cookie flags, and checks the http to https and www redirects.
+- Run `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run transport_check.py <url>` and report its `findings` with their severities. It reads the TLS certificate (validity, days to expiry, host and www coverage, trust), grades the security headers below plus Permissions-Policy and cookie flags, and checks the http to https and www redirects.
 - HTTPS: enforced, valid certificate. Mixed content is not covered by the script; `page_checks.py` reports it as `mixed-content`.
 - Security headers:
   - Content-Security-Policy (CSP)
@@ -159,7 +159,7 @@ Allow: /
 - See seo-schema skill for full analysis
 
 ### 8. JavaScript Rendering
-- Method: `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run render_page.py <url> --mode always --json --max-text 2000` and read `js_gap`: report every entry in `reasons`, and treat `title_changed`, `canonical_changed` or `meta_robots_changed` as a conflict between the served and the rendered page. Its `significant` limits are this tool's heuristics, not Google rules. If `js_gap` is null (no Chromium), run `agentic_check.py <url> --json`, report the raw-HTML word count and say rendered content was not compared.
+- Method: `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run render_page.py <url> --mode always --json --max-text 2000` and read `js_gap`: report every entry in `reasons`, and treat `title_changed`, `canonical_changed` or `meta_robots_changed` as a conflict between the served and the rendered page. Its `significant` limits are this tool's heuristics, not Google rules. If `js_gap` is null (no Chromium), run `agentic_check.py <url> --json`, report the raw-HTML word count and say rendered content was not compared.
 - Check if content visible in initial HTML vs requires JS
 - Identify client-side rendered (CSR) vs server-side rendered (SSR)
 - Flag SPA frameworks (React, Vue, Angular) that may cause indexing issues
@@ -208,7 +208,7 @@ to `seo-agentic` for the rest:
 - A 5xx robots.txt, which compliant crawlers read as "disallow everything".
 
 ```bash
-"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run agent_ux_check.py https://example.com --json
+"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run agent_ux_check.py https://example.com --json
 ```
 
 The Agent-UX 0-100 score above is a local heuristic. Keep it distinct from the
@@ -249,17 +249,17 @@ If DataForSEO MCP tools are available, use `on_page_instant_pages` for real page
 
 ## Google API Integration (Optional)
 
-If Google API credentials are configured, use `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run pagespeed_check.py <url> --json` for real PSI + CrUX field data (replaces lab-only CWV estimates), `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run crux_history.py <url> --form-factor PHONE --json` for 25-week CWV trends (use PHONE: the all-devices view can hide a mobile failure), and `"${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run gsc_inspect.py <url> --domain <audited-domain> --json` for real indexation status per URL. Domain-specific calls fail closed rather than using a different site's default property.
+If Google API credentials are configured, use `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run pagespeed_check.py <url> --json` for real PSI + CrUX field data (replaces lab-only CWV estimates), `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run crux_history.py <url> --form-factor PHONE --json` for 25-week CWV trends (use PHONE: the all-devices view can hide a mobile failure), and `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run gsc_inspect.py <url> --domain <audited-domain> --json` for real indexation status per URL. Domain-specific calls fail closed rather than using a different site's default property.
 
 ## Auditing a Local or Private Host
 
 `url_safety` refuses loopback and private addresses by default, so `http://localhost:3000` and a staging host on Tailscale fail with "Blocked hostname" or "Blocked IP literal". That default is deliberate: these scripts follow URLs found on the pages they crawl.
 
-To audit a pre-deployment host, the operator names it in `CLAUDE_SEO_LOCAL_TARGETS`, a comma-separated list of `host` or `host:port` entries:
+To audit a pre-deployment host, the operator names it in `AI_AGENT_SEO_LOCAL_TARGETS`, a comma-separated list of `host` or `host:port` entries:
 
 ```bash
-CLAUDE_SEO_LOCAL_TARGETS="localhost:3000,127.0.0.1:8080,100.101.102.103" \
-  "${CLAUDE_PLUGIN_ROOT}/scripts/claude-seo" run fetch_page.py http://localhost:3000/
+AI_AGENT_SEO_LOCAL_TARGETS="localhost:3000,127.0.0.1:8080,100.101.102.103" \
+  "${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run fetch_page.py http://localhost:3000/
 ```
 
 What it does and does not cover:

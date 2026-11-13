@@ -1,15 +1,15 @@
 <!--
-  Ai Agent SEO: free, open-source SEO audit plugin for Claude Code.
+  AI Agent SEO: free, open-source SEO audit skills for Claude Code and any AI agent (Codex, Gemini, Cursor, OpenCode, Copilot, Antigravity, Windsurf).
   Technical SEO, Core Web Vitals, E-E-A-T, Schema.org, AI search (GEO), local SEO, e-commerce and international SEO.
   26 sub-skills and 19 specialist agents. MIT licensed.
 -->
 
-<img src="assets/readme/v3/hero.svg" width="1200" height="420" alt="Ai Agent SEO: rank in Google, get cited by AI. Three bots climb from #48 to #1 by fixing crawl, speed, schema, AI access and authority, then Google, ChatGPT, Perplexity, Gemini and Claude cite the site." />
+<img src="assets/readme/v3/hero.svg" width="1200" height="420" alt="AI Agent SEO: rank in Google, get cited by AI. Three bots climb from #48 to #1 by fixing crawl, speed, schema, AI access and authority, then Google, ChatGPT, Perplexity, Gemini and Claude cite the site." />
 
-<h1 align="center">Ai Agent SEO</h1>
+<h1 align="center">AI Agent SEO</h1>
 
 <p align="center">
-  <b>Free, open-source SEO audits inside <a href="https://claude.com/product/claude-code">Claude Code</a>.</b><br />
+  <b>Free, open-source SEO audits inside <a href="https://claude.com/product/claude-code">Claude Code</a> and any AI agent that reads Agent Skills.</b><br />
   Rank higher in Google and get cited by AI search.
 </p>
 
@@ -22,7 +22,7 @@
   <a href="#faq">FAQ</a>
 </p>
 
-**Ai Agent SEO is a free SEO plugin for Claude Code.** Give it any website and it runs a full SEO audit in 10 to 15 minutes, then hands you a clear action plan, sorted by what matters most.
+**AI Agent SEO is a free SEO plugin for Claude Code that also runs in Codex, Gemini CLI, Cursor, OpenCode, GitHub Copilot, Antigravity and Windsurf, with any model.** Give it any website and it runs a full SEO audit in 10 to 15 minutes, then hands you a clear action plan, sorted by what matters most.
 
 It checks everything a good SEO consultant would:
 
@@ -32,25 +32,25 @@ It checks everything a good SEO consultant would:
 - **AI search (GEO).** How likely Google AI Overviews, AI Mode, ChatGPT, Perplexity and Gemini are to cite your pages.
 - **Local and e-commerce SEO.** Google Business Profile, reviews, map pack, product pages and international sites.
 
-Ai Agent SEO is built from 26 sub-skills and 19 specialist agents, and up to 17 agents work on your site at the same time. Every recommendation explains why it matters and how you will know it worked.
+AI Agent SEO is built from 26 sub-skills and 19 specialist agents, and up to 17 agents work on your site at the same time. Every recommendation explains why it matters and how you will know it worked.
 
 ## See it in action
 
 The install, a live audit and the resulting plan, end to end:
 
-<img src="assets/readme/homies-tour.jpg" width="640" height="360" alt="Watch the Ai Agent SEO video tour on YouTube: a full SEO team in your terminal, presented by Coral, Violet and Red" />
+<img src="assets/readme/homies-tour.jpg" width="640" height="360" alt="Watch the AI Agent SEO video tour on YouTube: a full SEO team in your terminal, presented by Coral, Violet and Red" />
 
 Type `/seo` in Claude Code to see every command:
 
-![Ai Agent SEO /seo command demo in the Claude Code terminal](screenshots/seo-command-demo.gif)
+![AI Agent SEO /seo command demo in the Claude Code terminal](screenshots/seo-command-demo.gif)
 
 Run a full audit and watch the agents fan out across the site:
 
-![Ai Agent SEO /seo audit demo: parallel agents producing a prioritized action plan](screenshots/seo-audit-demo.gif)
+![AI Agent SEO /seo audit demo: parallel agents producing a prioritized action plan](screenshots/seo-audit-demo.gif)
 
 ## Meet the team
 
-<img src="assets/readme/v3/team.svg" width="1200" height="420" alt="The Ai Agent SEO team: 19 specialist agents on a website, each standing on the part it checks, shown one at a time with its role, model, ability and command." />
+<img src="assets/readme/v3/team.svg" width="1200" height="420" alt="The AI Agent SEO team: 19 specialist agents on a website, each standing on the part it checks, shown one at a time with its role, model, ability and command." />
 
 <details>
 <summary><b>All 19 agents</b></summary>
@@ -119,13 +119,13 @@ Run a full audit and watch the agents fan out across the site:
 
 ## Pricing
 
-<img src="assets/readme/v3/shop.svg" width="1200" height="420" alt="Same items, two shops: an agency charges for an SEO audit, reporting, calls and a retainer while Ai Agent SEO charges nothing. Over year one the agency total reaches $106,500. Illustrative pricing." />
+<img src="assets/readme/v3/shop.svg" width="1200" height="420" alt="Same items, two shops: an agency charges for an SEO audit, reporting, calls and a retainer while AI Agent SEO charges nothing. Over year one the agency total reaches $106,500. Illustrative pricing." />
 
 <details>
 <summary><b>The full comparison</b></summary>
 <br />
 
-| | Doing it by hand | Hiring an agency | SEO audit software | **Ai Agent SEO** |
+| | Doing it by hand | Hiring an agency | SEO audit software | **AI Agent SEO** |
 |---|---|---|---|---|
 | **Time per audit** | 4 to 8 hours | 1 to 3 weeks | 10 to 45 minutes | **10 to 15 minutes** |
 | **Cost** | Billable hours | $2k to $15k+ per project | $99 to $999 a month | **Free, with your Claude Code plan** |
@@ -141,7 +141,7 @@ Run a full audit and watch the agents fan out across the site:
 
 ## How an audit works
 
-1. **It learns your site.** Ai Agent SEO detects the type of business (SaaS, local, e-commerce, publisher or agency) and adjusts its checks.
+1. **It learns your site.** AI Agent SEO detects the type of business (SaaS, local, e-commerce, publisher or agency) and adjusts its checks.
 2. **The team fans out.** Up to 17 specialist agents audit the site in parallel: technical, content, schema, speed, AI search and more.
 3. **You get a plan, not a pile of warnings.** Findings are scored and sorted into a prioritized action plan. Each recommendation says what it is based on, what it depends on and how you will know it worked.
 
@@ -173,9 +173,17 @@ Want the details? Read the [methodology](skills/seo/references/thinking-framewor
 
 ## Install
 
-You need [Claude Code](https://claude.com/product/claude-code) 1.0.33 or newer, and Python 3.11 to 3.14.
+You need Python 3.11 to 3.14 and one AI agent: [Claude Code](https://claude.com/product/claude-code) 1.0.33 or newer, or any harness listed under "Use it with any AI agent" below.
 
-From this checkout, run the installer for your platform:
+**Claude Code as a plugin** (recommended for Claude; enables the schema-validation hook). Inside Claude Code:
+
+```bash
+/plugin marketplace add extramiles77/ai-agent-seo   # or the path to a local checkout
+/plugin install ai-agent-seo@ai-agent-seo-marketplace
+/seo setup
+```
+
+**Claude Code manual install.** Clone https://github.com/extramiles77/ai-agent-seo (or use a local copy), then from the checkout run the installer for your platform:
 
 ```bash
 bash install.sh
@@ -194,7 +202,7 @@ Then, inside Claude Code:
 /seo setup         # only if doctor reports the runtime is missing
 ```
 
-`/seo setup` prepares everything Ai Agent SEO needs (its own Python environment and a headless browser) without touching the rest of your system.
+`/seo setup` prepares everything AI Agent SEO needs (its own Python environment and a headless browser) without touching the rest of your system.
 
 **Your first audit:**
 
@@ -238,12 +246,12 @@ bash install.sh --dest /path/to/skills           # any other harness
 
 Harnesses without a subagent tool run the specialist agents one after another
 from `seo/subagents/`, so a full audit takes longer but covers the same checks.
-Remove an install with `./scripts/claude-seo uninstall --target agents`.
+Remove an install with `./scripts/ai-agent-seo uninstall --target agents`.
 
 ## FAQ
 
 <details>
-<summary><b>What is Ai Agent SEO?</b></summary>
+<summary><b>What is AI Agent SEO?</b></summary>
 <br />
 
 A free, open-source SEO audit tool that runs inside Claude Code. It checks technical SEO, Core Web Vitals, content quality, Schema.org structured data, AI search readiness, local SEO, e-commerce and international SEO, then gives you a prioritized action plan. It follows Google's own documentation, including the [AI Optimization Guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide).
@@ -262,7 +270,7 @@ Yes. It is MIT licensed, with no per-site pricing, no usage limits and no tracki
 <summary><b>Do I need API keys?</b></summary>
 <br />
 
-No. Ai Agent SEO works out of the box. If you want real field data, you can connect free Google APIs (PageSpeed Insights, Chrome UX Report, Search Console and Google Analytics 4) with `/seo google setup`. Your keys stay on your machine.
+No. AI Agent SEO works out of the box. If you want real field data, you can connect free Google APIs (PageSpeed Insights, Chrome UX Report, Search Console and Google Analytics 4) with `/seo google setup`. Your keys stay on your machine.
 
 </details>
 
@@ -270,7 +278,7 @@ No. Ai Agent SEO works out of the box. If you want real field data, you can conn
 <summary><b>How does it help with AI search like Google AI Overviews and ChatGPT?</b></summary>
 <br />
 
-Google says optimizing for AI search is still SEO, so Ai Agent SEO starts with the basics that AI answers rely on: being indexed, fast and clear. Then `/seo geo` scores how easy your pages are to quote, checks that AI crawlers can reach them and looks at your brand's presence on Wikipedia, Reddit, YouTube and LinkedIn. `/seo agentic` checks how well AI agents can use your site.
+Google says optimizing for AI search is still SEO, so AI Agent SEO starts with the basics that AI answers rely on: being indexed, fast and clear. Then `/seo geo` scores how easy your pages are to quote, checks that AI crawlers can reach them and looks at your brand's presence on Wikipedia, Reddit, YouTube and LinkedIn. `/seo agentic` checks how well AI agents can use your site.
 
 </details>
 
@@ -278,7 +286,7 @@ Google says optimizing for AI search is still SEO, so Ai Agent SEO starts with t
 <summary><b>Does it work on JavaScript sites like Next.js, React or Vue?</b></summary>
 <br />
 
-Yes. When a page needs JavaScript to show its content, Ai Agent SEO opens it in a headless browser automatically, so single-page apps are audited as visitors see them.
+Yes. When a page needs JavaScript to show its content, AI Agent SEO opens it in a headless browser automatically, so single-page apps are audited as visitors see them.
 
 </details>
 
@@ -286,7 +294,7 @@ Yes. When a page needs JavaScript to show its content, Ai Agent SEO opens it in 
 <summary><b>How is it different from Screaming Frog or other SEO tools?</b></summary>
 <br />
 
-Crawlers like Screaming Frog crawl faster and deeper, and big SEO suites have their own backlink databases. Ai Agent SEO does something else: it explains what it finds, sorts it by impact, covers AI search in depth and lets you ask follow-up questions in plain English. Many people use both.
+Crawlers like Screaming Frog crawl faster and deeper, and big SEO suites have their own backlink databases. AI Agent SEO does something else: it explains what it finds, sorts it by impact, covers AI search in depth and lets you ask follow-up questions in plain English. Many people use both.
 
 </details>
 
@@ -294,7 +302,7 @@ Crawlers like Screaming Frog crawl faster and deeper, and big SEO suites have th
 <summary><b>Does my data leave my computer?</b></summary>
 <br />
 
-Ai Agent SEO runs inside Claude Code, so the pages and data it analyzes are sent to Claude, Anthropic's model, the same as anything else you work on in Claude Code. Reports are saved as files on your machine. No SEO service or other third party sees your data unless you connect an extension or API yourself. Besides the site you audit, some checks read public sources such as Wikipedia, Reddit and Common Crawl. See [PRIVACY.md](PRIVACY.md) for the full list.
+AI Agent SEO runs inside Claude Code, so the pages and data it analyzes are sent to Claude, Anthropic's model, the same as anything else you work on in Claude Code. Reports are saved as files on your machine. No SEO service or other third party sees your data unless you connect an extension or API yourself. Besides the site you audit, some checks read public sources such as Wikipedia, Reddit and Common Crawl. See [PRIVACY.md](PRIVACY.md) for the full list.
 
 </details>
 
@@ -324,7 +332,7 @@ If you installed the plugin through a marketplace instead, remove it with `/plug
 
 ## Extensions
 
-Optional add-ons that bring in more data. Ai Agent SEO works fully without them.
+Optional add-ons that bring in more data. AI Agent SEO works fully without them.
 
 - **Banana:** AI images for SEO, from social previews to blog heroes (Claude Banana)
 - **SE Ranking:** your share of voice in ChatGPT, Gemini, Perplexity and Google AI answers
