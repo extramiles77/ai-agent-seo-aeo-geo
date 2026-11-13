@@ -2,7 +2,7 @@
 name: seo-ahrefs
 description: "Ahrefs data via the official MCP extension: referring domains, backlinks, organic keywords and Content Explorer. Use when the user names Ahrefs or wants Ahrefs backlink or keyword data alongside seo-backlinks."
 metadata:
-  version: "3.0.0"
+  version: "3.1.0"
 compatibility: "Tested with @ahrefs/mcp@0.0.11 (installed by extensions/ahrefs/install.sh)."
 ---
 

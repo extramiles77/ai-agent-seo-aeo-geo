@@ -7,7 +7,7 @@ license: MIT
 compatibility: "DataForSEO MCP for Tier 1+, Google Maps API for Tier 2"
 metadata:
   author: extramiles77
-  version: "3.0.0"
+  version: "3.1.0"
   category: seo
 ---
 

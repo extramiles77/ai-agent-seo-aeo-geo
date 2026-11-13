@@ -152,6 +152,7 @@ main() {
         temp_doc="${doc}.ai-agent-seo-tmp"
         sed -e "s#\${CLAUDE_PLUGIN_ROOT}/skills/#${skills_root_esc}#g" \
             -e "s#\${CLAUDE_PLUGIN_ROOT}/agents/#${agents_root_esc}#g" \
+            -e 's#\${user_config\.[A-Za-z_][A-Za-z0-9_]*}##g' \
             -e 's#"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run#"$HOME/.claude/skills/seo/scripts/ai-agent-seo" run#g' \
             -e 's#"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" setup#"$HOME/.claude/skills/seo/scripts/ai-agent-seo" setup#g' \
             -e 's#"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" doctor#"$HOME/.claude/skills/seo/scripts/ai-agent-seo" doctor#g' \

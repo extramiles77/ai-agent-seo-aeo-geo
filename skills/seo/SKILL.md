@@ -1,12 +1,12 @@
 ---
 name: seo
-description: "Universal SEO analysis hub: full-site audits, single-page reviews, technical SEO, Core Web Vitals, schema, E-E-A-T content, images, sitemaps and GEO for AI search, with industry detection. Use for /seo commands or when a request is about SEO but no specific seo-* skill clearly fits."
+description: "SEO, AEO and GEO hub: site audits, page reviews, technical SEO, Core Web Vitals, schema, E-E-A-T, images, sitemaps, answer engines and AI search. Use for /seo commands or SEO requests no specific seo-* skill fits."
 user-invocable: true
 argument-hint: "[command] [url]"
 license: MIT
 metadata:
   author: extramiles77
-  version: "3.0.0"
+  version: "3.1.0"
   category: seo
 ---
 
@@ -24,8 +24,10 @@ users run `./scripts/ai-agent-seo`. Never invoke bundled scripts with a bare
 Python interpreter.
 
 Comprehensive SEO analysis across all industries (SaaS, local services,
-e-commerce, publishers, agencies). Orchestrates 25 sub-skills (22 core + 1 framework
-integration + 2 extension mirrors) and 19 sub-agents. A separate optional Firecrawl
+e-commerce, publishers, agencies), with three optimization goals in one plugin:
+**SEO** (classic rankings), **AEO** (direct answers: featured snippets, People Also
+Ask, voice) and **GEO** (citations in AI search). Orchestrates 26 sub-skills (23 core
++ 1 framework integration + 2 extension mirrors) and 20 sub-agents. A separate optional Firecrawl
 extension is also installable (see "Optional Extensions" below).
 
 ## Quick Reference
@@ -41,6 +43,8 @@ extension is also installable (see "Optional Extensions" below).
 | `/seo content <url>` | E-E-A-T and content quality analysis |
 | `/seo content-brief <topic or url>` | Generate detailed SEO content brief with target keywords, outline, internal links |
 | `/seo geo <url>` | AI Overviews / Generative Engine Optimization |
+| `/seo aeo [questions\|rewrite] <url>` | Answer Engine Optimization: featured snippets, People Also Ask, voice, answer-first rewrites |
+| `/seo settings [show\|set focus <balanced\|seo\|aeo\|geo>]` | Show or change the SEO / AEO / GEO optimization focus |
 | `/seo agentic [audit\|fix\|lighthouse\|refresh] <url>` | Agent readiness: Lighthouse Agentic Browsing X/N, accessibility tree, AI agent access, llms.txt, Markdown, WebMCP |
 | `/seo plan <business-type>` | Strategic SEO planning |
 | `/seo programmatic [url\|plan]` | Programmatic SEO analysis and planning |
@@ -98,11 +102,31 @@ validates generated JSON-LD with a hook automatically; elsewhere, re-read
 generated schema and check it against `references/schema-types.md` before
 presenting it.
 
+## Optimization Settings (SEO, AEO, GEO)
+
+One setting, `optimization_focus`, decides how audits weigh the three goals:
+`balanced` (default), `seo`, `aeo` or `geo`. Resolve it before any audit and
+print it in the report header:
+
+`"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run seo_settings.py show --plugin-focus "${user_config.optimization_focus}" --json`
+
+Pass `--focus <value>` when the user names a focus in the command (for example
+`/seo audit <url> --focus geo`). Ways to change it:
+
+- Claude Code: `/config`, plugin option **Optimization focus**
+- Any harness: `/seo settings set focus aeo`, which runs
+  `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run seo_settings.py set focus aeo`
+  and saves `~/.config/ai-agent-seo/settings.json`
+- One session: the `AI_AGENT_SEO_FOCUS` environment variable
+
+`/seo settings` alone runs `show`; `/seo settings profiles` lists every
+profile's weights.
+
 ## Orchestration Logic
 
 When the user invokes `/seo audit`, delegate to subagents in parallel:
-1. Detect business type (SaaS, local, ecommerce, publisher, agency, other)
-2. Spawn subagents: seo-technical, seo-content, seo-schema, seo-sitemap, seo-performance, seo-visual, seo-geo, seo-agentic
+1. Resolve the optimization focus (see "Optimization Settings") and detect business type (SaaS, local, ecommerce, publisher, agency, other)
+2. Spawn subagents: seo-technical, seo-content, seo-schema, seo-sitemap, seo-performance, seo-visual, seo-geo, seo-aeo, seo-agentic
 3. If Google API credentials detected (`"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run google_auth.py --check`), also spawn seo-google agent
 4. If Matomo credentials detected (`"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run matomo_auth.py --check`), also spawn seo-matomo agent (alternative or complement to seo-google's GA4 reports)
 5. If local business detected, also spawn seo-local agent
@@ -113,7 +137,7 @@ When the user invokes `/seo audit`, delegate to subagents in parallel:
 10. If e-commerce detected, also spawn seo-ecommerce agent
 11. If drift baseline exists for this URL (`"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run drift_history.py <url>`), also spawn seo-drift agent
 12. Always include seo-sxo in full audits (search experience applies to all sites)
-13. Collect results and generate unified report with SEO Health Score (0-100)
+13. Collect results and generate unified report with three headline scores: SEO Health Score (0-100, weighted by the focus profile), AEO score (Answer Readiness) and GEO score (AI Search Readiness)
 14. **Synthesize via the 10-principle framework** (see "Synthesis Methodology" below), walk PERCEIVE → ANALYZE → VALIDATE → ACT before bucketing findings into Critical / High / Medium / Low
 15. Create prioritized action plan with dependency sequencing + falsifiability per recommendation
 16. **Offer PDF report**: "Generate a professional PDF report? Use `/seo google report full`"
@@ -189,17 +213,24 @@ Maps-specific references (loaded by seo-maps skill, not at startup):
 ## Scoring Methodology
 
 ### SEO Health Score (0-100)
-Weighted aggregate of all categories:
+Weighted aggregate of all categories. The weights depend on the optimization
+focus; `seo_settings.py show` returns the active ones:
 
-| Category | Weight |
-|----------|--------|
-| Technical SEO | 22% |
-| Content Quality | 23% |
-| On-Page SEO | 20% |
-| Schema / Structured Data | 10% |
-| Performance (CWV) | 10% |
-| AI Search Readiness | 10% |
-| Images | 5% |
+| Category | balanced | seo | aeo | geo |
+|----------|---------:|----:|----:|----:|
+| Technical SEO | 20% | 22% | 14% | 14% |
+| Content Quality | 20% | 22% | 20% | 20% |
+| On-Page SEO | 18% | 20% | 12% | 12% |
+| Schema / Structured Data | 10% | 10% | 14% | 12% |
+| Performance (CWV) | 10% | 10% | 6% | 6% |
+| AI Search Readiness (GEO) | 10% | 6% | 12% | 22% |
+| Answer Readiness (AEO) | 7% | 5% | 18% | 10% |
+| Images | 5% | 5% | 4% | 4% |
+
+### AEO and GEO scores
+Report them beside the SEO Health Score, never folded into one number: the AEO
+score is the Answer Readiness category (`seo-aeo`, `aeo_check.py`), the GEO
+score is the AI Search Readiness category (`seo-geo`, with `seo-agentic`).
 
 ### Priority Levels
 - **Critical**: Blocks indexing or causes penalties (immediate fix required)
@@ -209,8 +240,8 @@ Weighted aggregate of all categories:
 
 ## Sub-Skills
 
-This skill orchestrates 25 sub-skills (22 core + 1 framework integration + 2 extension
-mirrors). The orchestrator itself (`seo`) is the 26th in `skills/`, but does not
+This skill orchestrates 26 sub-skills (23 core + 1 framework integration + 2 extension
+mirrors). The orchestrator itself (`seo`) is the 27th in `skills/`, but does not
 orchestrate itself, so it is not enumerated below.
 
 1. **seo-audit** -- Full website audit with parallel delegation
@@ -238,6 +269,7 @@ orchestrate itself, so it is not enumerated below.
 23. **seo-image-gen** -- AI image generation for SEO assets via Gemini (extension mirror)
 24. **seo-flow** -- FLOW framework integration (Find -> Leverage -> Optimize -> Win, 41 AI prompts, CC BY 4.0)
 25. **seo-agentic** -- Agent readiness: Lighthouse Agentic Browsing, accessibility tree for agents, AI agent access policy, llms.txt, Markdown, ai-catalog.json, WebMCP
+26. **seo-aeo** -- Answer Engine Optimization: question coverage, answer-first passages, snippet formats, voice readiness
 
 ### Optional Extensions
 
@@ -270,6 +302,7 @@ For parallel analysis during audits:
 - `seo-performance` -- Core Web Vitals measurement
 - `seo-visual` -- Screenshots, mobile testing, above-fold
 - `seo-geo` -- AI crawler access, llms.txt, citability, brand mention signals
+- `seo-aeo` -- Question coverage, answer-first passages, list/table formats, answer schema (always in full audits; feeds Answer Readiness)
 - `seo-agentic` -- Lighthouse Agentic Browsing fraction, accessibility tree for agents, AI agent access policy, Markdown, discovery files, WebMCP (always in full audits)
 - `seo-local` -- GBP signals, NAP consistency, reviews, local schema, industry-specific local factors (conditional: spawned when Local Service detected)
 - `seo-maps` -- Geo-grid rank tracking, GBP audit, review intelligence, competitor radius mapping (conditional: spawned when Local Service detected AND DataForSEO MCP available)

@@ -159,6 +159,41 @@ Schema markup detection, validation, and generation.
 
 ---
 
+### `/seo aeo [questions|rewrite] <url>`
+
+Answer Engine Optimization: making a page the direct answer in featured
+snippets, People Also Ask, voice assistants and AI answer boxes.
+
+**Example:**
+```
+/seo aeo https://example.com/blog/guide
+/seo aeo questions "technical seo audit"
+/seo aeo rewrite https://example.com/blog/guide
+```
+
+**What it analyzes:**
+- Question-shaped headings and People Also Ask coverage
+- Answer-first passages (concise answer under each question)
+- Lists, tables, summary block and definitional opening
+- Author, date and entity signals; QAPage / Article / Speakable status
+- Heuristic AEO score from `aeo_check.py`
+
+---
+
+### `/seo settings [show|set focus <balanced|seo|aeo|geo>|profiles]`
+
+Shows or changes the optimization focus that weights audit scores. In Claude
+Code the same value is the plugin option **Optimization focus** in `/config`;
+`AI_AGENT_SEO_FOCUS` overrides it for one session.
+
+```
+/seo settings
+/seo settings set focus geo
+/seo audit https://example.com --focus aeo
+```
+
+---
+
 ### `/seo geo <url>`
 
 AI Overviews / Generative Engine Optimization.
@@ -767,6 +802,8 @@ Multi-page Lighthouse audit via Unlighthouse (extension, MIT, no API quota). **P
 | `/seo sitemap <url>` | Sitemap validation |
 | `/seo sitemap generate` | Create new sitemap with industry templates |
 | `/seo images <url>` | Image optimization |
+| `/seo aeo <url>` | Answer Engine Optimization (AEO) |
+| `/seo settings` | SEO / AEO / GEO optimization focus |
 | `/seo geo <url>` | AI search optimization (GEO) |
 | `/seo agentic <url>` | Agent readiness (Lighthouse Agentic Browsing, AI agent access, WebMCP) |
 | `/seo local <url>` | Local SEO (GBP, citations, reviews) |

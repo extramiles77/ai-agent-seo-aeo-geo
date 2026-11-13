@@ -341,6 +341,8 @@ try {
         $updated = $updated.Replace($pluginDoctor, $manualDoctor)
         # Read-tool paths need the absolute skills directory, not a variable.
         $updated = $updated.Replace('${CLAUDE_PLUGIN_ROOT}/skills/', (($env:USERPROFILE -replace '\\', '/') + '/.claude/skills/'))
+        # Plugin options exist only in a Claude Code plugin; elsewhere they are unset.
+        $updated = [regex]::Replace($updated, '\$\{user_config\.[A-Za-z_][A-Za-z0-9_]*\}', '')
         $updated = $updated.Replace('${CLAUDE_PLUGIN_ROOT}/agents/', (($env:USERPROFILE -replace '\\', '/') + '/.claude/agents/'))
         if ($updated -ne $text) {
             [System.IO.File]::WriteAllText($_.FullName, $updated, $utf8NoBom)

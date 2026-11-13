@@ -39,6 +39,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -47,6 +48,7 @@ from pathlib import Path
 
 TOKEN = "${CLAUDE_PLUGIN_ROOT}"
 LAUNCHER_TOKEN = TOKEN + "/scripts/ai-agent-seo"
+USER_CONFIG_RE = re.compile(r"\$\{user_config\.[A-Za-z_][A-Za-z0-9_]*\}")
 COPY_IGNORE = shutil.ignore_patterns("__pycache__", "*.pyc", ".venv", ".venv.*", ".DS_Store")
 
 # name -> (skills folder relative to home, agent folder or None, harnesses, detection folder)
@@ -209,7 +211,11 @@ def rewrite_text(text: str, plan: Plan, windows: bool | None = None) -> str:
     text = text.replace(LAUNCHER_TOKEN, launcher)
     text = text.replace(TOKEN + "/skills/", _posix(plan.skills_root) + "/")
     text = text.replace(TOKEN + "/agents/", agents + "/")
-    return text.replace(TOKEN + "/", runtime + "/")
+    text = text.replace(TOKEN + "/", runtime + "/")
+    # Plugin options (${user_config.KEY}) exist only in a Claude Code plugin.
+    # Elsewhere the scripts fall back to env vars and settings.json, so an empty
+    # value is the correct "unset".
+    return USER_CONFIG_RE.sub("", text)
 
 
 def _rewrite_file(path: Path, plan: Plan) -> None:
@@ -231,7 +237,7 @@ def install(plan: Plan, src: Path, dry_run: bool) -> dict[str, object]:
         "skills_root": _posix(plan.skills_root),
         "runtime_home": _posix(plan.runtime_home),
         "owns_runtime": plan.owns_runtime,
-        "skills": [p.name for p in skills],
+        "skills": sorted({p.name for p in skills}),  # extension mirrors share a name
         "subagents": len(agents),
     }
     if dry_run:

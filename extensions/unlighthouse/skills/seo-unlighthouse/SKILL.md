@@ -2,7 +2,7 @@
 name: seo-unlighthouse
 description: "Run Lighthouse on every page of a site locally with the Unlighthouse CLI, without PageSpeed API quota. Use when the user wants site-wide Lighthouse or performance scores for many URLs."
 metadata:
-  version: "3.0.0"
+  version: "3.1.0"
 compatibility: "Requires Node 18+ and the unlighthouse npm package. Run extensions/unlighthouse/install.sh to pre-warm."
 ---
 

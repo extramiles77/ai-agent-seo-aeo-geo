@@ -1,7 +1,7 @@
 <!--
   AI Agent SEO: free, open-source SEO audit skills for Claude Code and any AI agent (Codex, Gemini, Cursor, OpenCode, Copilot, Antigravity, Windsurf).
   Technical SEO, Core Web Vitals, E-E-A-T, Schema.org, AI search (GEO), local SEO, e-commerce and international SEO.
-  26 sub-skills and 19 specialist agents. MIT licensed.
+  SEO, AEO (answer engines) and GEO (AI search). 27 sub-skills and 20 specialist agents. MIT licensed.
 -->
 
 <img src="assets/readme/v3/hero.svg" width="1200" height="420" alt="AI Agent SEO: rank in Google, get cited by AI. Three bots climb from #48 to #1 by fixing crawl, speed, schema, AI access and authority, then Google, ChatGPT, Perplexity, Gemini and Claude cite the site." />
@@ -32,28 +32,30 @@ It checks everything a good SEO consultant would:
 - **AI search (GEO).** How likely Google AI Overviews, AI Mode, ChatGPT, Perplexity and Gemini are to cite your pages.
 - **Local and e-commerce SEO.** Google Business Profile, reviews, map pack, product pages and international sites.
 
-AI Agent SEO is built from 26 sub-skills and 19 specialist agents, and up to 17 agents work on your site at the same time. Every recommendation explains why it matters and how you will know it worked.
+AI Agent SEO is built from 27 sub-skills and 20 specialist agents, and up to 18 agents work on your site at the same time. Every recommendation explains why it matters and how you will know it worked.
 
 ## See it in action
 
-The install, a live audit and the resulting plan, end to end:
+The demos below are rendered from real command output (how: [docs/demos](docs/demos/README.md)).
 
-<img src="assets/readme/homies-tour.jpg" width="640" height="360" alt="Watch the AI Agent SEO video tour on YouTube: a full SEO team in your terminal, presented by Coral, Violet and Red" />
+Install once for every AI agent on your machine:
 
-Type `/seo` in Claude Code to see every command:
+![AI Agent SEO installer detecting Claude Code, Codex, Gemini, Cursor, OpenCode, Copilot, Antigravity and Windsurf, then installing the skills for all of them](screenshots/seo-install-demo.gif)
 
-![AI Agent SEO /seo command demo in the Claude Code terminal](screenshots/seo-command-demo.gif)
+The same 27 skills and 20 agents, in Claude Code and in the shared `~/.agents/skills` folder:
 
-Run a full audit and watch the agents fan out across the site:
+![Claude Code plugin details for ai-agent-seo next to the skills installed in ~/.agents/skills](screenshots/seo-command-demo.gif)
 
-![AI Agent SEO /seo audit demo: parallel agents producing a prioritized action plan](screenshots/seo-audit-demo.gif)
+SEO, AEO and GEO checks: the optimization focus, the answer-engine score and the agent-readiness checks on example.com:
+
+![AI Agent SEO settings, aeo_check and agentic_check output on example.com](screenshots/seo-audit-demo.gif)
 
 ## Meet the team
 
 <img src="assets/readme/v3/team.svg" width="1200" height="420" alt="The AI Agent SEO team: 19 specialist agents on a website, each standing on the part it checks, shown one at a time with its role, model, ability and command." />
 
 <details>
-<summary><b>All 19 agents</b></summary>
+<summary><b>All 20 agents</b></summary>
 <br />
 
 | Agent | Role | Model | Command |
@@ -65,6 +67,7 @@ Run a full audit and watch the agents fan out across the site:
 | `seo-performance` | Performance Engineer | Sonnet | `/seo audit` |
 | `seo-visual` | Visual QA | Sonnet | `/seo audit` |
 | `seo-geo` | AI Search Analyst | Opus | `/seo geo` |
+| `seo-aeo` | Answer Engine Analyst | Sonnet | `/seo aeo` |
 | `seo-agentic` | Agent Readiness Analyst | Sonnet | `/seo agentic` |
 | `seo-local` | Local SEO Specialist | Sonnet | `/seo local` |
 | `seo-maps` | Maps Analyst | Sonnet | `/seo maps` |
@@ -90,11 +93,11 @@ Run a full audit and watch the agents fan out across the site:
 
 <img src="assets/readme/v3/map.svg" width="1200" height="420" alt="The six groups of SEO commands on a map: audits, technical SEO, content, schema and AI search, local and commerce, and extensions. The crew walks the path and each of the 30 commands is ticked off." />
 
-30 core and extension commands in six groups. Open one to see what is inside; a few more extension commands are in the [full command reference](docs/COMMANDS.md).
+32 core and extension commands in six groups. Open one to see what is inside; a few more extension commands are in the [full command reference](docs/COMMANDS.md).
 
 <details>
-<summary><b>Audits and Planning</b> (5 commands)</summary>
-<ul><li><code>/seo setup</code>: Create or refresh the isolated Python runtime and Chromium</li><li><code>/seo doctor</code>: Check runtime readiness without changing the system</li><li><code>/seo audit &lt;url&gt;</code>: Full website audit with parallel agents</li><li><code>/seo page &lt;url&gt;</code>: Deep single-page analysis</li><li><code>/seo plan &lt;type&gt;</code>: Strategic SEO planning (saas, local, ecommerce, publisher, agency)</li></ul>
+<summary><b>Audits and Planning</b> (6 commands)</summary>
+<ul><li><code>/seo settings [set focus balanced|seo|aeo|geo]</code>: Choose what audits weigh most: SEO, AEO or GEO</li><li><code>/seo setup</code>: Create or refresh the isolated Python runtime and Chromium</li><li><code>/seo doctor</code>: Check runtime readiness without changing the system</li><li><code>/seo audit &lt;url&gt;</code>: Full website audit with parallel agents</li><li><code>/seo page &lt;url&gt;</code>: Deep single-page analysis</li><li><code>/seo plan &lt;type&gt;</code>: Strategic SEO planning (saas, local, ecommerce, publisher, agency)</li></ul>
 </details>
 <details>
 <summary><b>Technical SEO</b> (7 commands)</summary>
@@ -105,8 +108,8 @@ Run a full audit and watch the agents fan out across the site:
 <ul><li><code>/seo content &lt;url&gt;</code>: E-E-A-T and content quality analysis</li><li><code>/seo content-brief &lt;topic&gt;</code>: Content brief: target keywords, outline, internal links</li><li><code>/seo cluster &lt;keyword&gt;</code>: SERP-based semantic clustering</li><li><code>/seo sxo &lt;url&gt;</code>: Search Experience Optimization: page type, user stories, personas</li><li><code>/seo flow [stage]</code>: FLOW framework prompts (CC BY 4.0, evidence-led)</li><li><code>/seo competitor-pages &lt;url&gt;</code>: Competitor comparison page generation</li></ul>
 </details>
 <details>
-<summary><b>Schema and AI Search</b> (3 commands)</summary>
-<ul><li><code>/seo schema &lt;url&gt;</code>: Detect, validate and generate Schema.org markup</li><li><code>/seo geo &lt;url&gt;</code>: AI Overviews and Generative Engine Optimization</li><li><code>/seo agentic &lt;url&gt;</code>: Agent readiness: Lighthouse Agentic Browsing X/N, AI agent access, llms.txt, Markdown, WebMCP</li></ul>
+<summary><b>Schema, AEO and AI Search</b> (4 commands)</summary>
+<ul><li><code>/seo schema &lt;url&gt;</code>: Detect, validate and generate Schema.org markup</li><li><code>/seo aeo &lt;url&gt;</code>: Answer Engine Optimization: featured snippets, People Also Ask, voice, answer-first rewrites</li><li><code>/seo geo &lt;url&gt;</code>: AI Overviews and Generative Engine Optimization</li><li><code>/seo agentic &lt;url&gt;</code>: Agent readiness: Lighthouse Agentic Browsing X/N, AI agent access, llms.txt, Markdown, WebMCP</li></ul>
 </details>
 <details>
 <summary><b>Local, Links, Commerce</b> (4 commands)</summary>
@@ -178,12 +181,12 @@ You need Python 3.11 to 3.14 and one AI agent: [Claude Code](https://claude.com/
 **Claude Code as a plugin** (recommended for Claude; enables the schema-validation hook). Inside Claude Code:
 
 ```bash
-/plugin marketplace add extramiles77/ai-agent-seo   # or the path to a local checkout
+/plugin marketplace add extramiles77/ai-agent-seo-aeo-geo   # or the path to a local checkout
 /plugin install ai-agent-seo@ai-agent-seo-marketplace
 /seo setup
 ```
 
-**Claude Code manual install.** Clone https://github.com/extramiles77/ai-agent-seo (or use a local copy), then from the checkout run the installer for your platform:
+**Claude Code manual install.** Clone https://github.com/extramiles77/ai-agent-seo-aeo-geo (or use a local copy), then from the checkout run the installer for your platform:
 
 ```bash
 bash install.sh
@@ -193,7 +196,7 @@ bash install.sh
 powershell -ExecutionPolicy Bypass -File install.ps1
 ```
 
-The installer copies the 26 skills and 19 agents into `~/.claude/skills` and `~/.claude/agents`, then provisions the isolated Python runtime. It reads only from this directory; nothing is downloaded from a repository.
+The installer copies the 27 skills and 20 agents into `~/.claude/skills` and `~/.claude/agents`, then provisions the isolated Python runtime. It reads only from this directory; nothing is downloaded from a repository.
 
 Then, inside Claude Code:
 

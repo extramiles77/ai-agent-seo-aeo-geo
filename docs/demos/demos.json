@@ -1,0 +1,170 @@
+{
+  "$comment": "README demo GIFs. Every step runs for real at build time; only home and sandbox paths are rewritten to ~. Rebuild with: python3 docs/demos/build_demos.py (see docs/demos/README.md).",
+  "canvas": {
+    "width": 1100,
+    "height": 640,
+    "fps_ms": 55
+  },
+  "fonts": {
+    "mono": [
+      {
+        "path": "/System/Library/Fonts/Menlo.ttc",
+        "index": 0
+      },
+      {
+        "path": "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"
+      },
+      {
+        "path": "C:/Windows/Fonts/consola.ttf"
+      }
+    ],
+    "title": [
+      {
+        "path": "/System/Library/Fonts/Helvetica.ttc",
+        "index": 1
+      },
+      {
+        "path": "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+      },
+      {
+        "path": "C:/Windows/Fonts/segoeuib.ttf"
+      }
+    ],
+    "text": [
+      {
+        "path": "/System/Library/Fonts/Helvetica.ttc",
+        "index": 0
+      },
+      {
+        "path": "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+      },
+      {
+        "path": "C:/Windows/Fonts/segoeui.ttf"
+      }
+    ]
+  },
+  "theme": {
+    "background_top": "#2E1065",
+    "background_bottom": "#6D28D9",
+    "glow": "#A78BFA",
+    "title": "#FFFFFF",
+    "subtitle": "#E9D5FF",
+    "window_bar": "#FFFFFF",
+    "window_bar_text": "#4C1D95",
+    "window_body": "#1E1B4B",
+    "window_border": "#C4B5FD",
+    "prompt": "#FBBF24",
+    "command": "#FFFFFF",
+    "output": "#DDD6FE",
+    "dim": "#A5B4FC",
+    "ok": "#6EE7B7",
+    "warn": "#FCD34D",
+    "bad": "#F9A8D4",
+    "accent": "#38BDF8",
+    "chip_bg": "#FFFFFF",
+    "chip_text": "#5B21B6",
+    "footer": "#F5F3FF"
+  },
+  "line_colors": [
+    {
+      "pattern": "^(High|Medium)\\b",
+      "color": "bad"
+    },
+    {
+      "pattern": "^(focus:|AEO score)",
+      "color": "accent"
+    },
+    {
+      "pattern": "(✔|Validation passed|Installed|installed|ready|\\bpass\\b|\"score\")",
+      "color": "ok"
+    },
+    {
+      "pattern": "\\bdetected\\b|\"focus\"|Skills \\(|Agents \\(",
+      "color": "accent"
+    },
+    {
+      "pattern": "\\bwarn\\b|Hooks \\(",
+      "color": "warn"
+    },
+    {
+      "pattern": "not found|\\berror\\b|\\bfail\\b|no_",
+      "color": "bad"
+    },
+    {
+      "pattern": "^\\s*[{}\\[\\]],?$",
+      "color": "dim"
+    }
+  ],
+  "chips": [
+    "SEO",
+    "AEO",
+    "GEO"
+  ],
+  "footer": "github.com/extramiles77/ai-agent-seo-aeo-geo",
+  "demos": [
+    {
+      "output": "screenshots/seo-install-demo.gif",
+      "title": "One installer, every AI agent",
+      "subtitle": "Claude Code · Codex · Gemini CLI · Cursor · OpenCode · Copilot · Antigravity · Windsurf",
+      "window_title": "ai-agent-seo  ·  install",
+      "sandbox_dirs": [
+        ".claude",
+        ".gemini",
+        ".codeium/windsurf"
+      ],
+      "env": {
+        "AI_AGENT_SEO_INSTALL_HOME": "{sandbox}"
+      },
+      "steps": [
+        {
+          "show": "bash install.sh --list",
+          "run": "bash install.sh --list"
+        },
+        {
+          "show": "bash install.sh --target all --skip-setup",
+          "run": "bash install.sh --target all --skip-setup"
+        },
+        {
+          "show": "ls ~/.agents/skills | grep -E '^seo-(aeo|geo|audit|page)$'",
+          "run": "ls {sandbox}/.agents/skills | grep -E '^seo-(aeo|geo|audit|page)$'"
+        }
+      ]
+    },
+    {
+      "output": "screenshots/seo-command-demo.gif",
+      "title": "The same skills in Claude Code and every other harness",
+      "subtitle": "27 skills · 20 specialist agents · SEO, AEO and GEO in one plugin",
+      "window_title": "ai-agent-seo  ·  skills",
+      "steps": [
+        {
+          "show": "claude plugin details ai-agent-seo@ai-agent-seo-marketplace | head -9",
+          "run": "claude plugin details ai-agent-seo@ai-agent-seo-marketplace | head -9"
+        },
+        {
+          "show": "ls ~/.agents/skills | grep '^seo' | paste -sd ' ' - | fold -sw 86",
+          "run": "ls {home}/.agents/skills | grep '^seo' | paste -sd ' ' - | fold -sw 86"
+        }
+      ]
+    },
+    {
+      "output": "screenshots/seo-audit-demo.gif",
+      "title": "SEO, AEO and GEO checks with real output",
+      "subtitle": "Deterministic scripts every agent calls, run directly on example.com",
+      "window_title": "ai-agent-seo  ·  checks",
+      "steps": [
+        {
+          "show": "ai-agent-seo run seo_settings.py show --focus aeo | jq -r '\"focus: \\(.optimization_focus)\", (.weights | to_entries[] | \"\\(.value)%  \\(.key)\")'",
+          "run": "{launcher} run seo_settings.py show --focus aeo | jq -r '\"focus: \\(.optimization_focus)\", (.weights | to_entries[] | \"\\(.value)%  \\(.key)\")'"
+        },
+        {
+          "show": "ai-agent-seo run aeo_check.py --url https://example.com | jq -r '\"AEO score: \\(.score.value)/100\", (.findings[] | \"\\(.severity)  \\(.id)\")'",
+          "run": "{launcher} run aeo_check.py --url https://example.com | jq -r '\"AEO score: \\(.score.value)/100\", (.findings[] | \"\\(.severity)  \\(.id)\")' | head -7"
+        },
+        {
+          "show": "ai-agent-seo run agentic_check.py https://example.com --json | jq -r '.checks[] | \"\\(.status)  \\(.title)\"' | head -6",
+          "run": "{launcher} run agentic_check.py https://example.com --json | jq -r '.checks[] | \"\\(.status)  \\(.title)\"' | head -6"
+        }
+      ]
+    }
+  ]
+}

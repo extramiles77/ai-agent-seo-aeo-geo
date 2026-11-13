@@ -2,7 +2,7 @@
 name: seo-matomo
 description: "Matomo Reporting API (self-hosted or Matomo Cloud) as a GA4 alternative: organic traffic, landing pages, devices, countries, referrers and search keywords. Use when the user mentions Matomo, Piwik or self-hosted analytics."
 metadata:
-  version: "3.0.0"
+  version: "3.1.0"
 compatibility: "Requires a Matomo instance URL and API token in ~/.config/ai-agent-seo/matomo.json (0600), or MATOMO_URL / MATOMO_API_TOKEN / MATOMO_SITE_ID in the environment. Run extensions/matomo/install.sh to configure."
 ---
 

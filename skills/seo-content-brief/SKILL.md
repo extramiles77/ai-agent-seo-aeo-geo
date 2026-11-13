@@ -7,7 +7,7 @@ license: MIT
 metadata:
   author: puneetindersingh
   original_author: puneetindersingh
-  version: "3.0.0"
+  version: "3.1.0"
   category: seo
 ---
 

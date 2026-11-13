@@ -6,7 +6,7 @@ argument-hint: "[url]"
 license: MIT
 metadata:
   author: extramiles77
-  version: "3.0.0"
+  version: "3.1.0"
   category: seo
 ---
 
@@ -60,6 +60,15 @@ with their source and date, or leave them out.
 **Only 11% of domains** are cited by both ChatGPT and Google AI Overviews for the same query, so platform-specific optimization is essential.
 
 ---
+
+## Settings and AEO
+
+GEO is one of three goals the plugin scores (SEO, AEO, GEO). Read the active
+focus with
+`"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run seo_settings.py show --plugin-focus "${user_config.optimization_focus}" --json`;
+with focus `geo`, lead the report with citation findings. Answer-shape work
+(question headings, answer-first passages, snippet formats) belongs to
+`seo-aeo`; report the GEO score separately from the AEO score.
 
 ## GEO Analysis Criteria (Updated)
 

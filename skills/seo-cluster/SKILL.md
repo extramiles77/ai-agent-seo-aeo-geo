@@ -7,7 +7,7 @@ license: MIT
 metadata:
   author: extramiles77
   original_author: "Lutfiya Miller (Pro Hub Challenge Winner)"
-  version: "3.0.0"
+  version: "3.1.0"
   category: seo
 ---
 

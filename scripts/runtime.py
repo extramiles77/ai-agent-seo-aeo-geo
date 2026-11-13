@@ -35,7 +35,7 @@ EXTENSION_NAME_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 MANUAL_EXTENSION_SKILLS = {"banana": "seo-image-gen"}
 ALLOWED_CORE_SCRIPTS = frozenset(
     {
-        "agent_ux_check.py", "agentic_check.py", "agentic_fix.py", "analyze_visual.py", "backlinks_auth.py",
+        "aeo_check.py", "agent_ux_check.py", "agentic_check.py", "agentic_fix.py", "analyze_visual.py", "backlinks_auth.py",
         "bing_webmaster.py", "capture_screenshot.py", "commoncrawl_graph.py",
         "content_humanize.py", "content_quality.py", "content_verify.py",
         "crux_history.py", "dataforseo_costs.py", "dataforseo_merchant.py",
@@ -49,7 +49,7 @@ ALLOWED_CORE_SCRIPTS = frozenset(
         "moz_api.py", "nlp_analyze.py", "page_checks.py", "pagespeed_check.py",
         "parasite_risk.py", "parse_html.py", "preload_check.py", "render_page.py",
         "portability_check.py", "consistency_check.py",
-        "schema_ecommerce_validate.py", "schema_generate.py", "seo_updates.py",
+        "schema_ecommerce_validate.py", "schema_generate.py", "seo_settings.py", "seo_updates.py",
         "sitemap_discovery.py", "sync_flow.py", "transport_check.py", "ucp_check.py",
         "unlighthouse_run.py",
         "url_safety.py", "validate_backlink_report.py", "verify_backlinks.py",

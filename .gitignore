@@ -57,6 +57,7 @@ node_modules/
 screenshots/*
 !screenshots/seo-command-demo.gif
 !screenshots/seo-audit-demo.gif
+!screenshots/seo-install-demo.gif
 
 # Brand kit reference renders (PNG snapshots of the SVG comparison page).
 # The SVGs themselves under assets/ ship; the PNGs are scratch references.

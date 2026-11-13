@@ -4,8 +4,8 @@
 
 This repository contains **AI Agent SEO**, a Tier 4 Claude Code skill for comprehensive
 SEO analysis across all industries. It follows the Agent Skills open standard and the
-3-layer architecture (directive, orchestration, execution). 26 sub-skills (22 core +
-1 orchestrator + 1 framework integration + 2 extension mirrors), 19 sub-agents (16 core +
+3-layer architecture (directive, orchestration, execution). 27 sub-skills (23 core +
+1 orchestrator + 1 framework integration + 2 extension mirrors), 20 sub-agents (17 core +
 1 framework integration + 2 extension mirrors), and an extensible reference
 system cover technical SEO, content quality,
 schema markup, image optimization, sitemap architecture, AI search optimization,
@@ -22,7 +22,7 @@ ai-agent-seo/
   AGENTS.md                          # Multi-platform agent instructions (Cursor, Antigravity)
   .claude-plugin/
     marketplace.json               # Marketplace catalog for distribution
-  skills/                            # 26 sub-skills (auto-discovered)
+  skills/                            # 27 sub-skills (auto-discovered)
     seo/                           # Main orchestrator skill
       SKILL.md                     # Entry point, routing table, core rules
       references/                  # On-demand knowledge files (13 files)
@@ -35,6 +35,9 @@ ai-agent-seo/
     seo-sitemap/SKILL.md         # XML sitemap analysis/generation
     seo-images/SKILL.md          # Image optimization analysis
     seo-geo/SKILL.md             # AI search / GEO optimization
+    seo-aeo/                     # Answer Engine Optimization (snippets, PAA, voice)
+      SKILL.md
+      references/                # Answer patterns by question type
     seo-agentic/                 # Agent readiness (Lighthouse Agentic Browsing, WebMCP)
       SKILL.md
       references/                # Lighthouse category, access policy, discovery, WebMCP, vendor matrix
@@ -66,7 +69,7 @@ ai-agent-seo/
     seo-image-gen/              # AI image generation for SEO assets (extension mirror)
       SKILL.md
       references/                # Image gen reference files (7 files)
-  agents/                          # 19 subagents (auto-discovered)
+  agents/                          # 20 subagents (auto-discovered)
     seo-technical.md             # Crawlability, indexability, security
     seo-content.md               # E-E-A-T, readability, thin content
     seo-schema.md                # Structured data validation
@@ -74,6 +77,7 @@ ai-agent-seo/
     seo-performance.md           # Core Web Vitals, page speed
     seo-visual.md                # Screenshots, mobile rendering
     seo-geo.md                   # AI crawler access, GEO, citability
+    seo-aeo.md                   # Answer Engine Optimization analyst
     seo-agentic.md               # Agent readiness, Lighthouse Agentic Browsing
     seo-local.md                 # GBP, NAP, citations, reviews, local schema
     seo-maps.md                  # Geo-grid, GBP audit, reviews, competitor radius
@@ -88,7 +92,7 @@ ai-agent-seo/
     seo-flow.md                  # FLOW framework integration
   hooks/                           # Quality gate hooks
     hooks.json                   # PostToolUse schema validation
-  scripts/                         # 64 Python execution scripts
+  scripts/                         # 66 Python execution scripts
     google_auth.py               # Credential management (OAuth, SA, API key, 4-tier detection)
     google_properties.py         # Picks the GSC/GA4 property for the audited domain, fails closed on a mismatch
     backlinks_auth.py            # Backlink API credential management (Moz, Bing)
@@ -112,6 +116,7 @@ ai-agent-seo/
     fetch_page.py                # Page fetcher with UA rotation
     parse_html.py                # HTML parser for SEO elements
     page_checks.py               # Deterministic single-page on-page checker (47 checks, JSON findings)
+    aeo_check.py                 # Deterministic AEO checker (question headings, concise answers, formats, answer schema)
     transport_check.py           # TLS certificate, security header and HTTPS redirect checker
     capture_screenshot.py        # Playwright screenshots
     analyze_visual.py            # Visual analysis helper
@@ -142,6 +147,7 @@ ai-agent-seo/
     gbp_deprecation_lint.py      # GBP feature-deprecation linter
     domain_history.py            # Expired-domain heritage check
     seo_updates.py               # Primary-source Google updates query tool
+    seo_settings.py              # SEO / AEO / GEO optimization focus and scoring weights
     indexnow_submit.py           # IndexNow submitter
     ucp_check.py                 # UCP (Universal Commerce Protocol) profile auditor
     unlighthouse_run.py          # Unlighthouse CLI wrapper (site-wide Lighthouse)
@@ -179,6 +185,8 @@ ai-agent-seo/
 | `/seo sitemap <url>` | Sitemap validation |
 | `/seo sitemap generate` | Create new sitemap with industry templates |
 | `/seo images <url>` | Image optimization |
+| `/seo aeo <url>` | Answer Engine Optimization (featured snippets, People Also Ask, voice) |
+| `/seo settings [show\|set focus <value>]` | SEO / AEO / GEO optimization focus |
 | `/seo geo <url>` | AI search optimization (GEO) |
 | `/seo agentic <url>` | Agent readiness (Lighthouse Agentic Browsing, AI agent access, WebMCP) |
 | `/seo local <url>` | Local SEO (GBP, citations, reviews) |

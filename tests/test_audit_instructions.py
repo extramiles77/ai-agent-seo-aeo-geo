@@ -60,6 +60,7 @@ def test_audit_agents_document_output_dir_findings_contract() -> None:
         "seo-drift.md",
         "seo-ecommerce.md",
         "seo-agentic.md",
+        "seo-aeo.md",
     ):
         text = (REPO_ROOT / "agents" / filename).read_text(encoding="utf-8")
         assert "output_dir" in text

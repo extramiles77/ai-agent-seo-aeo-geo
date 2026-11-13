@@ -6,9 +6,9 @@ type: software
 authors:
   - name: extramiles77
 license: MIT
-repository-code: 'https://github.com/extramiles77/ai-agent-seo'
-url: 'https://github.com/extramiles77/ai-agent-seo'
-version: 3.0.0
+repository-code: 'https://github.com/extramiles77/ai-agent-seo-aeo-geo'
+url: 'https://github.com/extramiles77/ai-agent-seo-aeo-geo'
+version: 3.1.0
 date-released: '2026-11-13'
 keywords:
   - seo

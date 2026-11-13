@@ -2,7 +2,7 @@
 name: seo-bing
 description: "Bing Webmaster Tools and IndexNow extension: Bing visibility, link data and URL submission (Bing feeds Microsoft Copilot). Use when the user mentions Bing, Bing Webmaster, Copilot visibility or IndexNow."
 metadata:
-  version: "3.0.0"
+  version: "3.1.0"
 compatibility: "Requires BING_WEBMASTER_API_KEY and (optionally) INDEXNOW_KEY in ~/.claude/settings.json env. Run extensions/bing-webmaster/install.sh to configure."
 ---
 

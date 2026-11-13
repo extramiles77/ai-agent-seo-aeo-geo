@@ -76,9 +76,9 @@ in case a recipe needs a specific call.
 
 ## Overview
 
-AI Agent SEO is a Tier 4 SEO analysis skill with 26 sub-skills (22 core + 1 orchestrator +
-1 framework integration + 2 extension mirrors), 19 sub-agents (16 core + 1 framework
-integration + 2 extension mirrors), and 64 Python execution scripts.
+AI Agent SEO is a Tier 4 SEO analysis skill with 27 sub-skills (23 core + 1 orchestrator +
+1 framework integration + 2 extension mirrors), 20 sub-agents (17 core + 1 framework
+integration + 2 extension mirrors), and 66 Python execution scripts.
 
 ## Quick Reference
 
@@ -92,6 +92,8 @@ integration + 2 extension mirrors), and 64 Python execution scripts.
 | `/seo schema <url>` | Schema.org detection, validation, generation |
 | `/seo sitemap <url>` | XML sitemap analysis or generation |
 | `/seo images <url>` | Image SEO: on-page audit, SERP analysis, file optimization |
+| `/seo aeo <url>` | Answer Engine Optimization: featured snippets, People Also Ask, voice |
+| `/seo settings [set focus <balanced\|seo\|aeo\|geo>]` | SEO / AEO / GEO optimization focus |
 | `/seo geo <url>` | AI Overviews / Generative Engine Optimization |
 | `/seo plan <type>` | Strategic SEO planning |
 | `/seo cluster <keyword>` | SERP-based semantic clustering and content architecture |
@@ -157,7 +159,7 @@ or `bash install.sh --project . --target agents` (workspace, `.agents/skills`).
 ## Architecture
 
 ```
-skills/                    # 26 sub-skills (auto-discovered)
+skills/                    # 27 sub-skills (auto-discovered)
   seo/SKILL.md            # Main orchestrator + routing
   seo-cluster/            # Semantic clustering
   seo-sxo/                # Search Experience Optimization
@@ -172,6 +174,7 @@ skills/                    # 26 sub-skills (auto-discovered)
   seo-sitemap/            # XML sitemaps
   seo-images/             # Image optimization
   seo-geo/                # AI search / GEO
+  seo-aeo/                # Answer Engine Optimization (AEO)
   seo-agentic/            # Agent readiness (Lighthouse Agentic Browsing, WebMCP)
   seo-local/              # Local SEO
   seo-maps/               # Maps intelligence
@@ -184,8 +187,8 @@ skills/                    # 26 sub-skills (auto-discovered)
   seo-flow/               # FLOW framework integration
   seo-dataforseo/         # DataForSEO (extension)
   seo-image-gen/          # AI images (extension)
-agents/                    # 19 subagents
-scripts/                   # 64 Python scripts, including the managed runtime and installer
+agents/                    # 20 subagents
+scripts/                   # 66 Python scripts, including the managed runtime and installer
 schema/                    # JSON-LD templates
 extensions/                # 9 MCP extensions: DataForSEO, Firecrawl, Banana, Ahrefs, SE Ranking, Profound, Bing Webmaster, Matomo, Unlighthouse
 ```

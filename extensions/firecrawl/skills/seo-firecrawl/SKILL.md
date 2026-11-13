@@ -7,7 +7,7 @@ license: MIT
 compatibility: "Requires Firecrawl MCP server"
 metadata:
   author: extramiles77
-  version: "3.0.0"
+  version: "3.1.0"
   category: seo
 ---
 

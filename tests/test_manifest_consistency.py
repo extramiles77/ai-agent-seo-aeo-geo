@@ -491,7 +491,7 @@ def test_seo_cockpit_installs_from_a_pinned_branch():
     source = entries["seo-cockpit"]["source"]
     assert isinstance(source, dict), "seo-cockpit must not be a relative path inside the plugin root"
     assert source["source"] == "git-subdir"
-    assert source["url"] == "extramiles77/ai-agent-seo"
+    assert source["url"] == "extramiles77/ai-agent-seo-aeo-geo"
     assert source["path"] == "plugins/seo-cockpit"
     assert source["ref"] == "seo-cockpit"
     assert re.fullmatch(r"[0-9a-f]{40}", source["sha"]), source.get("sha")

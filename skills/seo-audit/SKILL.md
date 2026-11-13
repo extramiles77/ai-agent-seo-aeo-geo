@@ -6,7 +6,7 @@ argument-hint: "[url]"
 license: MIT
 metadata:
   author: extramiles77
-  version: "3.0.0"
+  version: "3.1.0"
   category: seo
 ---
 
@@ -15,7 +15,7 @@ metadata:
 ## Process
 
 1. **Render homepage**: use `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run render_page.py <url> --mode auto --json` to capture raw HTML, rendered HTML, extracted text, SPA status, and accessibility data when needed
-2. **Detect business type**: analyze homepage signals per seo orchestrator
+2. **Resolve settings and detect business type**: run `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run seo_settings.py show --plugin-focus "${user_config.optimization_focus}" --json` (add `--focus <value>` when the user named one) to get the SEO / AEO / GEO focus and its weights, then analyze homepage signals per seo orchestrator
 3. **Crawl site**: follow internal links up to 500 pages, respect robots.txt
 4. **Delegate to subagents** (if available, otherwise run inline sequentially: read each agent's instructions from `${CLAUDE_PLUGIN_ROOT}/agents/<name>.md`, run them one at a time, and write each result to `findings/` before the next):
    - `seo-technical` -- robots.txt, sitemaps, canonicals, Core Web Vitals, security headers
@@ -25,6 +25,7 @@ metadata:
    - `seo-performance` -- LCP, INP, CLS measurements
    - `seo-visual` -- screenshots, mobile testing, above-fold analysis
    - `seo-geo` -- AI crawler access, llms.txt, citability, brand mention signals
+   - `seo-aeo` -- Answer Engine Optimization: question headings, answer-first passages, list/table formats, answer schema, People Also Ask coverage (always include in full audits; its findings feed Answer Readiness and the AEO score)
    - `seo-agentic` -- Lighthouse Agentic Browsing fraction (X/N), accessibility tree for agents, AI agent access policy, Markdown and discovery files, WebMCP (always include in full audits; its findings feed AI Search Readiness)
    - `seo-local` -- GBP signals, NAP consistency, reviews, local schema, industry-specific local factors (spawn when Local Service industry detected: brick-and-mortar, SAB, or hybrid business type)
    - `seo-maps` -- Geo-grid rank tracking, GBP audit, review intelligence, competitor radius mapping (spawn when Local Service detected AND DataForSEO MCP available)
@@ -35,7 +36,7 @@ metadata:
    - `seo-sxo` -- Search experience analysis: page-type mismatch, user stories, persona scoring (always include in full audits)
    - `seo-drift` -- Drift analysis: compare against stored baseline (spawn when drift baseline exists for the URL via `"${CLAUDE_PLUGIN_ROOT}/scripts/ai-agent-seo" run drift_history.py <url>`)
    - `seo-ecommerce` -- Product schema, marketplace intelligence (spawn when E-commerce industry detected)
-5. **Score** -- aggregate into SEO Health Score (0-100)
+5. **Score** -- aggregate into the SEO Health Score (0-100) with the focus weights, and report the AEO score (Answer Readiness) and GEO score (AI Search Readiness) beside it
 6. **Persist audit artifacts** -- write all outputs under `{domain}-audit/`
 7. **Report** -- generate prioritized action plan and optional PDF/HTML report
 
@@ -67,6 +68,9 @@ Write `{domain}-audit/audit-data.json` with this shape so `"${CLAUDE_PLUGIN_ROOT
 {
   "summary": {
     "health_score": 0,
+    "aeo_score": 0,
+    "geo_score": 0,
+    "optimization_focus": "balanced",
     "business_type": "detected type",
     "top_findings": [],
     "quick_wins": []
@@ -103,20 +107,27 @@ Write `{domain}-audit/audit-data.json` with this shape so `"${CLAUDE_PLUGIN_ROOT
 
 ## Scoring Weights
 
-| Category | Weight |
-|----------|--------|
-| Technical SEO | 22% |
-| Content Quality | 23% |
-| On-Page SEO | 20% |
-| Schema / Structured Data | 10% |
-| Performance (CWV) | 10% |
-| AI Search Readiness | 10% |
-| Images | 5% |
+Use the weights `seo_settings.py show` returns for the active focus. The
+profiles (each sums to 100):
+
+| Category | balanced | seo | aeo | geo |
+|----------|---------:|----:|----:|----:|
+| Technical SEO | 20% | 22% | 14% | 14% |
+| Content Quality | 20% | 22% | 20% | 20% |
+| On-Page SEO | 18% | 20% | 12% | 12% |
+| Schema / Structured Data | 10% | 10% | 14% | 12% |
+| Performance (CWV) | 10% | 10% | 6% | 6% |
+| AI Search Readiness (GEO) | 10% | 6% | 12% | 22% |
+| Answer Readiness (AEO) | 7% | 5% | 18% | 10% |
+| Images | 5% | 5% | 4% | 4% |
+
+The AEO score is the Answer Readiness category score and the GEO score is the
+AI Search Readiness category score; report both beside the SEO Health Score.
 
 ## Report Structure
 
 ### Executive Summary
-- Overall SEO Health Score (0-100)
+- Overall SEO Health Score (0-100), AEO score and GEO score, with the optimization focus
 - Business type detected
 - Top 5 critical issues
 - Top 5 quick wins
@@ -154,7 +165,12 @@ Write `{domain}-audit/audit-data.json` with this shape so `"${CLAUDE_PLUGIN_ROOT
 - Oversized images
 - Format recommendations
 
-### AI Search Readiness
+### Answer Readiness (AEO)
+- AEO score (heuristic) and question coverage
+- Answer-first rewrites for the top questions
+- Format fixes (lists, tables, summary block)
+
+### AI Search Readiness (GEO)
 - Citability score
 - Structural improvements
 - Authority signals

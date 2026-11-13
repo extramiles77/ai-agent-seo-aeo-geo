@@ -7,7 +7,7 @@ license: MIT
 compatibility: "Requires DataForSEO MCP server"
 metadata:
   author: extramiles77
-  version: "3.0.0"
+  version: "3.1.0"
   category: seo
 ---
 

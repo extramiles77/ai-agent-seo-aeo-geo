@@ -5,19 +5,19 @@
     "name": "extramiles77"
   },
   "metadata": {
-    "description": "AI Agent SEO for Claude Code: 26 sub-skills and 19 sub-agents, plus 9 optional MCP extensions for live data. The same skills also install into Codex, Gemini CLI, Cursor, OpenCode, Copilot, Antigravity and Windsurf."
+    "description": "AI Agent SEO (SEO, AEO and GEO) for Claude Code: 27 sub-skills and 20 sub-agents, plus 9 optional MCP extensions for live data. The same skills also install into Codex, Gemini CLI, Cursor, OpenCode, Copilot, Antigravity and Windsurf."
   },
   "plugins": [
     {
       "name": "ai-agent-seo",
       "source": "./",
-      "description": "AI Agent SEO: comprehensive SEO analysis for Claude Code and any Agent Skills harness (Codex, Gemini CLI, Cursor, OpenCode, Copilot, Antigravity, Windsurf). 26 sub-skills (22 core + 1 orchestrator + 1 framework + 2 extension mirrors) and 19 sub-agents cover technical SEO, content, schema, sitemaps, Core Web Vitals, local SEO, backlinks, AI/GEO, ecommerce, hreflang, SXO, clustering, drift monitoring and Google APIs.",
+      "description": "AI Agent SEO: SEO, AEO and GEO analysis for Claude Code and any Agent Skills harness (Codex, Gemini CLI, Cursor, OpenCode, Copilot, Antigravity, Windsurf). 27 sub-skills (23 core + 1 orchestrator + 1 framework + 2 extension mirrors) and 20 sub-agents cover technical SEO, answer engines (AEO), content, schema, sitemaps, Core Web Vitals, local SEO, backlinks, AI/GEO, ecommerce, hreflang, SXO, clustering, drift monitoring and Google APIs.",
       "author": {
         "name": "extramiles77",
         "url": "https://github.com/extramiles77"
       },
       "category": "marketing",
-      "homepage": "https://github.com/extramiles77/ai-agent-seo",
+      "homepage": "https://github.com/extramiles77/ai-agent-seo-aeo-geo",
       "keywords": [
         "seo",
         "technical-seo",
@@ -39,7 +39,9 @@
         "drift-monitoring",
         "ecommerce-seo",
         "agent-skills",
-        "multi-platform"
+        "multi-platform",
+        "aeo",
+        "answer-engine-optimization"
       ]
     }
   ]
