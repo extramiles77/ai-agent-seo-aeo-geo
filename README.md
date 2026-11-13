@@ -4,7 +4,7 @@
   SEO, AEO (answer engines) and GEO (AI search). 27 sub-skills and 20 specialist agents. MIT licensed.
 -->
 
-<img src="assets/readme/v3/hero.svg" width="1200" height="420" alt="AI Agent SEO: rank in Google, get cited by AI. Three bots climb from #48 to #1 by fixing crawl, speed, schema, AI access and authority, then Google, ChatGPT, Perplexity, Gemini and Claude cite the site." />
+<img src="assets/readme/v3/hero.svg" width="1200" height="420" alt="AI Agent SEO, the SEO + AEO + GEO plugin for any AI agent: rank in Google, get cited by AI. Three bots climb from #48 to #1 by fixing crawl, speed, schema, AI access and authority, then Google, ChatGPT, Perplexity, Gemini and Claude cite the site." />
 
 <h1 align="center">AI Agent SEO</h1>
 
@@ -52,7 +52,7 @@ SEO, AEO and GEO checks: the optimization focus, the answer-engine score and the
 
 ## Meet the team
 
-<img src="assets/readme/v3/team.svg" width="1200" height="420" alt="The AI Agent SEO team: 19 specialist agents on a website, each standing on the part it checks, shown one at a time with its role, model, ability and command." />
+<img src="assets/readme/v3/team.svg" width="1200" height="420" alt="The AI Agent SEO team: 20 specialist agents, including the new answer-engine analyst seo-aeo, on a website, each standing on the part it checks, shown one at a time with its role, model, ability and command." />
 
 <details>
 <summary><b>All 20 agents</b></summary>
@@ -91,7 +91,7 @@ SEO, AEO and GEO checks: the optimization focus, the answer-engine score and the
 
 ## Commands
 
-<img src="assets/readme/v3/map.svg" width="1200" height="420" alt="The six groups of SEO commands on a map: audits, technical SEO, content, schema and AI search, local and commerce, and extensions. The crew walks the path and each of the 30 commands is ticked off." />
+<img src="assets/readme/v3/map.svg" width="1200" height="420" alt="The six groups of SEO commands on a map: audits, technical SEO, content, schema, AEO and AI search, local and commerce, and extensions. The crew walks the path and each of the 32 commands is ticked off." />
 
 32 core and extension commands in six groups. Open one to see what is inside; a few more extension commands are in the [full command reference](docs/COMMANDS.md).
 
